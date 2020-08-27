@@ -68,7 +68,7 @@ func main() {
 			log.Fatal("Write error:", err)
 		}
 
-		time.Sleep(500 * time.Millisecond)
+		time.Sleep(250 * time.Millisecond)
 	}
 
 }

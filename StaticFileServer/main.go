@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 	"os/signal"
@@ -76,22 +75,23 @@ func main() {
 
 	go func() {
 		if err := server.ListenAndServe(); err != nil {
-			log.Fatal(err)
+			fmt.Println(err)
+			os.Exit(1)
 		}
 	}()
 
-	log.Printf("Listening at %s", server.Addr)
+	fmt.Printf("Listening at %s", server.Addr)
 
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
 	<-c
 
-	log.Print("Shutting down...")
+	fmt.Print("Shutting down...")
 
 	context, cancel := context.WithTimeout(context.Background(), (time.Second * 10))
 	defer cancel()
 
 	server.Shutdown(context)
 
-	log.Print("Goodbye!")
+	fmt.Println("Goodbye!")
 }

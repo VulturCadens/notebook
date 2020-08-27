@@ -64,7 +64,7 @@ func main() {
 						fmt.Printf(" !! Goodbye, a client (%d) went away... \n", connID)
 						break
 					} else {
-						log.Fatal("Read error: ", err)
+						log.Fatal("Read error:", err)
 					}
 
 				}
@@ -72,7 +72,7 @@ func main() {
 				fmt.Printf("Client (%d) sent: %s \n", connID, string(buffer[0:n]))
 
 				if _, err = conn.Write(buffer[0:n]); err != nil {
-					log.Fatal("Write error: ", err)
+					log.Fatal("Write error:", err)
 				}
 			}
 		}()
