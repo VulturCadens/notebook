@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <button id="button">Send Ping to Server</button>
+    <p id="base64str"></p>
+
+    <script>
+        const ws = new WebSocket("ws://127.0.0.1:8000/")
+
+        const element = document.getElementById("base64str")
+
+        ws.onmessage = event => {
+            element.innerHTML = event.data
+        }
+
+        ws.onerror = error => {
+            console.error(error)
+        }
+
+        document.getElementById("button").addEventListener("click", () => {
+            if (ws.readyState === WebSocket.OPEN) {
+                ws.send("PING")
+            } else {
+                console.error("WebSocket is not OPEN.")
+            }
+        })
+    </script>
+</body>
+
+</html>

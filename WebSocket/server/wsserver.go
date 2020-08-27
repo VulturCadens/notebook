@@ -13,12 +13,15 @@ import (
 )
 
 var (
-	upgrader            = websocket.Upgrader{}
+	upgrader = websocket.Upgrader{
+		CheckOrigin: func(r *http.Request) bool { return true },
+	}
 	randomGenerator     = rand.Reader
 	identifier      int = 0
 )
 
 func webSocketConnection(w http.ResponseWriter, r *http.Request) {
+
 	conn, err := upgrader.Upgrade(w, r, nil)
 
 	if err != nil {
@@ -28,21 +31,6 @@ func webSocketConnection(w http.ResponseWriter, r *http.Request) {
 
 	defer conn.Close()
 
-	quit := make(chan struct{}) // Allocation isn't necessary (struct{} contains nothing).
-
-	go func() {
-		for {
-			defer close(quit)
-
-			_, _, err := conn.ReadMessage()
-
-			if err != nil {
-				log.Print("Read error:", err)
-				return
-			}
-		}
-	}()
-
 	ticker := time.NewTicker(time.Second)
 	defer ticker.Stop()
 
@@ -51,8 +39,25 @@ func webSocketConnection(w http.ResponseWriter, r *http.Request) {
 	var (
 		randomArray     [8]byte
 		randomBase64Str string
-		connID          int = identifier
+		connID          int           = identifier
+		quit            chan struct{} = make(chan struct{}) // Allocation isn't necessary (struct{} contains nothing).
 	)
+
+	go func() {
+		defer close(quit)
+
+		for {
+
+			_, message, err := conn.ReadMessage()
+
+			if err != nil {
+				log.Print("Read error:", err)
+				return
+			}
+
+			fmt.Printf("Message received from the client (%d): %s \n", connID, string(message))
+		}
+	}()
 
 	for {
 
