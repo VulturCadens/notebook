@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"net"
 	"net/http"
 	"os"
 	"os/signal"
@@ -12,7 +13,7 @@ import (
 
 const (
 	host = "127.0.0.1"
-	port = 8000
+	port = "8000"
 )
 
 func staticFileServer(directory string) http.Handler {
@@ -62,7 +63,8 @@ func main() {
 	http.Handle("/", staticFileServer("./www"))
 	http.Handle("/css/", http.StripPrefix("/css/", staticFileServer("./www/css")))
 
-	addr := fmt.Sprintf("%s:%d", "127.0.0.1", port)
+	// fmt.Sprintf("%s:%d", host, port) VS net.JoinHostPort(host, port) !!
+	addr := net.JoinHostPort(host, port)
 
 	server := &http.Server{
 		Addr:           addr,
