@@ -41,10 +41,13 @@ func webSocketConnection(w http.ResponseWriter, r *http.Request) {
 	mutex.Unlock()
 
 	var (
-		randomArray     [8]byte
-		randomBase64Str string
-		connID          int           = identifier
-		quit            chan struct{} = make(chan struct{}) // Allocation isn't necessary (struct{} contains nothing).
+		randomArray [8]byte
+		// var x []byte					Doesn't allocate memory and x -> nil.
+		// var x = make([]byte, 0)		Allocates memory and x -> memory.
+		randomSlice                = make([]byte, 8)
+		randomBase64               = make([]byte, 12)
+		connID       int           = identifier
+		quit         chan struct{} = make(chan struct{}) // Allocation isn't necessary (struct{} contains nothing).
 	)
 
 	go func() {
@@ -72,21 +75,23 @@ func webSocketConnection(w http.ResponseWriter, r *http.Request) {
 
 		case <-ticker.C:
 			// Array[:] produces the slice of the underlying array.
-			if _, err := io.ReadFull(randomGenerator, randomArray[:]); err != nil {
+			randomSlice = randomArray[:]
+
+			if _, err := io.ReadFull(randomGenerator, randomSlice); err != nil {
 				log.Print("Random generator error:", err)
 				return
 			}
 
 			// Package encoding/base64
 			// https://golang.org/pkg/encoding/base64/
-			randomBase64Str = base64.StdEncoding.EncodeToString(randomArray[:])
+			base64.StdEncoding.Encode(randomBase64, randomSlice)
 
-			if err := conn.WriteMessage(websocket.TextMessage, []byte(randomBase64Str)); err != nil {
+			if err := conn.WriteMessage(websocket.TextMessage, randomBase64); err != nil {
 				log.Print("Write error:", err)
 				return
 			}
 
-			fmt.Printf("Sent to the client (%d): %s \n", connID, randomBase64Str)
+			fmt.Printf("Sent to the client (%d): %s \n", connID, string(randomBase64))
 		}
 	}
 }
