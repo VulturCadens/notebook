@@ -42,8 +42,8 @@ func webSocketConnection(w http.ResponseWriter, r *http.Request) {
 
 	var (
 		randomArray [8]byte
-		// var x []byte					Doesn't allocate memory and x -> nil.
-		// var x = make([]byte, 0)		Allocates memory and x -> memory.
+		// var x []byte              Doesn't allocate memory and x -> nil.
+		// var x = make([]byte, 0)   Allocates memory and x -> memory.
 		randomSlice                = make([]byte, 8)
 		randomBase64               = make([]byte, 12)
 		connID       int           = identifier
