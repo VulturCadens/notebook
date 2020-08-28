@@ -7,6 +7,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/gorilla/websocket"
@@ -18,6 +19,7 @@ var (
 	}
 	randomGenerator     = rand.Reader
 	identifier      int = 0
+	mutex           sync.Mutex
 )
 
 func webSocketConnection(w http.ResponseWriter, r *http.Request) {
@@ -34,7 +36,9 @@ func webSocketConnection(w http.ResponseWriter, r *http.Request) {
 	ticker := time.NewTicker(time.Second)
 	defer ticker.Stop()
 
+	mutex.Lock()
 	identifier++
+	mutex.Unlock()
 
 	var (
 		randomArray     [8]byte

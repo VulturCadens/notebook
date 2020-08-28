@@ -7,6 +7,7 @@ import (
 	"log"
 	"net"
 	"os"
+	"sync"
 )
 
 const socket = "/tmp/vultur.sock"
@@ -15,6 +16,7 @@ var (
 	listener   net.Listener
 	err        error
 	identifier int = 0
+	mutex      sync.Mutex
 )
 
 func main() {
@@ -47,7 +49,9 @@ func main() {
 			log.Fatal("Accept error:", err)
 		}
 
+		mutex.Lock()
 		identifier++
+		mutex.Unlock()
 
 		go func() {
 			defer conn.Close()
