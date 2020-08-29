@@ -23,7 +23,6 @@ var (
 )
 
 func webSocketConnection(w http.ResponseWriter, r *http.Request) {
-
 	conn, err := upgrader.Upgrade(w, r, nil)
 
 	if err != nil {
@@ -41,9 +40,6 @@ func webSocketConnection(w http.ResponseWriter, r *http.Request) {
 	mutex.Unlock()
 
 	var (
-		randomArray [8]byte
-		// var x []byte              Doesn't allocate memory and x -> nil.
-		// var x = make([]byte, 0)   Allocates memory and x -> memory.
 		randomSlice                = make([]byte, 8)
 		randomBase64               = make([]byte, 12)
 		connID       int           = identifier
@@ -54,7 +50,6 @@ func webSocketConnection(w http.ResponseWriter, r *http.Request) {
 		defer close(quit)
 
 		for {
-
 			_, message, err := conn.ReadMessage()
 
 			if err != nil {
@@ -67,16 +62,12 @@ func webSocketConnection(w http.ResponseWriter, r *http.Request) {
 	}()
 
 	for {
-
 		select {
 
 		case <-quit:
 			return
 
 		case <-ticker.C:
-			// Array[:] produces the slice of the underlying array.
-			randomSlice = randomArray[:]
-
 			if _, err := io.ReadFull(randomGenerator, randomSlice); err != nil {
 				log.Print("Random generator error:", err)
 				return
