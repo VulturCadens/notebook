@@ -40,8 +40,8 @@ func webSocketConnection(w http.ResponseWriter, r *http.Request) {
 	mutex.Unlock()
 
 	var (
-		randomSlice                = make([]byte, 8)
-		randomBase64               = make([]byte, 12)
+		randomSlice  []byte        = make([]byte, 8)
+		randomBase64 []byte        = make([]byte, 12)
 		connID       int           = identifier
 		quit         chan struct{} = make(chan struct{}) // Allocation isn't necessary (struct{} contains nothing).
 	)
