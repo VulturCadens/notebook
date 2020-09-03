@@ -67,3 +67,43 @@ type example interface {
 * String
 * Map
 * Channel (receive operation)
+
+## Type Conversion
+
+The expression T(v) converts the value v to the type T.
+
+```go
+var str string = "Cat"
+
+slice := []byte(str)
+```
+
+## Type assertion
+
+The expression x.(T).
+
+```go
+var x interface{} = "Cat"   // The dynamic type of x is string.
+
+str := x.(string)
+```
+
+"The Flusher interface is implemented by ResponseWriters that allow an HTTP handler to flush buffered data to the client."
+https://golang.org/pkg/net/http/#Flusher
+
+```go
+func (w http.ResponseWriter, req *http.Request) {
+    f, ok := w.(http.Flusher)
+
+    if !ok {
+		http.Error(w, "500", http.StatusInternalServerError)
+		return
+    }
+    
+    for {
+        // ...
+
+        f.Flush() 
+    }
+}
+```
