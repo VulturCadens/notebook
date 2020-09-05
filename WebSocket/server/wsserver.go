@@ -91,6 +91,4 @@ func main() {
 	http.HandleFunc("/", webSocketConnection)
 
 	http.ListenAndServe("127.0.0.1:8000", nil)
-
-	log.Print("Listening...")
 }
