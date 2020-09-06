@@ -1,0 +1,49 @@
+# A few man pages.
+#
+# man systemd.directives
+# https://www.freedesktop.org/software/systemd/man/systemd.directives.html
+#
+# man systemd.unit
+# man systemd.service
+# man systemd.exec
+# man systemd.resource-control
+#
+# sudo cp application.service /lib/systemd/system/
+# sudo chown root:root /lib/systemd/system/application.service
+# sudo chmod 644 /lib/systemd/system/application.service
+#
+# After changes to unit file, run systemctl daemon-reload.
+# sudo systemctl daemon-reload
+#
+# sudo systemctl enable|disable|start|stop application
+
+[Unit]
+Description=Simple systemd service file example
+After=network.target
+
+[Service]
+# sudo useradd applicationuser -s /sbin/nologin
+User=applicationuser
+Group=applicationuser
+
+ExecStart=/home/www/bin/application foo bar foobar
+
+# The time to wait for the service itself
+# to stop after SIGTERM, and before forcibly
+# terminated by SIGKILL.
+TimeoutStopSec=10s
+
+MemoryMax=32M
+
+# Number of File Descriptors.
+LimitNOFILE=1024
+
+# Number of Processes.
+LimitNPROC=64
+
+# The entire file system hierarchy is mounted read-only,
+# except /dev, /proc and /sys.
+ProtectSystem=strict
+
+[Install]
+WantedBy=multi-user.target

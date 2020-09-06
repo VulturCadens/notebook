@@ -1,0 +1,21 @@
+server {
+        listen 80;
+        listen [::]:80;
+
+        server_tokens off;
+
+        root /var/www/example;
+
+        index index.html;
+
+        server_name example.fi www.example.fi;
+
+        location = /application {
+                proxy_pass http://127.0.0.1:8000;
+        }
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+
+}
