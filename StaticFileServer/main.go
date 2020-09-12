@@ -82,7 +82,7 @@ func main() {
 		}
 	}()
 
-	fmt.Printf("Listening at %s", server.Addr)
+	fmt.Printf("Listening at %s\n", server.Addr)
 
 	// https://en.wikipedia.org/wiki/Signal_(IPC)
 	// https://golang.org/pkg/os/signal/
@@ -91,12 +91,10 @@ func main() {
 	signal.Notify(c, os.Interrupt)
 	<-c
 
-	fmt.Print("Shutting down...")
+	fmt.Print("\nShutting down...\n")
 
 	context, cancel := context.WithTimeout(context.Background(), (time.Second * 10))
 	defer cancel()
 
 	server.Shutdown(context)
-
-	fmt.Println("Goodbye!")
 }
