@@ -84,6 +84,9 @@ func main() {
 
 	fmt.Printf("Listening at %s", server.Addr)
 
+	// https://en.wikipedia.org/wiki/Signal_(IPC)
+	// https://golang.org/pkg/os/signal/
+
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
 	<-c
