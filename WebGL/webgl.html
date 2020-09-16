@@ -8,7 +8,151 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
+<!-- http://glmatrix.net -->
+<script src="https://cdn.jsdelivr.net/npm/gl-matrix@3/gl-matrix.js"></script>
+
 <script>
+    const vsSource = `
+        attribute vec4 aVertexPosition;
+
+        uniform mat4 uModelViewMatrix;
+        uniform mat4 uProjectionMatrix;
+
+        void main() {
+            gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+        }
+    `
+
+    const fsSource = `
+        void main() {
+            gl_FragColor = vec4(1.0, 0.2, 0.2, 1.0);
+        }
+    `
+
+    const loadShader = (webgl, shaderType, source) => {
+        const shader = webgl.createShader(shaderType)
+
+        webgl.shaderSource(shader, source)
+
+        webgl.compileShader(shader)
+
+        if (!webgl.getShaderParameter(shader, webgl.COMPILE_STATUS)) {
+            const info = webgl.getShaderInfoLog(shader)
+            alert("Cannot compile the shader: " + info)
+            webgl.deleteShader(shader)
+            return null
+        }
+
+        return shader
+    }
+
+    const initShaderProgram = (webgl, vertexShaderSource, fragmentShaderSource) => {
+        const vertexShader = loadShader(webgl, webgl.VERTEX_SHADER, vertexShaderSource)
+        const fragmentShader = loadShader(webgl, webgl.FRAGMENT_SHADER, fragmentShaderSource)
+
+        const shaderProgram = webgl.createProgram()
+
+        webgl.attachShader(shaderProgram, vertexShader)
+        webgl.attachShader(shaderProgram, fragmentShader)
+        webgl.linkProgram(shaderProgram)
+
+        if (!webgl.getProgramParameter(shaderProgram, webgl.LINK_STATUS)) {
+            const err = webgl.getProgramInfoLog(shaderProgram)
+            alert("Cannot initialize the shader program: " + err)
+            return null
+        }
+
+        return shaderProgram
+    }
+
+    const initBuffer = (webgl) => {
+        const positionBuffer = webgl.createBuffer()
+
+        webgl.bindBuffer(webgl.ARRAY_BUFFER, positionBuffer)
+
+        const positions = [
+            -1.0, 1.0,
+            1.0, 1.0,
+            -1.0, -1.0,
+            1.0, -1.0,
+        ]
+
+        webgl.bufferData(webgl.ARRAY_BUFFER,
+            new Float32Array(positions),
+            webgl.STATIC_DRAW)
+
+        return { position: positionBuffer }
+    }
+
+    const drawScene = (webgl, programInfo, buffer) => {
+        const mat4 = glMatrix.mat4
+
+        const projectionMatrix = mat4.create()
+        const modelViewMatrix = mat4.create()
+
+        webgl.clearColor(0.0, 0.0, 0.0, 1.0)
+        webgl.clearDepth(1.0)
+        webgl.enable(webgl.DEPTH_TEST)
+        webgl.depthFunc(webgl.LEQUAL)
+        webgl.clear(webgl.COLOR_BUFFER_BIT | webgl.DEPTH_BUFFER_BIT)
+
+        mat4.perspective(
+            projectionMatrix,
+            45 * Math.PI / 180, // field of view
+            webgl.canvas.clientWidth / webgl.canvas.clientHeight, // aspect
+            0.1, // zNear,
+            100.0 // zFar
+        )
+
+        mat4.translate(
+            modelViewMatrix,
+            modelViewMatrix,
+            [-0.0, 0.0, -6.0]
+        )
+
+        webgl.bindBuffer(
+            webgl.ARRAY_BUFFER,
+            buffer.position
+        )
+
+        webgl.vertexAttribPointer(
+            programInfo.attribLocations.vertexPosition,
+            2,           // number of components
+            webgl.FLOAT, // type
+            false,       // normalize
+            0,           // bytes to skip (stride)
+            0            // offset
+        )
+
+        webgl.enableVertexAttribArray(
+            programInfo.attribLocations.vertexPosition
+        )
+
+        webgl.useProgram(
+            programInfo.program
+        )
+
+        webgl.uniformMatrix4fv(
+            programInfo.uniformLocations.projectionMatrix,
+            false,
+            projectionMatrix
+        )
+
+        webgl.uniformMatrix4fv(
+            programInfo.uniformLocations.modelViewMatrix,
+            false,
+            modelViewMatrix
+        )
+
+        const offset = 0
+        const vertexCount = 4
+        webgl.drawArrays(
+            webgl.TRIANGLE_STRIP,
+            0,  // offset
+            4   // vertex count
+        )
+    }
+
     window.onload = () => {
         const canvas = document.querySelector("#canvas")
 
@@ -19,8 +163,22 @@
             return
         }
 
-        webgl.clearColor(0.0, 0.0, 0.0, 1.0)
-        webgl.clear(webgl.COLOR_BUFFER_BIT)
+        const shaderProgram = initShaderProgram(webgl, vsSource, fsSource)
+
+        const programInfo = {
+            program: shaderProgram,
+            attribLocations: {
+                vertexPosition: webgl.getAttribLocation(shaderProgram, "aVertexPosition"),
+            },
+            uniformLocations: {
+                projectionMatrix: webgl.getUniformLocation(shaderProgram, "uProjectionMatrix"),
+                modelViewMatrix: webgl.getUniformLocation(shaderProgram, "uModelViewMatrix")
+            }
+        }
+
+        const buffer = initBuffer(webgl)
+
+        drawScene(webgl, programInfo, buffer)
     }
 </script>
 
