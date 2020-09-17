@@ -71,10 +71,9 @@
         webgl.bindBuffer(webgl.ARRAY_BUFFER, positionBuffer)
 
         const positions = [
-            -1.0, 1.0,
-            1.0, 1.0,
-            -1.0, -1.0,
-            1.0, -1.0,
+            0, 0,
+            0, 0.5,
+            0.8, 0,
         ]
 
         webgl.bufferData(webgl.ARRAY_BUFFER,
@@ -144,12 +143,10 @@
             modelViewMatrix
         )
 
-        const offset = 0
-        const vertexCount = 4
         webgl.drawArrays(
             webgl.TRIANGLE_STRIP,
             0,  // offset
-            4   // vertex count
+            3   // vertex count
         )
     }
 
