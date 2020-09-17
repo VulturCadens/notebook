@@ -11,24 +11,24 @@
 <!-- http://glmatrix.net -->
 <script src="https://cdn.jsdelivr.net/npm/gl-matrix@3/gl-matrix.js"></script>
 
+<script id="vsSource" type="notjs">
+    attribute vec4 aVertexPosition;
+
+    uniform mat4 uModelViewMatrix;
+    uniform mat4 uProjectionMatrix;
+
+    void main() {
+        gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+    }
+</script>
+
+<script id="fsSource" type="notjs">
+    void main() {
+        gl_FragColor = vec4(1.0, 0.2, 0.2, 1.0);
+    }
+</script>
+
 <script>
-    const vsSource = `
-        attribute vec4 aVertexPosition;
-
-        uniform mat4 uModelViewMatrix;
-        uniform mat4 uProjectionMatrix;
-
-        void main() {
-            gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
-        }
-    `
-
-    const fsSource = `
-        void main() {
-            gl_FragColor = vec4(1.0, 0.2, 0.2, 1.0);
-        }
-    `
-
     const loadShader = (webgl, shaderType, source) => {
         const shader = webgl.createShader(shaderType)
 
@@ -162,6 +162,9 @@
             alert("Cannot initialize WebGL.")
             return
         }
+
+        const vsSource = document.querySelector("#vsSource").text
+        const fsSource = document.querySelector("#fsSource").text
 
         const shaderProgram = initShaderProgram(webgl, vsSource, fsSource)
 
