@@ -13,22 +13,32 @@
 
 <script id="vsSource" type="notjs">
     attribute vec4 aVertexPosition;
+    attribute vec4 aVertexColor;
 
     uniform mat4 uModelViewMatrix;
     uniform mat4 uProjectionMatrix;
 
-    void main() {
-        gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+    varying lowp vec4 vColor;
+
+    void main(void) {
+      gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+      vColor = aVertexColor;
     }
 </script>
 
 <script id="fsSource" type="notjs">
-    void main() {
-        gl_FragColor = vec4(1.0, 0.2, 0.2, 1.0);
+    varying lowp vec4 vColor;
+
+    void main(void) {
+      gl_FragColor = vColor;
     }
 </script>
 
 <script>
+    const global = {
+        rotation: 1
+    }
+
     const loadShader = (webgl, shaderType, source) => {
         const shader = webgl.createShader(shaderType)
 
@@ -66,24 +76,78 @@
     }
 
     const initBuffer = (webgl) => {
-        const positionBuffer = webgl.createBuffer()
-
-        webgl.bindBuffer(webgl.ARRAY_BUFFER, positionBuffer)
 
         const positions = [
-            0, 0,
-            0, 0.5,
-            0.8, 0,
+            0, 0, 0,
+            0, 0.5, 0,
+            0.8, 0, 0,
+
+            0, 0, 0,
+            0, 0, 1,
+            0.8, 0, 0,
+
+            0, 0, 1,
+            0.8, 0, 0,
+            0, 0.5, 0,
+
+            0, 0, 0,
+            0, 0, 1,
+            0, 0.5, 0
         ]
 
-        webgl.bufferData(webgl.ARRAY_BUFFER,
+        const positionBuffer = webgl.createBuffer()
+        webgl.bindBuffer(webgl.ARRAY_BUFFER, positionBuffer)
+        webgl.bufferData(
+            webgl.ARRAY_BUFFER,
             new Float32Array(positions),
-            webgl.STATIC_DRAW)
+            webgl.STATIC_DRAW
+        )
 
-        return { position: positionBuffer }
+        const faceColors = [
+            [1.0, 0.0, 0.0, 1.0],  // RED
+            [0.0, 1.0, 0.0, 1.0],  // GREEN
+            [0.0, 0.0, 1.0, 1.0],  // BLUE
+            [0.5, 0.5, 0.5, 1.0]   // GREY
+        ]
+
+        let colors = []
+
+        for (let i = 0; i < faceColors.length; i = i + 1) {
+            const color = faceColors[i]
+            colors = colors.concat(color, color, color)
+        }
+
+        const colorBuffer = webgl.createBuffer()
+        webgl.bindBuffer(webgl.ARRAY_BUFFER, colorBuffer)
+        webgl.bufferData(
+            webgl.ARRAY_BUFFER,
+            new Float32Array(colors),
+            webgl.STATIC_DRAW
+        )
+
+        const index = [
+            0, 1, 2,
+            3, 4, 5,
+            6, 7, 8,
+            9, 10, 11
+        ]
+
+        const indexBuffer = webgl.createBuffer()
+        webgl.bindBuffer(webgl.ELEMENT_ARRAY_BUFFER, indexBuffer)
+        webgl.bufferData(
+            webgl.ELEMENT_ARRAY_BUFFER,
+            new Uint16Array(index),       // equal webGL.UNSIGNED_SHORT
+            webgl.STATIC_DRAW
+        )
+
+        return {
+            position: positionBuffer,
+            color: colorBuffer,
+            index: indexBuffer
+        }
     }
 
-    const drawScene = (webgl, programInfo, buffer) => {
+    const drawScene = (webgl, programInfo, buffer, delta) => {
         const mat4 = glMatrix.mat4
 
         const projectionMatrix = mat4.create()
@@ -104,32 +168,50 @@
         )
 
         mat4.translate(
-            modelViewMatrix,
-            modelViewMatrix,
-            [-0.0, 0.0, -6.0]
+            modelViewMatrix,   // destination
+            modelViewMatrix,   // translate
+            [-0.0, 0.0, -6.0]  // direction
         )
 
-        webgl.bindBuffer(
-            webgl.ARRAY_BUFFER,
-            buffer.position
+        mat4.rotate(
+            modelViewMatrix,  // destination matrix
+            modelViewMatrix,  // matrix to rotate
+            global.rotation,  // radians
+            [1, 0, 0]         // X
         )
 
+        mat4.rotate(
+            modelViewMatrix,      // destination matrix
+            modelViewMatrix,      // matrix to rotate
+            global.rotation / 2,  // radians
+            [0, 1, 0]             // Y
+        )
+
+        global.rotation = global.rotation + delta
+
+        webgl.bindBuffer(webgl.ARRAY_BUFFER, buffer.position)
         webgl.vertexAttribPointer(
             programInfo.attribLocations.vertexPosition,
-            2,           // number of components
+            3,           // number of components (X, Y, Z)
             webgl.FLOAT, // type
             false,       // normalize
             0,           // bytes to skip (stride)
             0            // offset
         )
+        webgl.enableVertexAttribArray(programInfo.attribLocations.vertexPosition)
 
-        webgl.enableVertexAttribArray(
-            programInfo.attribLocations.vertexPosition
+        webgl.bindBuffer(webgl.ARRAY_BUFFER, buffer.color);
+        webgl.vertexAttribPointer(
+            programInfo.attribLocations.vertexColor,
+            4,           // number of components (R, G, B, A)
+            webgl.FLOAT, // type
+            false,       // normalize
+            0,           // bytes to skip (stride)
+            0            // offset
         )
+        webgl.enableVertexAttribArray(programInfo.attribLocations.vertexColor)
 
-        webgl.useProgram(
-            programInfo.program
-        )
+        webgl.useProgram(programInfo.program)
 
         webgl.uniformMatrix4fv(
             programInfo.uniformLocations.projectionMatrix,
@@ -143,10 +225,13 @@
             modelViewMatrix
         )
 
-        webgl.drawArrays(
-            webgl.TRIANGLE_STRIP,
-            0,  // offset
-            3   // vertex count
+        webgl.bindBuffer(webgl.ELEMENT_ARRAY_BUFFER, buffer.index)
+
+        webgl.drawElements(
+            webgl.TRIANGLES,      // type primitive to render
+            12,                   // vertex count
+            webgl.UNSIGNED_SHORT, // type
+            0                     // offset
         )
     }
 
@@ -169,6 +254,7 @@
             program: shaderProgram,
             attribLocations: {
                 vertexPosition: webgl.getAttribLocation(shaderProgram, "aVertexPosition"),
+                vertexColor: webgl.getAttribLocation(shaderProgram, "aVertexColor")
             },
             uniformLocations: {
                 projectionMatrix: webgl.getUniformLocation(shaderProgram, "uProjectionMatrix"),
@@ -178,7 +264,19 @@
 
         const buffer = initBuffer(webgl)
 
-        drawScene(webgl, programInfo, buffer)
+        let then = 0;
+
+        const render = (now) => {
+            now = now * 0.001
+            const delta = now - then
+            then = now
+
+            drawScene(webgl, programInfo, buffer, delta)
+
+            requestAnimationFrame(render)
+        }
+
+        requestAnimationFrame(render)
     }
 </script>
 
