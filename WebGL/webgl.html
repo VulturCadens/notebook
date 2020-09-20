@@ -76,7 +76,6 @@
     }
 
     const initBuffer = (webgl) => {
-
         const positions = [
             0, 0, 0,
             0, 0.5, 0,
@@ -147,7 +146,7 @@
         }
     }
 
-    const drawScene = (webgl, programInfo, buffer, delta) => {
+    const drawScene = (webgl, programInfo, delta) => {
         const mat4 = glMatrix.mat4
 
         const projectionMatrix = mat4.create()
@@ -189,28 +188,6 @@
 
         global.rotation = global.rotation + delta
 
-        webgl.bindBuffer(webgl.ARRAY_BUFFER, buffer.position)
-        webgl.vertexAttribPointer(
-            programInfo.attribLocations.vertexPosition,
-            3,           // number of components (X, Y, Z)
-            webgl.FLOAT, // type
-            false,       // normalize
-            0,           // bytes to skip (stride)
-            0            // offset
-        )
-        webgl.enableVertexAttribArray(programInfo.attribLocations.vertexPosition)
-
-        webgl.bindBuffer(webgl.ARRAY_BUFFER, buffer.color);
-        webgl.vertexAttribPointer(
-            programInfo.attribLocations.vertexColor,
-            4,           // number of components (R, G, B, A)
-            webgl.FLOAT, // type
-            false,       // normalize
-            0,           // bytes to skip (stride)
-            0            // offset
-        )
-        webgl.enableVertexAttribArray(programInfo.attribLocations.vertexColor)
-
         webgl.useProgram(programInfo.program)
 
         webgl.uniformMatrix4fv(
@@ -224,8 +201,6 @@
             false,
             modelViewMatrix
         )
-
-        webgl.bindBuffer(webgl.ELEMENT_ARRAY_BUFFER, buffer.index)
 
         webgl.drawElements(
             webgl.TRIANGLES,      // type primitive to render
@@ -264,6 +239,30 @@
 
         const buffer = initBuffer(webgl)
 
+        webgl.bindBuffer(webgl.ARRAY_BUFFER, buffer.position)
+        webgl.vertexAttribPointer(
+            programInfo.attribLocations.vertexPosition,
+            3,           // number of components (X, Y, Z)
+            webgl.FLOAT, // type
+            false,       // normalize
+            0,           // bytes to skip (stride)
+            0            // offset
+        )
+        webgl.enableVertexAttribArray(programInfo.attribLocations.vertexPosition)
+
+        webgl.bindBuffer(webgl.ARRAY_BUFFER, buffer.color);
+        webgl.vertexAttribPointer(
+            programInfo.attribLocations.vertexColor,
+            4,           // number of components (R, G, B, A)
+            webgl.FLOAT, // type
+            false,       // normalize
+            0,           // bytes to skip (stride)
+            0            // offset
+        )
+        webgl.enableVertexAttribArray(programInfo.attribLocations.vertexColor)
+
+        webgl.bindBuffer(webgl.ELEMENT_ARRAY_BUFFER, buffer.index)
+
         let then = 0;
 
         const render = (now) => {
@@ -271,7 +270,7 @@
             const delta = now - then
             then = now
 
-            drawScene(webgl, programInfo, buffer, delta)
+            drawScene(webgl, programInfo, delta)
 
             requestAnimationFrame(render)
         }
