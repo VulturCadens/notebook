@@ -36,7 +36,8 @@
 
 <script>
     const global = {
-        rotation: 1
+        rotation: 0,
+        vertexArrayObject: null
     }
 
     const loadShader = (webgl, shaderType, source) => {
@@ -152,10 +153,6 @@
         const projectionMatrix = mat4.create()
         const modelViewMatrix = mat4.create()
 
-        webgl.clearColor(0.0, 0.0, 0.0, 1.0)
-        webgl.clearDepth(1.0)
-        webgl.enable(webgl.DEPTH_TEST)
-        webgl.depthFunc(webgl.LEQUAL)
         webgl.clear(webgl.COLOR_BUFFER_BIT | webgl.DEPTH_BUFFER_BIT)
 
         mat4.perspective(
@@ -202,6 +199,8 @@
             modelViewMatrix
         )
 
+        webgl.bindVertexArray(global.vertexArrayObject)
+
         webgl.drawElements(
             webgl.TRIANGLES,      // type primitive to render
             12,                   // vertex count
@@ -213,12 +212,17 @@
     window.onload = () => {
         const canvas = document.querySelector("#canvas")
 
-        const webgl = canvas.getContext("webgl")
+        const webgl = canvas.getContext("webgl2")
 
         if (webgl === null) {
             alert("Cannot initialize WebGL.")
             return
         }
+
+        webgl.clearColor(0.0, 0.0, 0.0, 1.0)
+        webgl.clearDepth(1.0)
+        webgl.enable(webgl.DEPTH_TEST)
+        webgl.depthFunc(webgl.LEQUAL)
 
         const vsSource = document.querySelector("#vsSource").text
         const fsSource = document.querySelector("#fsSource").text
@@ -237,31 +241,38 @@
             }
         }
 
-        const buffer = initBuffer(webgl)
+        {
+            global.vertexArrayObject = webgl.createVertexArray()
+            webgl.bindVertexArray(global.vertexArrayObject)
 
-        webgl.bindBuffer(webgl.ARRAY_BUFFER, buffer.position)
-        webgl.vertexAttribPointer(
-            programInfo.attribLocations.vertexPosition,
-            3,           // number of components (X, Y, Z)
-            webgl.FLOAT, // type
-            false,       // normalize
-            0,           // bytes to skip (stride)
-            0            // offset
-        )
-        webgl.enableVertexAttribArray(programInfo.attribLocations.vertexPosition)
+            const buffer = initBuffer(webgl)
 
-        webgl.bindBuffer(webgl.ARRAY_BUFFER, buffer.color);
-        webgl.vertexAttribPointer(
-            programInfo.attribLocations.vertexColor,
-            4,           // number of components (R, G, B, A)
-            webgl.FLOAT, // type
-            false,       // normalize
-            0,           // bytes to skip (stride)
-            0            // offset
-        )
-        webgl.enableVertexAttribArray(programInfo.attribLocations.vertexColor)
+            webgl.bindBuffer(webgl.ARRAY_BUFFER, buffer.position)
+            webgl.vertexAttribPointer(
+                programInfo.attribLocations.vertexPosition,
+                3,           // number of components (X, Y, Z)
+                webgl.FLOAT, // type
+                false,       // normalize
+                0,           // bytes to skip (stride)
+                0            // offset
+            )
+            webgl.enableVertexAttribArray(programInfo.attribLocations.vertexPosition)
 
-        webgl.bindBuffer(webgl.ELEMENT_ARRAY_BUFFER, buffer.index)
+            webgl.bindBuffer(webgl.ARRAY_BUFFER, buffer.color);
+            webgl.vertexAttribPointer(
+                programInfo.attribLocations.vertexColor,
+                4,           // number of components (R, G, B, A)
+                webgl.FLOAT, // type
+                false,       // normalize
+                0,           // bytes to skip (stride)
+                0            // offset
+            )
+            webgl.enableVertexAttribArray(programInfo.attribLocations.vertexColor)
+
+            webgl.bindBuffer(webgl.ELEMENT_ARRAY_BUFFER, buffer.index)
+
+            webgl.bindVertexArray(null)
+        }
 
         let then = 0;
 
