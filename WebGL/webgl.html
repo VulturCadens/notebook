@@ -35,6 +35,8 @@
 </script>
 
 <script>
+    const mat4 = glMatrix.mat4
+
     const global = {
         rotation: 0,
         vertexArrayObject: null
@@ -147,9 +149,7 @@
         }
     }
 
-    const drawScene = (webgl, programInfo, delta) => {
-        const mat4 = glMatrix.mat4
-
+    const drawScene = (webgl, programInfo, delta) => {    
         const projectionMatrix = mat4.create()
         const modelViewMatrix = mat4.create()
 
@@ -165,7 +165,7 @@
 
         mat4.translate(
             modelViewMatrix,   // destination
-            modelViewMatrix,   // translate
+            modelViewMatrix,   // matrix to translate
             [-0.0, 0.0, -6.0]  // direction
         )
 
@@ -173,28 +173,36 @@
             modelViewMatrix,  // destination matrix
             modelViewMatrix,  // matrix to rotate
             global.rotation,  // radians
-            [1, 0, 0]         // X
+            [1, 0, 0]         // X axis
         )
 
         mat4.rotate(
             modelViewMatrix,      // destination matrix
             modelViewMatrix,      // matrix to rotate
             global.rotation / 2,  // radians
-            [0, 1, 0]             // Y
+            [0, 1, 0]             // Y axis
         )
 
         global.rotation = global.rotation + delta
 
         webgl.useProgram(programInfo.program)
 
+        /*
+         * Void gl.uniformMatrix4fv(
+         *   location WebGLUniformLocation,
+         *   transpose GLboolean,
+         *   value Float32Array)
+         * 
+         * Specify matrix value for uniform variable.
+         */
         webgl.uniformMatrix4fv(
-            programInfo.uniformLocations.projectionMatrix,
+            programInfo.uniformLocations.projectionMatrix, // WebGLUniformLocation
             false,
             projectionMatrix
         )
 
         webgl.uniformMatrix4fv(
-            programInfo.uniformLocations.modelViewMatrix,
+            programInfo.uniformLocations.modelViewMatrix, // WebGLUniformLocation
             false,
             modelViewMatrix
         )
@@ -232,10 +240,16 @@
         const programInfo = {
             program: shaderProgram,
             attribLocations: {
+                /*
+                 *  GLint gl.getAttribLocation(program WebGLProgram, name DOMString)
+                 */
                 vertexPosition: webgl.getAttribLocation(shaderProgram, "aVertexPosition"),
                 vertexColor: webgl.getAttribLocation(shaderProgram, "aVertexColor")
             },
             uniformLocations: {
+                /*
+                 *  WebGLUniformLocation gl.getUniformLocation(program WebGLProgram, name DOMString)
+                 */
                 projectionMatrix: webgl.getUniformLocation(shaderProgram, "uProjectionMatrix"),
                 modelViewMatrix: webgl.getUniformLocation(shaderProgram, "uModelViewMatrix")
             }
@@ -249,18 +263,21 @@
 
             webgl.bindBuffer(webgl.ARRAY_BUFFER, buffer.position)
             webgl.vertexAttribPointer(
-                programInfo.attribLocations.vertexPosition,
+                programInfo.attribLocations.vertexPosition,  // attribute index
                 3,           // number of components (X, Y, Z)
                 webgl.FLOAT, // type
                 false,       // normalize
                 0,           // bytes to skip (stride)
                 0            // offset
             )
+            /*
+             *  Void gl.enableVertexAttribArray(index GLint)
+             */
             webgl.enableVertexAttribArray(programInfo.attribLocations.vertexPosition)
 
             webgl.bindBuffer(webgl.ARRAY_BUFFER, buffer.color);
             webgl.vertexAttribPointer(
-                programInfo.attribLocations.vertexColor,
+                programInfo.attribLocations.vertexColor,  // attribute index
                 4,           // number of components (R, G, B, A)
                 webgl.FLOAT, // type
                 false,       // normalize
