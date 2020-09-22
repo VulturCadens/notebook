@@ -77,7 +77,7 @@
     }
 
     const initBuffer = (webgl) => {
-        const positions = [
+        const positions = new Float32Array([
             0, 0, 0,
             0, 0.5, 0,
             0.8, 0, 0,
@@ -93,13 +93,28 @@
             0, 0, 0,
             0, 0, 1,
             0, 0.5, 0
-        ]
+        ])
 
         const positionBuffer = webgl.createBuffer()
         webgl.bindBuffer(webgl.ARRAY_BUFFER, positionBuffer)
         webgl.bufferData(
             webgl.ARRAY_BUFFER,
-            new Float32Array(positions),
+            positions,
+            webgl.STATIC_DRAW
+        )
+
+        const index = new Uint16Array([
+            0, 1, 2,
+            3, 4, 5,
+            6, 7, 8,
+            9, 10, 11
+        ]) // Uint16 = webGL.UNSIGNED_SHORT
+
+        const indexBuffer = webgl.createBuffer()
+        webgl.bindBuffer(webgl.ELEMENT_ARRAY_BUFFER, indexBuffer)
+        webgl.bufferData(
+            webgl.ELEMENT_ARRAY_BUFFER,
+            index,
             webgl.STATIC_DRAW
         )
 
@@ -122,21 +137,6 @@
         webgl.bufferData(
             webgl.ARRAY_BUFFER,
             new Float32Array(colors),
-            webgl.STATIC_DRAW
-        )
-
-        const index = [
-            0, 1, 2,
-            3, 4, 5,
-            6, 7, 8,
-            9, 10, 11
-        ]
-
-        const indexBuffer = webgl.createBuffer()
-        webgl.bindBuffer(webgl.ELEMENT_ARRAY_BUFFER, indexBuffer)
-        webgl.bufferData(
-            webgl.ELEMENT_ARRAY_BUFFER,
-            new Uint16Array(index),       // equal webGL.UNSIGNED_SHORT
             webgl.STATIC_DRAW
         )
 
