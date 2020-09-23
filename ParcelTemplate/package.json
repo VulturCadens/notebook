@@ -1,0 +1,15 @@
+{
+  "name": "parceltemplate",
+  "version": "1.0.0",
+  "description": "Simple Parcel Template",
+  "author": "Vultur Cadens",
+  "license": "MIT",
+  "scripts": {
+    "dev": "parcel src/index.html",
+    "build": "parcel build src/index.html"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4",
+    "parcel-plugin-nuke-dist": "^1.0.1"
+  }
+}

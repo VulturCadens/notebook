@@ -1,0 +1,9 @@
+*.log
+.npm
+.cache
+.parcel-cache
+
+package-lock.json
+
+node_modules/
+dist/
