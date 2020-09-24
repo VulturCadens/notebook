@@ -12,6 +12,8 @@
 <script src="https://cdn.jsdelivr.net/npm/gl-matrix@3/gl-matrix.js"></script>
 
 <script id="vsSource" type="notjs">
+    #version 300 es
+
     attribute vec4 aVertexPosition;
     attribute vec4 aVertexColor;
 
@@ -27,6 +29,8 @@
 </script>
 
 <script id="fsSource" type="notjs">
+    #version 300 es
+    
     varying lowp vec4 vColor;
 
     void main(void) {
