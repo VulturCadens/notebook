@@ -195,11 +195,27 @@ window.onload = async () => {
     webgl.enable(webgl.DEPTH_TEST)
     webgl.depthFunc(webgl.LEQUAL)
 
-    const vsResponse = await fetch("shaders/vertex.glsl")
-    const vsSource = await vsResponse.text()
+    let vsSource, fsSource
 
-    const fsResponse = await fetch("shaders/fragment.glsl")
-    const fsSource = await fsResponse.text()
+    try {
+        const vsResponse = await fetch("shaders/vertex.glsl")
+
+        if (!vsResponse.ok) {
+            throw new Error(vsResponse.statusText)
+        }
+
+        const fsResponse = await fetch("shaders/fragment.glsl")
+
+        if (!fsResponse.ok) {
+            throw new Error(fsResponse.statusText)
+        }
+
+        vsSource = await vsResponse.text()
+        fsSource = await fsResponse.text()
+    } catch (err) {
+        console.error(`!! ${err}`)
+        return
+    }
 
     const shaderProgram = initShaderProgram(webgl, vsSource, fsSource)
 
