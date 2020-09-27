@@ -1,3 +1,3 @@
-import { hello } from "./lib/export"
+import { UniversallyUniqueIdentifier } from "./lib/export"
 
-hello()
+UniversallyUniqueIdentifier()

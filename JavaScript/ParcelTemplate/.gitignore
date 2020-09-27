@@ -1,4 +1,6 @@
-*.log
+.DS_Store
+
+*.log*
 .npm
 .cache
 .parcel-cache
@@ -7,3 +9,11 @@ package-lock.json
 
 node_modules/
 dist/
+
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
