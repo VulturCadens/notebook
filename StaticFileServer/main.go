@@ -32,7 +32,17 @@ func staticFileServer(directory string) http.Handler {
 				return
 			}
 
-			http.ServeContent(w, r, (directory + "/index.html"), time.Now(), file)
+			/*
+			 * If the response's Content-Type header is not set, ServeContent first
+			 * tries to deduce the type from name's file extension and, if that fails,
+			 * falls back to reading the first block of the content and passing
+			 * it to DetectContentType. The name is otherwise unused; in particular
+			 * it can be empty and is never sent in the response.
+			 *
+			 * https://golang.org/pkg/net/http/#ServeContent
+			 */
+			w.Header().Set("Content-Type", "text/html")
+			http.ServeContent(w, r, "", time.Now(), file)
 
 			return
 		}
@@ -50,18 +60,23 @@ func staticFileServer(directory string) http.Handler {
 		// https://golang.org/pkg/os/#FileInfo
 		info, err := file.Stat()
 
-		if err != nil || info.Mode().IsDir() {
+		if err != nil || info.IsDir() {
 			http.Error(w, "404", http.StatusNotFound)
 			return
 		}
 
+		/*
+		 * As a special case, the returned file server redirects any request
+		 * ending in "/index.html" to the same path, without the final "index.html".
+		 *
+		 * https://golang.org/pkg/net/http/#FileServer
+		 */
 		fileServer.ServeHTTP(w, r)
 	})
 }
 
 func main() {
 	http.Handle("/", staticFileServer("./www"))
-	http.Handle("/css/", http.StripPrefix("/css/", staticFileServer("./www/css")))
 
 	// fmt.Sprintf("%s:%d", host, port) VS net.JoinHostPort(host, port) !!
 	addr := net.JoinHostPort(host, port)
