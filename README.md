@@ -2,6 +2,22 @@
 
 Just another notebook.
 
+## How patterns are matched
+
+* From the most specific to the least specific.
+
+* Handler registered for __/css__ works only for __/css__.
+
+* The trailing slash __/css/__ will be matched for __/css/__, __/css/style.css__, __/css/font/default.woff__ and __/css__ with a redirect. ServeMux redirects a request for __/css__ to __/css/__ (HTTP status code 301).
+
+* The slash __/__ matches all paths not matched by other patterns.
+
+```go
+http.HandleFunc("/", funcA)      /* matched for '/' '/foobar'      */
+http.HandleFunc("/foo", funcB)   /* matched for '/foo'             */
+http.HandleFunc("/foo/", funcC)  /* matched for '/foo/' '/foo/bar' */
+```
+
 ## Types
 
 ### **Basic Types**
