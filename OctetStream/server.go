@@ -20,8 +20,14 @@ func index(w http.ResponseWriter, r *http.Request) {
 	http.ServeContent(w, r, "", time.Now(), file)
 }
 
+func octet(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/octet-stream")
+	w.Write([]byte{0xFF, 0x00, 0x00, 0xFF})
+}
+
 func main() {
 	http.HandleFunc("/", index)
+	http.HandleFunc("/octet", octet)
 
 	fmt.Println("Listening on 127.0.0.1:8000...")
 

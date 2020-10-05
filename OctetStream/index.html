@@ -9,7 +9,17 @@
 </head>
 
 <body>
-        <p>Server</p>
+        <script>
+                window.onload = async () => {
+                        const response = await fetch("/octet")
+
+                        const arrayBuf = await response.arrayBuffer()
+
+                        const bytes = new Uint8Array(arrayBuf)
+
+                        console.log(bytes)
+                }
+        </script>
 </body>
 
 </html>
