@@ -16,6 +16,8 @@ func index(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	defer file.Close()
+
 	w.Header().Set("Content-Type", "text/html")
 	http.ServeContent(w, r, "", time.Now(), file)
 }
@@ -29,7 +31,7 @@ func main() {
 	http.HandleFunc("/", index)
 	http.HandleFunc("/octet", octet)
 
-	fmt.Println("Listening on 127.0.0.1:8000...")
+	fmt.Println("Listening on 127.0.0.1:8000")
 
 	http.ListenAndServe("127.0.0.1:8000", nil)
 }

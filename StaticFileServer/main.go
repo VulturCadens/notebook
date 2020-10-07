@@ -32,6 +32,8 @@ func staticFileServer(directory string) http.Handler {
 				return
 			}
 
+			defer file.Close()
+
 			/*
 			 * If the response's Content-Type header is not set, ServeContent first
 			 * tries to deduce the type from name's file extension and, if that fails,
@@ -97,7 +99,7 @@ func main() {
 		}
 	}()
 
-	fmt.Printf("Listening at %s\n", server.Addr)
+	fmt.Printf("Listening on %s\n", server.Addr)
 
 	// https://en.wikipedia.org/wiki/Signal_(IPC)
 	// https://golang.org/pkg/os/signal/
