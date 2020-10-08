@@ -16,8 +16,15 @@
                         const arrayBuf = await response.arrayBuffer()
 
                         const bytes = new Uint8Array(arrayBuf)
-
                         console.log(bytes)
+
+                        const view = new DataView(arrayBuf)
+                        const littleEndian = true
+                        const words = new Uint16Array([
+                                view.getUint16(0, littleEndian),
+                                view.getUint16(2, littleEndian)
+                                ])
+                        console.log(words)
                 }
         </script>
 </body>
