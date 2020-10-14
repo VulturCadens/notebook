@@ -1,18 +1,33 @@
 package main
 
 import (
-	"database/sql"
+	"database/sql" // https://golang.org/pkg/database/sql/
+	"fmt"
 	"log"
 	"os"
 	"time"
 
-	_ "github.com/mattn/go-sqlite3"
+	_ "github.com/mattn/go-sqlite3" // https://github.com/mattn/go-sqlite3
 )
+
+func createTable(db *sql.DB) {
+	_, err := db.Exec(
+		`CREATE TABLE IF NOT EXISTS books (
+			id INTEGER PRIMARY KEY AUTOINCREMENT,
+			author TEXT,
+			title TEXT,
+			created DATETIME
+		);`)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+}
 
 func countBooks(db *sql.DB) int {
 	var count int
 
-	_ = db.QueryRow("SELECT COUNT(*) FROM messages").Scan(&count)
+	_ = db.QueryRow("SELECT COUNT(*) FROM books").Scan(&count)
 
 	return count
 }
@@ -48,21 +63,11 @@ func main() {
 
 	db.SetMaxOpenConns(1)
 
-	_, err = db.Exec(
-		`CREATE TABLE IF NOT EXISTS books (
-			id INTEGER PRIMARY KEY AUTOINCREMENT,
-			author TEXT,
-			title TEXT,
-			created DATETIME
-		);`)
+	createTable(db)
 
-	if err != nil {
+	if err := addBook(db, "Victor Hugo", "Les Misérables"); err != nil {
 		log.Fatal(err)
 	}
 
-	if countBooks(db) == 0 {
-		if err = addBook(db, "Victor Hugo", "Les Misérables"); err != nil {
-			log.Fatal(err)
-		}
-	}
+	fmt.Printf("There is %d book(s). \n", countBooks(db))
 }
