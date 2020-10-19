@@ -85,4 +85,30 @@ func main() {
 	}
 
 	fmt.Printf("There is %d rows in the database. \n", countRows(db))
+
+	/*
+	 * Query the books table for titles whose author is Leo Tolstoy.
+	 */
+
+	var rows *sql.Rows
+
+	if rows, err = db.Query("SELECT title FROM books WHERE author = ?", "Leo Tolstoy"); err != nil {
+		log.Fatal(err)
+	}
+
+	defer rows.Close()
+
+	var title string
+
+	for rows.Next() {
+		if err := rows.Scan(&title); err != nil {
+			log.Fatal(err)
+		}
+
+		fmt.Println(title)
+	}
+
+	if err := rows.Err(); err != nil {
+		log.Fatal(err)
+	}
 }
