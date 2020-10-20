@@ -68,7 +68,7 @@ func addRow(db *sql.DB, author, title string, year int) {
 func main() {
 	os.Remove("./test.db")
 
-	db, err := sql.Open("sqlite3", "./test.db")
+	db, err := sql.Open("sqlite3", "./test.db") // A filename OR ":memory:" (an in-memory database).
 
 	if err != nil {
 		log.Fatal(err)
