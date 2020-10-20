@@ -2,6 +2,7 @@ package main
 
 import (
 	"image"
+	"image/color"
 	_ "image/png"
 	"log"
 	"os"
@@ -23,10 +24,11 @@ func (app *application) Update() error {
 }
 
 func (app *application) Draw(screen *ebiten.Image) {
+	c := color.RGBA{50, 50, 50, 255} // https://golang.org/pkg/image/color/
+	screen.Fill(c)
+
 	options := &ebiten.DrawImageOptions{}
-
 	options.GeoM.Translate(width/4, height/2)
-
 	screen.DrawImage(app.box, options)
 }
 
