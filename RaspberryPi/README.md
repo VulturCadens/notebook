@@ -1,5 +1,15 @@
 # Raspberry Pi
 
+### go-rpio
+
+https://github.com/stianeikeland/go-rpio
+
+```console
+go get github.com/stianeikeland/go-rpio/v4
+```
+
+### The IP address
+
 To determine the IP address, run the nmap (192.168.10.0 -> 192.168.10.255).
 
 ```console
