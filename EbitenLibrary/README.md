@@ -22,11 +22,7 @@ sudo apt install libxi-dev libxinerama-dev libxrandr-dev libxxf86vm-dev libasoun
 
 ### Install Ebiten
 
-```console
-go get github.com/hajimehoshi/ebiten
-```
-
-Or create local module - and Go automatically installs Ebiten.
+Create local module - and Go automatically installs Ebiten.
 
 ```console
 mkdir foo
