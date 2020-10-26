@@ -1,11 +1,13 @@
+// go run main.go box.go
+
 package main
 
 import (
+	"bytes"
 	"image"
 	"image/color"
 	_ "image/png"
 	"log"
-	"os"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )
@@ -39,13 +41,20 @@ func (app *application) Layout(outsideWidth, outsideHeight int) (screenWidth, sc
 func main() {
 	app := &application{}
 
-	file, err := os.Open("box.png")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer file.Close()
+	/*
+	 * file, err := os.Open("box.png")
+	 * if err != nil {
+	 *     log.Fatal(err)
+	 * }
+	 * defer file.Close()
+	 *
+	 * img, _, err := image.Decode(file)
+	 * if err != nil {
+	 *     log.Fatal(err)
+	 * }
+	 */
 
-	img, _, err := image.Decode(file)
+	img, _, err := image.Decode(bytes.NewReader(boxPNG))
 	if err != nil {
 		log.Fatal(err)
 	}
