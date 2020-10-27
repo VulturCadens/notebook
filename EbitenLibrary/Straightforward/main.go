@@ -1,4 +1,4 @@
-// go run main.go box.go
+// go run .
 
 package main
 
