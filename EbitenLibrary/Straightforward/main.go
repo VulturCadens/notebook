@@ -10,6 +10,7 @@ import (
 	"log"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 )
 
 const (
@@ -18,10 +19,46 @@ const (
 )
 
 type application struct {
-	box *ebiten.Image
+	x          float64
+	y          float64
+	box        *ebiten.Image
+	gamepadIDs map[ebiten.GamepadID]struct{}
 }
 
 func (app *application) Update() error {
+	if app.gamepadIDs == nil {
+		app.gamepadIDs = map[ebiten.GamepadID]struct{}{}
+	}
+
+	for _, id := range inpututil.JustConnectedGamepadIDs() {
+		log.Printf("Connected ID: %d \n", id)
+		app.gamepadIDs[id] = struct{}{}
+	}
+
+	for id := range app.gamepadIDs {
+		if inpututil.IsGamepadJustDisconnected(id) {
+			log.Printf("Disconnected ID: %d \n", id)
+			delete(app.gamepadIDs, id)
+		}
+	}
+
+	for id := range app.gamepadIDs {
+		valueHorizontal := ebiten.GamepadAxis(id, 0)
+		valueVertical := ebiten.GamepadAxis(id, 1)
+
+		if valueHorizontal < -0.5 {
+			app.x -= 1.5
+		} else if valueHorizontal > 0.5 {
+			app.x += 1.5
+		}
+
+		if valueVertical < -0.5 {
+			app.y -= 1.5
+		} else if valueVertical > 0.5 {
+			app.y += 1.5
+		}
+	}
+
 	return nil
 }
 
@@ -30,7 +67,7 @@ func (app *application) Draw(screen *ebiten.Image) {
 	screen.Fill(c)
 
 	options := &ebiten.DrawImageOptions{}
-	options.GeoM.Translate(width/4, height/2)
+	options.GeoM.Translate(app.x, app.y)
 	screen.DrawImage(app.box, options)
 }
 
@@ -39,7 +76,10 @@ func (app *application) Layout(outsideWidth, outsideHeight int) (screenWidth, sc
 }
 
 func main() {
-	app := &application{}
+	app := &application{
+		x: width / 2,
+		y: height / 2,
+	}
 
 	/*
 	 * file, err := os.Open("box.png")
