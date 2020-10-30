@@ -16,6 +16,7 @@ import (
 const (
 	width  = 800
 	height = 600
+	speed  = 5
 )
 
 type application struct {
@@ -46,16 +47,12 @@ func (app *application) Update() error {
 		valueHorizontal := ebiten.GamepadAxis(id, 0)
 		valueVertical := ebiten.GamepadAxis(id, 1)
 
-		if valueHorizontal < -0.5 {
-			app.x -= 1.5
-		} else if valueHorizontal > 0.5 {
-			app.x += 1.5
+		if valueHorizontal < -0.1 || valueHorizontal > 0.1 {
+			app.x += speed * valueHorizontal
 		}
 
-		if valueVertical < -0.5 {
-			app.y -= 1.5
-		} else if valueVertical > 0.5 {
-			app.y += 1.5
+		if valueVertical < -0.1 || valueVertical > 0.1 {
+			app.y += speed * valueVertical
 		}
 	}
 
