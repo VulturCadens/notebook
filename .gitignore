@@ -4,6 +4,7 @@
 .cache
 *.wasm
 
+wasm_exec.js
 test.db
 
 .idea

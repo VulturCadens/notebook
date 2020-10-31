@@ -1,13 +1,39 @@
 <!DOCTYPE html>
 
-<!-- python3 -m http.server -->
+<!-- GOOS=js GOARCH=wasm go build -o app.wasm      -->
+<!-- cp $(go env GOROOT)/misc/wasm/wasm_exec.js .  -->
+<!-- python3 -m http.server                        -->
+
+<html>
 
 <head>
     <title>Ebiten WebAssembly</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        body {
+            width: 100vw;
+            height: 100vh;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            place-items: center;
+        }
+
+        iframe {
+            margin: 0;
+            padding: 0;
+            border: none;
+            outline: none;
+        }
+    </style>
 </head>
 
-<body style="width: 100vw; height: 100vh; padding: 0; margin: 0;">
+<body>
     
-    <iframe id="canvas" width="820" height="620" src="frame.html"></iframe>
+    <iframe id="canvas" width="800" height="600" src="frame.html"></iframe>
 
 </body>
+
+</html>
