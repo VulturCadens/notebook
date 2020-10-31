@@ -2,6 +2,7 @@
 
 *.log*
 .cache
+*.wasm
 
 test.db
 
