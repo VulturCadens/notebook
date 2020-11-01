@@ -58,6 +58,8 @@ func staticFileServer(directory string) http.Handler {
 			return
 		}
 
+		defer file.Close()
+
 		// - Type os.FileInfo
 		// https://golang.org/pkg/os/#FileInfo
 		info, err := file.Stat()
