@@ -10,6 +10,7 @@ import (
 	"os"
 	"os/signal"
 	"path"
+	"strings"
 	"time"
 )
 
@@ -25,6 +26,44 @@ func staticFileServer(directory string) http.Handler {
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		p := path.Clean(r.URL.Path)
+
+		// The wasm files have been compressed to brotli format.
+		if path.Ext(p) == ".wasm" {
+			acceptEncoding := strings.Split(r.Header.Get("Accept-Encoding"), ",")
+
+			for _, accept := range acceptEncoding {
+				if strings.Contains(strings.Trim(accept, " "), "br") {
+					file, err := dir.Open(p + ".br")
+
+					if err != nil {
+						http.Error(w, "404", http.StatusNotFound)
+						return
+					}
+
+					defer file.Close()
+
+					w.Header().Set("Content-Type", "application/wasm")
+					w.Header().Set("Content-Encoding", "br")
+					http.ServeContent(w, r, "", time.Now(), file)
+
+					return
+				}
+			}
+
+			file, err := dir.Open(p)
+
+			if err != nil {
+				http.Error(w, "404", http.StatusNotFound)
+				return
+			}
+
+			defer file.Close()
+
+			w.Header().Set("Content-Type", "application/wasm")
+			http.ServeContent(w, r, "", time.Now(), file)
+
+			return
+		}
 
 		if p == "/" {
 			file, err := dir.Open("index.html")
@@ -68,24 +107,6 @@ func staticFileServer(directory string) http.Handler {
 
 		if err != nil || info.IsDir() {
 			http.Error(w, "404", http.StatusNotFound)
-			return
-		}
-
-		// The wasm files have been compressed to brotli format.
-		if path.Ext(p) == ".wasm" {
-			file, err := dir.Open(p + ".br")
-
-			if err != nil {
-				http.Error(w, "404", http.StatusNotFound)
-				return
-			}
-
-			defer file.Close()
-
-			w.Header().Set("Content-Type", "application/wasm")
-			w.Header().Set("Content-Encoding", "br")
-			http.ServeContent(w, r, "", time.Now(), file)
-
 			return
 		}
 
