@@ -104,6 +104,42 @@ var x interface{} = "Cat"   // The dynamic type of x is string.
 str := x.(string)
 ```
 
+A minimal working example.
+
+```go
+package main
+
+import "fmt"
+
+type receiver interface {
+	receive()
+}
+
+type sender interface {
+	send()
+}
+
+type general struct{}
+
+func (g general) receive() {
+	fmt.Println("Receive")
+}
+
+func (g general) send() {
+	fmt.Println("Send")
+}
+
+func main() {
+	var x receiver = general{}
+
+	x.receive()
+
+	if x, ok := x.(sender); ok {
+		x.send()
+	}
+}
+```
+
 "The Flusher interface is implemented by ResponseWriters that allow an HTTP handler to flush buffered data to the client."
 https://golang.org/pkg/net/http/#Flusher
 
