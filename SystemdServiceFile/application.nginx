@@ -6,7 +6,9 @@ server {
 
         root /var/www/example;
 
-        index index.html;
+       	index index.html;
+
+        gzip_static on;
 
         server_name example.com www.example.com;
 
