@@ -3,6 +3,7 @@
 *.log*
 .cache
 *.wasm
+*.pem
 
 wasm_exec.js
 test.db
