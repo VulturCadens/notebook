@@ -1,0 +1,36 @@
+* {
+    box-sizing: border-box;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    border-style: none;
+    outline: none;
+}
+
+*::-moz-focus-inner {
+    border: 0;
+}
+
+body {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+}
+
+header {
+    color: #EEE;
+
+    text-align: center;
+    padding: 1em 0 1em 0;
+
+    background-color: #326891;
+}
+
+main {
+    color: #AAA;
+
+    text-align: justify;
+    padding: 1em;
+
+    background-color:#222;
+}
