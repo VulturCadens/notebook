@@ -27,7 +27,7 @@ func staticFileServer(directory string) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		p := path.Clean(r.URL.Path)
 
-		// The wasm files have been compressed to brotli format.
+		// Test if the wasm files have been compressed to brotli format and accepted.
 		if path.Ext(p) == ".wasm" {
 			acceptEncoding := strings.Split(r.Header.Get("Accept-Encoding"), ",")
 
@@ -65,7 +65,7 @@ func staticFileServer(directory string) http.Handler {
 			return
 		}
 
-		if p == "/" {
+		if p == "/" || p == "/index.html" {
 			file, err := dir.Open("index.html")
 
 			if err != nil {
