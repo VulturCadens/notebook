@@ -32,7 +32,7 @@ func staticFileServer(directory string) http.Handler {
 			acceptEncoding := strings.Split(r.Header.Get("Accept-Encoding"), ",")
 
 			for _, accept := range acceptEncoding {
-				if strings.Contains(strings.Trim(accept, " "), "br") {
+				if strings.Trim(accept, " ") == "br" {
 					file, err := dir.Open(p + ".br")
 
 					if err != nil {
@@ -65,8 +65,9 @@ func staticFileServer(directory string) http.Handler {
 			return
 		}
 
-		if p == "/" || p == "/index.html" {
-			file, err := dir.Open("index.html")
+		// Because a file server would redirect any request ending in "/index.html" anyway...
+		if strings.HasSuffix(p, "/index.html") {
+			file, err := dir.Open(p)
 
 			if err != nil {
 				http.Error(w, "404", http.StatusNotFound)
@@ -105,8 +106,24 @@ func staticFileServer(directory string) http.Handler {
 		// https://golang.org/pkg/os/#FileInfo
 		info, err := file.Stat()
 
-		if err != nil || info.IsDir() {
+		if err != nil {
 			http.Error(w, "404", http.StatusNotFound)
+			return
+		}
+
+		if info.IsDir() {
+			file, err := dir.Open(path.Join(p, "index.html"))
+
+			if err != nil {
+				http.Error(w, "404", http.StatusNotFound)
+				return
+			}
+
+			defer file.Close()
+
+			w.Header().Set("Content-Type", "text/html")
+			http.ServeContent(w, r, "", time.Now(), file)
+
 			return
 		}
 
