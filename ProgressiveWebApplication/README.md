@@ -8,7 +8,7 @@ PWA must have the following features (minimum).
 
 ## Secure Contexts
 
-"A simple tool for making locally-trusted development certificates."
+*"A simple tool for making locally-trusted development certificates."*
 
 https://github.com/FiloSottile/mkcert
 
@@ -24,8 +24,12 @@ mkcert -install
 mkcert localhost 127.0.0.1
 ```
 
-Use **WWW/servehttps.py** python script (specify the right files for **keyfile=''** and **certfile=''**).
+Use **WWW/servehttps.py** python script or **servehttps.go**. Specify the right files for a key and a certificate,  if those files has changed.
 
 ## Service Worker
 
 ## Manifest
+
+*"The web app manifest provides information about a web application in a JSON text file, necessary for the web app to be downloaded and be presented to the user similarly to a native app (e.g., be installed on the homescreen of a device, providing users with quicker access and a richer experience). PWA manifests include its name, author, icon(s), version, description, and list of all the necessary resources (among other things)."*
+
+https://developer.mozilla.org/en-US/docs/Web/Manifest
