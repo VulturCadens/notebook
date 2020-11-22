@@ -28,8 +28,12 @@ Use **WWW/servehttps.py** python script or **servehttps.go**. Specify the right 
 
 ## Service Worker
 
+![Service Workers](dev_serviceworkers.png)
+
 ## Manifest
 
 *"The web app manifest provides information about a web application in a JSON text file, necessary for the web app to be downloaded and be presented to the user similarly to a native app (e.g., be installed on the homescreen of a device, providing users with quicker access and a richer experience). PWA manifests include its name, author, icon(s), version, description, and list of all the necessary resources (among other things)."*
 
 https://developer.mozilla.org/en-US/docs/Web/Manifest
+
+![Manifest](dev_manifest.png)
