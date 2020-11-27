@@ -1,3 +1,5 @@
+import { createApp } from "vue"
+
 const Counter = {
     data() {
         return {
@@ -8,8 +10,8 @@ const Counter = {
     mounted() {
         setInterval(() => {
             this.counter++
-        }, 1000)
+        }, 500)
     }
 }
 
-Vue.createApp(Counter).mount("#counter")
+createApp(Counter).mount("#counter")
