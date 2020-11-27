@@ -1,0 +1,16 @@
+node_modules
+www/javascript
+package-lock.json
+
+*.log*
+.cache
+*.wasm
+*.pem
+
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
