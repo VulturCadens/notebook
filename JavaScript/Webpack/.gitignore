@@ -1,6 +1,7 @@
 node_modules
 www/javascript
 package-lock.json
+vendor
 
 *.log*
 .cache
