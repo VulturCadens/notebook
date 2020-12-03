@@ -1,9 +1,12 @@
-const CounterApp = {
+const timercomponent = {
+    template: '<div id="counter">Counter: {{ counter }}</div>',
+
     data() {
         return {
             counter: 0
         }
     },
+
     mounted() {
         setInterval(() => {
             this.counter++
@@ -11,4 +14,10 @@ const CounterApp = {
     }
 }
 
-Vue.createApp(CounterApp).mount("#counter")
+const app = {
+    components: {
+        "timer-component": timercomponent
+    }
+}
+
+Vue.createApp(app).mount("#application")
