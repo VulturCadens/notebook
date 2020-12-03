@@ -1,18 +1,4 @@
-const timercomponent = {
-    template: '<div id="counter">Counter: {{ counter }}</div>',
-
-    data() {
-        return {
-            counter: 0
-        }
-    },
-
-    mounted() {
-        setInterval(() => {
-            this.counter++
-        }, 200)
-    }
-}
+import { timercomponent } from "./component/timer"
 
 const app = {
     components: {
