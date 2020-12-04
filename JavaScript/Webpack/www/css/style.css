@@ -12,5 +12,8 @@
 }
 
 body {
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
         background-color: #335E6F;
 }

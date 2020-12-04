@@ -1,7 +1,17 @@
 export const timercomponent = {
     render() {
-        return Vue.h("div", {}, this.counter)
+        return Vue.h(
+            "h1", {}, "Counter is " + this.counter
+        )
     },
+
+    /*
+    template: `
+        <div>
+            Counter is {{ counter }}
+        </div>
+    `,
+    */
 
     data() {
         return {
@@ -12,6 +22,6 @@ export const timercomponent = {
     mounted() {
         setInterval(() => {
             this.counter++
-        }, 200)
+        }, 500)
     }
 }
