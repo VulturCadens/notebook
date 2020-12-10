@@ -1,8 +1,10 @@
 import { timercomponent } from "./component/timer"
+import { clickcomponent } from "./component/click"
 
 const app = {
     components: {
-        "timer-component": timercomponent
+        "timer-component": timercomponent,
+        "click-component": clickcomponent
     }
 }
 

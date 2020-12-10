@@ -1,4 +1,6 @@
 export const timercomponent = {
+    name: "Timer",
+
     render() {
         return Vue.h(
             "h1", {}, "Counter is " + this.counter
