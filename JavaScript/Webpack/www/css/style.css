@@ -16,4 +16,14 @@ body {
         place-items: center;
         min-height: 100vh;
         background-color: #335E6F;
+        text-align: center;
+}
+
+button {
+        padding: .5em 1em .5em 1em;
+        margin: 1em;
+        font-size: 1.5em;
+        font-weight: bold;
+        background-color: #FFA500;
+        border-radius: .2em;
 }
