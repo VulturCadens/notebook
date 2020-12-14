@@ -1,11 +1,15 @@
-import { timercomponent } from "./component/timer"
-import { clickcomponent } from "./component/click"
+import timercomponent from "./component/timer"
+import clickcomponent from "./component/click"
 
-const app = {
+import store from "./store"
+
+const app = Vue.createApp({
     components: {
         "timer-component": timercomponent,
         "click-component": clickcomponent
     }
-}
+})
 
-Vue.createApp(app).mount("#application")
+app.use(store)
+
+app.mount("#application")

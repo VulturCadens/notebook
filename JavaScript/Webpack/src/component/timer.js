@@ -1,4 +1,4 @@
-export const timercomponent = {
+export default {
     name: "Timer",
 
     render() {
@@ -15,15 +15,15 @@ export const timercomponent = {
     `,
     */
 
-    data() {
-        return {
-            counter: 0
+    computed: {
+        counter() {
+            return this.$store.state.count
         }
     },
 
     mounted() {
         setInterval(() => {
-            this.counter++
+            this.$store.commit("increment")
         }, 500)
     }
 }

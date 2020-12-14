@@ -1,4 +1,4 @@
-export const clickcomponent = {
+export default {
     name: "Click",
 
     template: `
