@@ -3,27 +3,33 @@ export default {
 
     render() {
         return Vue.h(
-            "h1", {}, "Counter is " + this.counter
+            "h1", {}, "Counter is " + this.count
         )
     },
 
     /*
     template: `
-        <div>
-            Counter is {{ counter }}
-        </div>
+        <h1>
+            Counter is {{ this.count }}
+        </h1>
     `,
     */
 
+    methods: {
+        ...Vuex.mapMutations([
+            "increment"     // -> this.$store.commit("increment")
+        ])
+    },
+
     computed: {
-        counter() {
-            return this.$store.state.count
-        }
+        ...Vuex.mapState([
+            "count"         // -> return this.$store.state.count
+        ])
     },
 
     mounted() {
         setInterval(() => {
-            this.$store.commit("increment")
+            this.increment()
         }, 500)
     }
 }
