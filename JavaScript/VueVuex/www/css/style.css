@@ -19,6 +19,10 @@ body {
         text-align: center;
 }
 
+.container {
+        min-height: 50vh;
+}
+
 button {
         padding: .5em 1em .5em 1em;
         margin: 1em;
@@ -26,4 +30,27 @@ button {
         font-weight: bold;
         background-color: #FFA500;
         border-radius: .2em;
+}
+
+.box {
+        display: inline-block;
+        width: 10vw;
+        height: 10vh;
+        margin: .5em;
+        background-color: #862730;
+        border: #222 1px solid;
+}
+
+.animation-enter-from, .animation-leave-to {
+        opacity: 0;
+        transform: scale(0) translateX(100px) translateY(35vh);
+}
+
+.animation-enter-active, .animation-leave-active {
+        transition: all 2s ease;
+}
+
+.animation-enter-to, .animation-leave-from {
+        opacity: 1;
+        transform: scale(1) translateX(0) translateY(0);
 }
