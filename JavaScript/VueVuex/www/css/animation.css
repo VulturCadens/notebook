@@ -1,0 +1,13 @@
+.animation-enter-from, .animation-leave-to {
+    opacity: 0;
+    transform: scale(0) translateX(100px) translateY(35vh);
+}
+
+.animation-enter-active, .animation-leave-active {
+    transition: all 2s ease;
+}
+
+.animation-enter-to, .animation-leave-from {
+    opacity: 1;
+    transform: scale(1) translateX(0) translateY(0);
+}
