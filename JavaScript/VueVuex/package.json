@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "Simple Webpack Template",
   "scripts": {
-    "watch": "webpack --mode development --watch",
-    "build": "webpack --mode production",
-    "serve": "webpack serve"
+    "watch": "cp ./vendor/vue.3.0.4.global.js ./www/vendor/vue.js;cp ./vendor/vuex.4.rc2.global.js ./www/vendor/vuex.js; webpack --mode development --watch",
+    "serve": "cp ./vendor/vue.3.0.4.global.js ./www/vendor/vue.js; cp ./vendor/vuex.4.rc2.global.js ./www/vendor/vuex.js; webpack serve",
+    "build": "cp ./vendor/vue.3.0.4.global.prod.js ./www/vendor/vue.js; cp ./vendor/vuex.4.rc2.global.prod.js ./www/vendor/vuex.js; webpack --mode production"
   },
   "author": "Vultur Cadens",
   "license": "CC0-1.0",

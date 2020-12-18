@@ -4,8 +4,8 @@ module.exports = {
   entry: "./src/main.js",
 
   output: {
-    filename: "main.js",
-    path: path.resolve(__dirname, "www/javascript")
+    filename: "javascript/main.js",
+    path: path.resolve(__dirname, "www")
   },
 
   devServer: {
