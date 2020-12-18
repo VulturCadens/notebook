@@ -9,8 +9,8 @@ module.exports = {
   },
 
   devServer: {
-    contentBase: path.join(__dirname, "www"), // The root directory.
-    publicPath: "/javascript/",               // The base path where dev-server store the bundle in memory.
+    contentBase: path.join(__dirname, "www"),
+    publicPath: "/javascript/",
     port: 8000
   }
 }

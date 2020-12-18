@@ -1,7 +1,7 @@
 {
-  "name": "simplewebpacktemplate",
+  "name": "template",
   "version": "1.0.0",
-  "description": "Simple Webpack Template",
+  "description": "Template",
   "scripts": {
     "watch": "cp ./vendor/vue.3.0.4.global.js ./www/vendor/vue.js;cp ./vendor/vuex.4.rc2.global.js ./www/vendor/vuex.js; webpack --mode development --watch",
     "serve": "cp ./vendor/vue.3.0.4.global.js ./www/vendor/vue.js; cp ./vendor/vuex.4.rc2.global.js ./www/vendor/vuex.js; webpack serve",
