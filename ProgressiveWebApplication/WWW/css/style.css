@@ -13,12 +13,14 @@
 
 body {
     display: grid;
+    place-items: center;
     grid-template-rows: auto 1fr auto;
     min-height: 100vh;
 }
 
 header {
     color: #EEE;
+    min-width: 100vw;
 
     text-align: center;
     padding: 1em 0 1em 0;
@@ -27,10 +29,11 @@ header {
 }
 
 main {
-    color: #AAA;
+    color: #EEE;
+    min-width: 100vw;
 
     text-align: justify;
     padding: 1em;
 
-    background-color:#222;
+    background-color:#326891;
 }
