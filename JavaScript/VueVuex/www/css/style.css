@@ -1,5 +1,11 @@
 @import url(animation.css);
 
+:root {
+        --body-color: #335E6F;
+        --button-color: #FFA500;
+        --box-color: #862730;
+}
+
 * {
         box-sizing: border-box;
         overflow-x: hidden;
@@ -17,7 +23,7 @@ body {
         display: grid;
         place-items: center;
         min-height: 100vh;
-        background-color: #335E6F;
+        background-color: var(--body-color);
         text-align: center;
 }
 
@@ -30,7 +36,7 @@ button {
         margin: 1em;
         font-size: 1.5em;
         font-weight: bold;
-        background-color: #FFA500;
+        background-color: var(--button-color);
         border-radius: .2em;
 }
 
@@ -39,6 +45,6 @@ button {
         width: 10vw;
         height: 10vh;
         margin: .5em;
-        background-color: #862730;
+        background-color: var(--box-color);
         border: 1px solid #222;
 }
