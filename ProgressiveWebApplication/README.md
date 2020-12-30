@@ -19,12 +19,11 @@ sudo apt install libnss3-tools
 Build **mkcert** from source (Go) or use the pre-built binaries.
 
 ```console
-cd www
 mkcert -install
 mkcert localhost 127.0.0.1
 ```
 
-Use **WWW/servehttps.py** python script or **servehttps.go**. Specify the right files for a key and a certificate,  if those files has changed.
+Use **servehttps.go**. Specify the right files for a key and a certificate,  if those files has changed.
 
 ## Service Worker
 

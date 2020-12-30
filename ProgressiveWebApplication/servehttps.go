@@ -18,6 +18,8 @@ func staticFileServer(directory string) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		p := path.Clean(r.URL.Path)
 
+		fmt.Println(p)
+
 		if p == "/" || p == "/index.html" {
 			file, err := dir.Open("index.html")
 
@@ -55,9 +57,9 @@ func staticFileServer(directory string) http.Handler {
 }
 
 func main() {
-	http.Handle("/", staticFileServer("./WWW"))
+	http.Handle("/", staticFileServer("./www"))
 
 	fmt.Printf("Server is listening on %s \n", addr)
 
-	log.Fatal(http.ListenAndServeTLS(addr, "./WWW/localhost.pem", "./WWW/localhost-key.pem", nil))
+	log.Fatal(http.ListenAndServeTLS(addr, "./localhost.pem", "./localhost-key.pem", nil))
 }

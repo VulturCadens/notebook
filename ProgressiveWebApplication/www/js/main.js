@@ -1,5 +1,5 @@
 if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("/pwa/sw/service.js", { scope: "/pwa/sw/" })
+    navigator.serviceWorker.register("/service.js")
         .then((registration) => {
             console.log("Registration succeeded. Scope is " + registration.scope)
         }).catch((error) => {
@@ -8,6 +8,10 @@ if ("serviceWorker" in navigator) {
 }
 
 window.onload = () => {
+    setTimeout(fetchImage, 3000)
+}
+
+function fetchImage() {
     const imageElement = document.createElement("img")
     const parentElement = document.getElementById("parent")
 
