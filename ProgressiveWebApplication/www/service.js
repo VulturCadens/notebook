@@ -4,7 +4,7 @@ self.addEventListener("install", (event) => {
     event.waitUntil(
         caches.open("V1").then((cache) => {
             return cache.addAll([
-                "./image/picture.jpg"
+                "/image/picture.jpg"
             ])
         })
     )
@@ -15,7 +15,7 @@ self.addEventListener("fetch", (event) => {
 
     event.respondWith(
         caches.match(event.request).then((response) => {
-            return response || fetch(event.request);
+            return response || fetch(event.request)
         })
     )
 })
