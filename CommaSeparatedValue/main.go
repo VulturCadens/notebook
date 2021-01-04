@@ -18,6 +18,8 @@ func main() {
 		os.Exit(1)
 	}
 
+	defer file.Close()
+
 	reader := csv.NewReader(file)
 
 	for {
