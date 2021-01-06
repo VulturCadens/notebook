@@ -29,10 +29,14 @@ func main() {
 			break
 		}
 
-		for index := range row {
-			fmt.Printf("%d %s ", index, row[index])
-		}
+		/*
+			for index := range row {
+				fmt.Printf("%d %s", index, row[index])
+			}
 
-		fmt.Printf("\n")
+			fmt.Printf("\n")
+		*/
+
+		fmt.Printf("%-25s %-20s %4s \n", row[0], row[1], row[2])
 	}
 }
