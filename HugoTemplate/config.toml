@@ -1,0 +1,7 @@
+title = "Hugo Template"
+theme = "simple"
+disableKinds = ["RSS", "taxonomyTerm", "sitemap"]
+
+# Raw HTML in the Markdown content not omitted.
+[markup.goldmark.renderer]
+    unsafe= true

@@ -1,0 +1,24 @@
+<header>
+        <div class="header-title">{{ .Site.Title }}</div>
+
+        <nav>
+                {{ if ne .RelPermalink "/" }}
+                        <a href="/"><div class="nav-item nav-item-active">Home</div></a>
+                {{ else }}
+                        <div class="nav-item nav-item-inactive">Home</div>
+                {{ end }}
+
+                {{ if ne .RelPermalink "/first/" }}
+                        <a href="/first"><div class="nav-item nav-item-active">First</div></a>
+                {{ else }}
+                        <div class="nav-item nav-item-inactive">First</div>
+                {{ end }}
+
+                {{ if ne .RelPermalink "/second/" }}
+                        <a href="/second"><div class="nav-item nav-item-active">Second</div></a>
+                {{ else }}
+                        <div class="nav-item nav-item-inactive">Second</div>
+                {{ end }}
+        </nav>
+</header>
+
