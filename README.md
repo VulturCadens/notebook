@@ -64,6 +64,18 @@ a := [2]int{1, 2}   // Array
 s := a[:]           // Slice
 ```
 
+The index of the element.
+
+```go
+var array = [...]int{10: 256, 5: 128} // Index 10 -> Value 256, Index 5 -> Value 128
+fmt.Printf("%#v\n", array)
+```
+
+This is the output.
+```bash
+[11]int{0, 0, 0, 0, 0, 128, 0, 0, 0, 0, 256}
+```
+
 ### **Interface types**
 
 * Interface defines behaviours.
