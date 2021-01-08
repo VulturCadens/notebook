@@ -14,10 +14,10 @@
                         <div class="nav-item nav-item-inactive">First</div>
                 {{ end }}
 
-                {{ if ne .RelPermalink "/second/" }}
-                        <a href="/second"><div class="nav-item nav-item-active">Second</div></a>
+                {{ if ne .RelPermalink "/posts/" }}
+                        <a href="/posts"><div class="nav-item nav-item-active">Posts</div></a>
                 {{ else }}
-                        <div class="nav-item nav-item-inactive">Second</div>
+                        <div class="nav-item nav-item-inactive">Posts</div>
                 {{ end }}
         </nav>
 </header>
