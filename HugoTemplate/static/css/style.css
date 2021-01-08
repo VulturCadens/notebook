@@ -49,6 +49,10 @@ footer {
         background-color: #326891;
 }
 
+code {
+        font-size: .8em;
+}
+
 a {
         text-decoration: none;
 }
