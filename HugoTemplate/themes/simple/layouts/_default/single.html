@@ -1,4 +1,7 @@
 {{ define "main" }}
         <h1>{{ .Title }}</h1>
+
         {{ .Content }}
+
+        <a href="/{{ .Section }}"><span>Back to {{ .Section }}.</span></a>
 {{ end }}

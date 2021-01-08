@@ -56,6 +56,16 @@ footer {
         background-color: var(--footer-bg-color);
 }
 
+figure {
+        text-align: center;
+        margin: 1em;
+}
+
+figure>img {
+        width: 100%;
+        max-width: 512px;
+}
+
 code {
         font-size: .8em;
 }
