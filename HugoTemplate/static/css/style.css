@@ -5,6 +5,13 @@
         src: local("Oswald Regular"), local("Oswald-Regular"), url(font/Oswald-Regular.woff) format("woff");
 }
 
+:root {
+        --background-color: #FEFEFE;
+        --text-color: #252525;
+        --header-bg-color: #00809F;
+        --footer-bg-color: #326891;
+}
+
 * {
         box-sizing: border-box;
         margin: 0;
@@ -23,6 +30,7 @@ body {
         justify-items: center;
         min-height: 100vh;
         font-family: "Oswald";
+        background-color: var(--background-color);
 }
 
 header {
@@ -30,13 +38,12 @@ header {
         color: #EEE;
         text-align: center;
         padding: .1em 0 .5em 0;
-        background-color: #00809F;
+        background-color: var(--header-bg-color);
 }
 
 section {
         width: 90vw;
         font-size: 1.5em;
-        color: #252525;
         padding: .5em .5em .5em .5em;
 }
 
@@ -46,7 +53,7 @@ footer {
         color: #EEE;
         text-align: center;
         padding: .5em 0 .5em 0;
-        background-color: #326891;
+        background-color: var(--footer-bg-color);
 }
 
 code {
@@ -82,13 +89,14 @@ a {
 }
 
 section>h1 {
-        border-bottom: 3px solid #326891;
+        border-bottom: 3px solid var(--text-color);
         margin-bottom: .5em;
-        color: #222;
+        color: var(--text-color);
         font-size: 1em;
 }
 
 section>p {
-        color: #222;
+        text-align: justify;
+        color: var(--text-color);
         font-size: .8em;
 }
