@@ -1,5 +1,5 @@
 +++
-title = "Posts Section"
+title = "Posts"
 +++
 
 # Posts Section

@@ -2,22 +2,16 @@
         <div class="header-title">{{ .Site.Title }}</div>
 
         <nav>
-                {{ if ne .RelPermalink "/" }}
-                        <a href="/"><div class="nav-item nav-item-active">Home</div></a>
-                {{ else }}
-                        <div class="nav-item nav-item-inactive">Home</div>
-                {{ end }}
+                {{ $currentPage := . }}
 
-                {{ if ne .RelPermalink "/first/" }}
-                        <a href="/first/"><div class="nav-item nav-item-active">First</div></a>
-                {{ else }}
-                        <div class="nav-item nav-item-inactive">First</div>
-                {{ end }}
+                {{ range .Site.Menus.SECTION_MENU }}
 
-                {{ if ne .RelPermalink "/posts/" }}
-                        <a href="/posts/"><div class="nav-item nav-item-active">Posts</div></a>
-                {{ else }}
-                        <div class="nav-item nav-item-inactive">Posts</div>
+                        {{ if $currentPage.IsMenuCurrent "SECTION_MENU" . }}
+                                <div class="nav-item nav-item-inactive">{{ .Title }}</div>
+                        {{ else }}
+                                <a href="{{ .URL }}"><div class="nav-item nav-item-active">{{ .Title }}</div></a>
+                        {{ end }}
+                        
                 {{ end }}
         </nav>
 </header>

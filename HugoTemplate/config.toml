@@ -1,6 +1,7 @@
 title = "Hugo Template"
 theme = "simple"
 disableKinds = ["RSS", "taxonomyTerm", "sitemap"]
+sectionPagesMenu = "SECTION_MENU"
 
 # Raw HTML in the Markdown content not omitted.
 [markup.goldmark.renderer]
