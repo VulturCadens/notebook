@@ -1,5 +1,4 @@
 title = "Hugo Template"
-theme = "simple"
 disableKinds = ["RSS", "taxonomyTerm", "sitemap"]
 sectionPagesMenu = "SECTION_MENU"
 
