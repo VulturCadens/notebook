@@ -5,7 +5,7 @@
 
         {{ range .Pages }}
                 <p>
-                        <a href="{{.RelPermalink}}">{{.Title}}</a> ({{.Date.Format "02 January 2006"}})
+                        <a href="{{ .RelPermalink }}">{{ .Title }}</a> ({{ .Date.Format "02 January 2006" }})
                 </p>
         {{ end }}
 
