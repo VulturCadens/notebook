@@ -10,8 +10,11 @@
         {{ hugo.Generator }}
 
         <link href="/icon/favicon-32x32.png?refresh=1" rel="icon" type="image/png" sizes="32x32">
-        
-        <link href="/css/style.css" rel="stylesheet">
+
+        {{ $css := resources.Get "css/style.css" }}
+        {{ $style := $css | resources.Minify }}
+
+        <link href="{{ $style.RelPermalink }}" rel="stylesheet">
 </head>
 
 <body>

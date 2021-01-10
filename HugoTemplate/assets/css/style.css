@@ -2,7 +2,7 @@
         font-family: "Oswald";
         font-style: normal;
         font-weight: 400;
-        src: local("Oswald Regular"), local("Oswald-Regular"), url(font/Oswald-Regular.woff) format("woff");
+        src: local("Oswald Regular"), local("Oswald-Regular"), url(/font/Oswald-Regular.woff) format("woff");
 }
 
 :root {
