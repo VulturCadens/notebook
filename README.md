@@ -96,6 +96,30 @@ type example interface {
 * Map
 * Channel (receive operation)
 
+## Three dots
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func foobar(args ...string) {     // Type is []string (slice).
+	for _, arg := range args {
+		fmt.Println(arg)
+	}
+}
+
+func main() {
+	array := [...]string{"John", "Joan", "Jack"} // Type is [3]string (array).
+
+	slice := array[:]     // Convert array to slice.
+
+	foobar(slice...)      // Must be a slice.
+}
+```
+
 ## Type Conversion
 
 The expression T(v) converts the value v to the type T.
