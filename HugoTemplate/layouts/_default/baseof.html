@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
         <title>{{ .Site.Title }}</title>
         
         <meta charset="UTF-8">
@@ -9,31 +10,27 @@
         
         {{ hugo.Generator }}
 
-        <link href="/icon/favicon-32x32.png?refresh=1" rel="icon" type="image/png" sizes="32x32">
+        <link href="/icon/favicon-32x32.png" rel="icon" type="image/png" sizes="32x32">
 
-        {{ $css := resources.Get "css/style.css" }}
-        {{ $style := $css | resources.Minify }}
-
+        {{ $style := resources.Get "css/style.css" | resources.Minify }}
         <link href="{{ $style.RelPermalink }}" rel="stylesheet">
+
+        {{ $js := resources.Get "javascript/main.js" | js.Build (dict "minify" true) }}
+        <script src="{{ $js.RelPermalink }}" defer></script>
+
 </head>
 
 <body>
 
-{{ partial "header.html" . }}
+        {{ partial "header.html" . }}
 
-<section>
-        {{ block "main" . }}
-        {{ end }}
-</section>
+        <main>
+                {{ block "main" . }}
+                {{ end }}
+        </main>
 
-{{ partial "footer.html" . }}
-
-{{ $js := resources.Get "javascript/main.js" | js.Build (dict "minify" true) }}
-
-<script src="{{ $js.RelPermalink }}" defer></script>
+        {{ partial "footer.html" . }}
 
 </body>
 
 </html>
-
-

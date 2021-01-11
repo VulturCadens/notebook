@@ -41,7 +41,7 @@ header {
         background-color: var(--header-bg-color);
 }
 
-section {
+main {
         width: 90vw;
         font-size: 1.5em;
         padding: .5em .5em .5em .5em;
@@ -98,14 +98,14 @@ a {
         color: #333;
 }
 
-section>h1 {
+main>h1 {
         border-bottom: 3px solid var(--text-color);
         margin-bottom: .5em;
         color: var(--text-color);
         font-size: 1em;
 }
 
-section>p {
+main>p {
         text-align: justify;
         color: var(--text-color);
         font-size: .8em;
