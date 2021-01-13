@@ -3,14 +3,16 @@
 
     <button @click="increment">Count is: {{ count }}</button>
 
-    <p>Lorem ipsum dolores.</p>
+    <template v-for="element in elements" :key="element">
+        <p>Lorem ipsum dolores.</p>
+    </template>
 </template>
 
 <script>
     import { mapMutations, mapState } from "vuex";
 
     export default {
-        name: "Component",
+        name: "Section Component",
 
         props: ["message"],
 
@@ -22,7 +24,8 @@
 
         computed: {
             ...mapState([
-                "count" // -> return this.$store.state.count
+                "count", // -> return this.$store.state.count
+                "elements"
             ])
         }
     };
