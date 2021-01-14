@@ -10,8 +10,8 @@ export default createStore({
 
     mutations: {
         increment(state) {
-            state.elements.push(state.count)
             state.count++
+            state.elements.push(state.count)
         }
     },
 

@@ -17,6 +17,11 @@
     border: 0;
 }
 
+:root {
+    --header-color: #326891;
+    --footer-color: #6A2D2C;
+}
+
 body {
     display: grid;
     grid-template-rows: auto 1fr auto;
@@ -31,7 +36,7 @@ header {
     color: #EEE;
     text-align: center;
     padding: .1em 0 .1em 0;
-    background-color: #326891;
+    background-color: var(--header-color);
 }
 
 footer {
@@ -40,7 +45,7 @@ footer {
     color: #EEE;
     text-align: center;
     padding: .5em 0 .5em 0;
-    background-color: #326891;
+    background-color: var(--footer-color);
 }
 
 footer>a {

@@ -4,7 +4,7 @@
     <button @click="increment">Count is: {{ count }}</button>
 
     <template v-for="element in elements" :key="element">
-        <p>Lorem ipsum dolores.</p>
+        <p>{{ element }}. Lorem ipsum dolores.</p>
     </template>
 </template>
 
