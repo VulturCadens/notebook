@@ -2,6 +2,12 @@
 
 Just another notebook.
 
+## Go Modules
+
+* Reference: https://golang.org/ref/mod
+
+* Tutorial: https://golang.org/doc/tutorial/create-module
+
 ## How patterns are matched
 
 * From the most specific to the least specific.
