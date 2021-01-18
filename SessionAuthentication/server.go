@@ -32,7 +32,7 @@ func authentication(h http.HandlerFunc) http.HandlerFunc {
 		token := c.Value
 
 		if token != cookieValue {
-			http.Error(w, "401", http.StatusUnauthorized)
+			http.Error(w, "403", http.StatusForbidden)
 			return
 		}
 
@@ -71,12 +71,13 @@ func welcome(w http.ResponseWriter, r *http.Request) {
 
 			http.SetCookie(w, &http.Cookie{
 				Name:     cookieName,
-				Path:     "/",
 				Value:    cookieValue,
+				Path:     "/session",
 				HttpOnly: true,
-				// Secure:   true,
 				SameSite: http.SameSiteStrictMode,
-				Expires:  time.Now().Add(120 * time.Second),
+				MaxAge:   120,
+				// Secure:   true,
+				// Expires:  time.Now().Add(120 * time.Second),
 			})
 
 			w.Header().Set("Content-Type", "text/html")
@@ -85,7 +86,7 @@ func welcome(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	http.Error(w, "403", http.StatusForbidden)
+	http.Error(w, "401", http.StatusUnauthorized)
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
@@ -121,8 +122,8 @@ func application() http.HandlerFunc {
 func main() {
 	http.HandleFunc("/", void)
 	http.HandleFunc("/login", login)
-	http.HandleFunc("/welcome", welcome)
-	http.HandleFunc("/application", authentication(application()))
+	http.HandleFunc("/session/welcome", welcome)
+	http.HandleFunc("/session/application", authentication(application()))
 
 	log.Fatal(http.ListenAndServe(":8000", nil))
 }
