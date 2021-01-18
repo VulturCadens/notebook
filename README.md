@@ -102,6 +102,14 @@ type example interface {
 * Map
 * Channel (receive operation)
 
+```go
+var array *[4]int = &[4]int{1, 2, 3, 4}
+
+for index, value := range array {
+	fmt.Printf("%d -> %d \n", index, value)
+}
+```
+
 ## Three dots
 
 ```go
