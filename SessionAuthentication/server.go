@@ -2,7 +2,7 @@ package main
 
 import (
 	"errors"
-	"log"
+	"fmt"
 	"net/http"
 	"os"
 	"path"
@@ -14,11 +14,12 @@ import (
 
 const cookieName = "session_example"
 
-var cookieValue string
-
-var users = map[string]string{
-	"john": "$2a$04$zS2sTndQnwWe53Vy6eQ2NuwvL06sVGDcdwAaRdta4GPbBzE73ZZUK", // password 'smith'
+type user struct {
+	password string
+	cookie   string
 }
+
+var users = map[string]*user{}
 
 func authentication(h http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -34,12 +35,14 @@ func authentication(h http.HandlerFunc) http.HandlerFunc {
 			return
 		}
 
-		if cookie.Value != cookieValue {
-			http.Error(w, "403", http.StatusForbidden)
-			return
+		for _, user := range users {
+			if cookie.Value == user.cookie {
+				h(w, r)
+				return
+			}
 		}
 
-		h(w, r)
+		http.Error(w, "403", http.StatusForbidden)
 	}
 }
 
@@ -58,7 +61,7 @@ func welcome(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if _, ok := users[username]; ok {
-		err := bcrypt.CompareHashAndPassword([]byte(users[username]), []byte(password))
+		err := bcrypt.CompareHashAndPassword([]byte(users[username].password), []byte(password))
 
 		if err != nil {
 			http.Error(w, "401", http.StatusUnauthorized)
@@ -74,7 +77,8 @@ func welcome(w http.ResponseWriter, r *http.Request) {
 
 		defer file.Close()
 
-		cookieValue = uuid.New().String()
+		cookieValue := uuid.New().String()
+		users[username].cookie = cookieValue
 
 		http.SetCookie(w, &http.Cookie{
 			Name:     cookieName,
@@ -86,6 +90,8 @@ func welcome(w http.ResponseWriter, r *http.Request) {
 			// Secure:   true,
 			// Expires:  time.Now().Add(120 * time.Second),
 		})
+
+		fmt.Printf("Username: %s \nPassword: %s \nCookie: %s \n\n", username, users[username].password, users[username].cookie)
 
 		w.Header().Set("Content-Type", "text/html")
 		http.ServeContent(w, r, "", time.Now(), file)
@@ -137,10 +143,17 @@ func staticFiles(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	users["john"] = &user{
+		password: "$2a$04$zS2sTndQnwWe53Vy6eQ2NuwvL06sVGDcdwAaRdta4GPbBzE73ZZUK",
+		cookie:   "",
+	}
+
 	http.HandleFunc("/", staticFiles)
 	http.HandleFunc("/login", login)
 	http.HandleFunc("/session/welcome", welcome)
 	http.HandleFunc("/session/application", authentication(application()))
 
-	log.Fatal(http.ListenAndServe(":8000", nil))
+	fmt.Printf("Listening :8000\n\n")
+
+	http.ListenAndServe(":8000", nil)
 }
