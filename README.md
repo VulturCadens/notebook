@@ -2,6 +2,14 @@
 
 Just another notebook.
 
+## Restarting Server
+
+"Command __entr__ - Run arbitrary commands when files change."
+
+```bash
+ls *.go|entr -r go run server.go
+```
+
 ## Go Modules
 
 * Reference: https://golang.org/ref/mod
