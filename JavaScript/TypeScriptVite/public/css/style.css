@@ -1,0 +1,31 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border-style: none;
+  outline: none;
+}
+
+*::-moz-focus-inner {
+  border: 0;
+}
+
+:root {
+  --body-color: #333;
+  --text-color: #EEE;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: grid;
+  place-items: center;
+  background-color: var(--body-color);
+  min-height: 100vh;
+}
+
+div {
+  font-size: 2em;
+  font-weight: bold;
+  color: var(--text-color);
+}
