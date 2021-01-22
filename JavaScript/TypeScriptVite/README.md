@@ -9,6 +9,8 @@
 * void
 * undefined
 * null
+* unknown
+* never
 
 ## Union
 
@@ -51,6 +53,16 @@ enum City {
 }
 
 let c: City = City.Berlin
+
+enum Color {
+  Red   = "rgb(255,0,0)",
+  Green = "rgb(0,255,0)",
+  Blue  = "rgb(0,0,255)",
+}
+
+const element: HTMLDivElement = document.createElement("div")
+
+element.style.backgroundColor = Color.Green;
 ```
 
 ## Interface
