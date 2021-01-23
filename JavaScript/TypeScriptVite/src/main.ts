@@ -12,8 +12,7 @@ async function http<T>(path: string): Promise<T> {
     }
 
     try {
-        const responseObject: T = await response.json()
-        return responseObject
+        return <T>await response.json()
     } catch (error) {
         throw new Error(error.message)
     }
