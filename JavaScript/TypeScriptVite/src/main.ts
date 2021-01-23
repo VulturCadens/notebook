@@ -1,4 +1,4 @@
-import { Example } from "./interfaces"
+import { Example, isExample } from "./interfaces"
 
 async function http<T>(path: string): Promise<T> {
     const response = await fetch(
@@ -19,7 +19,7 @@ async function http<T>(path: string): Promise<T> {
 }
 
 async function setup(): Promise<any> {
-    let res: Example
+    let res: unknown
 
     try {
         res = await http<Example>("/json/example.json")
@@ -28,7 +28,7 @@ async function setup(): Promise<any> {
         return
     }
 
-    if ("name" in res && "value" in res) {
+    if (isExample(res)) {
         const textElement: HTMLDivElement = document.createElement("div")
         const textContent: Text = document.createTextNode(`Name: ${res.name} Value: ${res.value}`)
 
