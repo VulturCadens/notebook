@@ -1,4 +1,4 @@
-export interface example {
+export interface Example {
     name: string
     value: number
 }
