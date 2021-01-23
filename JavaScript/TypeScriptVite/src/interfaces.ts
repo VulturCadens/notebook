@@ -5,7 +5,7 @@ export interface Example {
 
 export function isExample(x: unknown): x is Example {
     if ("name" in <Example>x && "value" in <Example>x) {
-        if (typeof (<Example>x).name == "string" && typeof (<Example>x).value == "number") {
+        if (typeof (<Example>x).name === "string" && typeof (<Example>x).value === "number") {
             return true
         }
     }
