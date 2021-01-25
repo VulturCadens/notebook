@@ -23,19 +23,21 @@ async function setup(): Promise<any> {
 
     try {
         res = await http<Example>("/json/example.json")
+
+        if (!isExample(res)) {
+            throw new Error("Response is not <Example>")
+        }
     } catch (error) {
         console.error(error.message)
         return
     }
 
-    if (isExample(res)) {
-        const textElement: HTMLDivElement = document.createElement("div")
-        const textContent: Text = document.createTextNode(`Name: ${res.name} Value: ${res.value}`)
+    const textElement: HTMLDivElement = document.createElement("div")
+    const textContent: Text = document.createTextNode(`Name: ${res.name} Value: ${res.value}`)
 
-        textElement.appendChild(textContent)
+    textElement.appendChild(textContent)
 
-        document.body.appendChild(textElement)
-    }
+    document.body.appendChild(textElement)
 }
 
 window.onload = setup
