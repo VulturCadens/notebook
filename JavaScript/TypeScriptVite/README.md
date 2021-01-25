@@ -40,7 +40,9 @@ let a2: Array<string> = ["A", "B"]
 Tuple is an array with a fixed number of elements whose types are known.
 
 ```typescript
-let x: [string, boolean] = ["A", true]
+type Data = [string, boolean]
+
+let x: Data = ["A", true]
 ```
 
 ## Enum
