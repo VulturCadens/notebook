@@ -1,0 +1,11 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  background-color: #222;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
