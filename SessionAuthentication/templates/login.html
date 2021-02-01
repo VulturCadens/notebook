@@ -1,0 +1,21 @@
+{{ define "LOGIN" }}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+    {{template "HEAD" . }}
+    
+    <body>
+        <div>
+            <form action="/session/welcome" method="post">
+                <label>Username:<input name="username"></label>
+                <label>Password:<input name="password"></label>
+                <button>Login</button>
+            </form>
+        </div>
+    </body>
+
+</html>
+
+{{ end }}

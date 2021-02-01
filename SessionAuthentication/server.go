@@ -3,10 +3,9 @@ package main
 import (
 	"errors"
 	"fmt"
+	"html/template"
 	"net/http"
-	"os"
 	"path"
-	"time"
 
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
@@ -19,7 +18,18 @@ type user struct {
 	cookie   string
 }
 
+type content struct {
+	Title string
+}
+
 var users = map[string]*user{}
+
+var templates = template.Must(template.ParseFiles(
+	"./templates/partial/head.html",
+	"./templates/application.html",
+	"./templates/login.html",
+	"./templates/welcome.html",
+))
 
 func authentication(h http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -68,15 +78,6 @@ func welcome(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		file, err := os.Open("welcome.html")
-
-		if err != nil {
-			http.Error(w, "500", http.StatusInternalServerError)
-			return
-		}
-
-		defer file.Close()
-
 		cookieValue := uuid.New().String()
 		users[username].cookie = cookieValue
 
@@ -93,8 +94,14 @@ func welcome(w http.ResponseWriter, r *http.Request) {
 
 		fmt.Printf("Username: %s \nPassword: %s \nCookie: %s \n\n", username, users[username].password, users[username].cookie)
 
-		w.Header().Set("Content-Type", "text/html")
-		http.ServeContent(w, r, "", time.Now(), file)
+		content := &content{
+			Title: "Welcome",
+		}
+
+		if err := templates.ExecuteTemplate(w, "WELCOME", content); err != nil {
+			panic(err)
+		}
+
 		return
 	}
 
@@ -102,32 +109,24 @@ func welcome(w http.ResponseWriter, r *http.Request) {
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
-	file, err := os.Open("login.html")
-
-	if err != nil {
-		http.Error(w, "500", http.StatusInternalServerError)
-		return
+	content := &content{
+		Title: "Login",
 	}
 
-	defer file.Close()
-
-	w.Header().Set("Content-Type", "text/html")
-	http.ServeContent(w, r, "", time.Now(), file)
+	if err := templates.ExecuteTemplate(w, "LOGIN", content); err != nil {
+		panic(err)
+	}
 }
 
 func application() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		file, err := os.Open("application.html")
-
-		if err != nil {
-			http.Error(w, "500", http.StatusInternalServerError)
-			return
+		content := &content{
+			Title: "Application",
 		}
 
-		defer file.Close()
-
-		w.Header().Set("Content-Type", "text/html")
-		http.ServeContent(w, r, "", time.Now(), file)
+		if err := templates.ExecuteTemplate(w, "APPLICATION", content); err != nil {
+			panic(err)
+		}
 	}
 }
 
@@ -144,7 +143,7 @@ func staticFiles(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	users["john"] = &user{
-		password: "$2a$04$zS2sTndQnwWe53Vy6eQ2NuwvL06sVGDcdwAaRdta4GPbBzE73ZZUK",
+		password: "$2a$04$zS2sTndQnwWe53Vy6eQ2NuwvL06sVGDcdwAaRdta4GPbBzE73ZZUK", // smith
 		cookie:   "",
 	}
 
