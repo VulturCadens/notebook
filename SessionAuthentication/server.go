@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -36,10 +35,13 @@ func authentication(h http.HandlerFunc) http.HandlerFunc {
 		cookie, err := r.Cookie(cookieName)
 
 		if err != nil {
-			if errors.Is(err, http.ErrNoCookie) {
-				http.Error(w, "401", http.StatusUnauthorized)
-				return
-			}
+
+			/*
+			 *  if errors.Is(err, http.ErrNoCookie) {
+			 *    http.Error(w, "400", http.StatusBadRequest)
+			 *    return
+			 *  }
+			 */
 
 			http.Error(w, "400", http.StatusBadRequest)
 			return
@@ -74,7 +76,7 @@ func welcome(w http.ResponseWriter, r *http.Request) {
 		err := bcrypt.CompareHashAndPassword([]byte(users[username].password), []byte(password))
 
 		if err != nil {
-			http.Error(w, "401", http.StatusUnauthorized)
+			http.Error(w, "403", http.StatusForbidden)
 			return
 		}
 
@@ -105,7 +107,7 @@ func welcome(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.Error(w, "401", http.StatusUnauthorized)
+	http.Error(w, "403", http.StatusForbidden)
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
