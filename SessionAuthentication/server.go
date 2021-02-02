@@ -87,11 +87,26 @@ func welcome(w http.ResponseWriter, r *http.Request) {
 			Name:     cookieName,
 			Value:    cookieValue,
 			Path:     "/session",
-			HttpOnly: true,
+			HttpOnly: true, // Prevent access to cookie values via JavaScript.
 			SameSite: http.SameSiteStrictMode,
-			MaxAge:   120,
-			// Secure:   true,
-			// Expires:  time.Now().Add(120 * time.Second),
+
+			/*
+			 *  A cookie is sent to the server only with an encrypted request over the HTTPS protocol.
+			 *
+			 *  Secure:   true
+			 */
+
+			/*
+			 *  A session cookie is a cookie without an expiration time.
+			 *
+			 *  Session cookies are deleted when the browser closes (the session ends) and
+			 *  permanent cookies are deleted at a date specified by the 'Expires' attribute or
+			 *  after a period of time specified by the 'Max-Age' attribute.
+			 *
+			 *  Expires:  time.Now().Add(120 * time.Second)
+			 */
+
+			MaxAge: 120, // Seconds.
 		})
 
 		fmt.Printf("Username: %s \nPassword: %s \nCookie: %s \n\n", username, users[username].password, users[username].cookie)
