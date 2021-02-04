@@ -53,14 +53,14 @@ label:focus-within {
     background-color: var(--focus-background-color);
 }
 
-button {
+.button {
     font-size: 1.2em;
     margin: 1em;
     padding: 1em;
     border: 2px solid #222;
 }
 
-button:focus {
+.button:focus {
     background-color: var(--focus-background-color);
 }
 
