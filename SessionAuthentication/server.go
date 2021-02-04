@@ -10,7 +10,10 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-const cookieName = "session_example"
+const (
+	cookieName       = "session_example"
+	cookieSecureBool = false
+)
 
 type user struct {
 	password string
@@ -49,6 +52,21 @@ func authentication(h http.HandlerFunc) http.HandlerFunc {
 
 		for _, user := range users {
 			if cookie.Value == user.cookie {
+
+				/*
+				 *  Refreshing a session token.
+				 */
+
+				http.SetCookie(w, &http.Cookie{
+					Name:     cookieName,
+					Value:    cookie.Value,
+					Path:     "/session",
+					HttpOnly: true,
+					SameSite: http.SameSiteStrictMode,
+					Secure:   cookieSecureBool,
+					MaxAge:   30,
+				})
+
 				h(w, r)
 				return
 			}
@@ -92,9 +110,9 @@ func welcome(w http.ResponseWriter, r *http.Request) {
 
 			/*
 			 *  A cookie is sent to the server only with an encrypted request over the HTTPS protocol.
-			 *
-			 *  Secure:   true
 			 */
+
+			Secure: cookieSecureBool,
 
 			/*
 			 *  A session cookie is a cookie without an expiration time.
@@ -106,7 +124,7 @@ func welcome(w http.ResponseWriter, r *http.Request) {
 			 *  Expires:  time.Now().Add(120 * time.Second)
 			 */
 
-			MaxAge: 120, // Seconds.
+			MaxAge: 30, // Seconds.
 		})
 
 		fmt.Printf("Username: %s \nPassword: %s \nCookie: %s \n\n", username, users[username].password, users[username].cookie)
@@ -166,10 +184,10 @@ func main() {
 
 	http.HandleFunc("/", staticFiles)
 	http.HandleFunc("/login", login)
-	http.HandleFunc("/session/welcome", welcome)
+	http.HandleFunc("/welcome", welcome)
 	http.HandleFunc("/session/application", authentication(application()))
 
-	fmt.Printf("Listening :8000\n\n")
+	fmt.Printf("Listening 'Localhost:8000'...\n\n")
 
-	http.ListenAndServe(":8000", nil)
+	http.ListenAndServe("Localhost:8000", nil)
 }
