@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"net/http"
 	"path"
+	"time"
 
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
@@ -18,6 +19,7 @@ const (
 type user struct {
 	password string
 	cookie   string
+	stamp    time.Time // Golang's zero date is '0001-01-01 00:00:00 +0000 UTC'.
 }
 
 type content struct {
@@ -98,6 +100,8 @@ func welcome(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
+		users[username].stamp = time.Now()
+
 		cookieValue := uuid.New().String()
 		users[username].cookie = cookieValue
 
@@ -127,7 +131,12 @@ func welcome(w http.ResponseWriter, r *http.Request) {
 			MaxAge: 30, // Seconds.
 		})
 
-		fmt.Printf("Username: %s \nPassword: %s \nCookie: %s \n\n", username, users[username].password, users[username].cookie)
+		fmt.Printf("Username: %s \nPassword: %s \nCookie: %s \nStamp: %v \n\n",
+			username,
+			users[username].password,
+			users[username].cookie,
+			users[username].stamp,
+		)
 
 		content := &content{
 			Title: "Welcome",
