@@ -1,10 +1,15 @@
 package main
 
 import (
+	"context"
+	"errors"
 	"fmt"
 	"html/template"
 	"net/http"
+	"os"
+	"os/signal"
 	"path"
+	"sync"
 	"time"
 
 	"github.com/google/uuid"
@@ -14,6 +19,8 @@ import (
 const (
 	cookieName       = "session_example"
 	cookieSecureBool = false
+	cookieMaxAge     = 600 // Seconds.
+	serverTimeout    = 15  // Seconds.
 )
 
 type user struct {
@@ -26,7 +33,10 @@ type content struct {
 	Title string
 }
 
-var users = map[string]*user{}
+var (
+	users = map[string]*user{}
+	mutex sync.Mutex
+)
 
 var templates = template.Must(template.ParseFiles(
 	"./templates/partial/head.html",
@@ -52,6 +62,8 @@ func authentication(h http.HandlerFunc) http.HandlerFunc {
 			return
 		}
 
+		mutex.Lock() // By the way, it is a run-time error to unlock the mutex twice.
+
 		for _, user := range users {
 			if cookie.Value == user.cookie {
 
@@ -66,13 +78,19 @@ func authentication(h http.HandlerFunc) http.HandlerFunc {
 					HttpOnly: true,
 					SameSite: http.SameSiteStrictMode,
 					Secure:   cookieSecureBool,
-					MaxAge:   30,
+					MaxAge:   cookieMaxAge,
 				})
+
+				user.stamp = time.Now()
+
+				mutex.Unlock()
 
 				h(w, r)
 				return
 			}
 		}
+
+		mutex.Unlock()
 
 		http.Error(w, "403", http.StatusForbidden)
 	}
@@ -92,11 +110,16 @@ func welcome(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	mutex.Lock()
+
 	if _, ok := users[username]; ok {
 		err := bcrypt.CompareHashAndPassword([]byte(users[username].password), []byte(password))
 
 		if err != nil {
+			mutex.Unlock()
+
 			http.Error(w, "403", http.StatusForbidden)
+
 			return
 		}
 
@@ -128,7 +151,7 @@ func welcome(w http.ResponseWriter, r *http.Request) {
 			 *  Expires:  time.Now().Add(120 * time.Second)
 			 */
 
-			MaxAge: 30, // Seconds.
+			MaxAge: cookieMaxAge,
 		})
 
 		fmt.Printf("Username: %s \nPassword: %s \nCookie: %s \nStamp: %v \n\n",
@@ -137,6 +160,8 @@ func welcome(w http.ResponseWriter, r *http.Request) {
 			users[username].cookie,
 			users[username].stamp,
 		)
+
+		mutex.Unlock()
 
 		content := &content{
 			Title: "Welcome",
@@ -148,6 +173,8 @@ func welcome(w http.ResponseWriter, r *http.Request) {
 
 		return
 	}
+
+	mutex.Unlock()
 
 	http.Error(w, "403", http.StatusForbidden)
 }
@@ -196,7 +223,65 @@ func main() {
 	http.HandleFunc("/welcome", welcome)
 	http.HandleFunc("/session/application", authentication(application()))
 
-	fmt.Printf("Listening 'Localhost:8000'...\n\n")
+	tick := time.NewTicker(5 * time.Second)
+	quit := make(chan struct{})
 
-	http.ListenAndServe("Localhost:8000", nil)
+	go func() {
+		for {
+			select {
+
+			case <-tick.C:
+				fmt.Printf("Cleaning... ")
+				mutex.Lock()
+
+				for username, user := range users {
+					if user.cookie != "" && time.Now().Sub(user.stamp).Seconds() > serverTimeout {
+
+						fmt.Printf("[timeout user '%s'] ", username)
+						user.cookie = ""
+
+					}
+				}
+
+				mutex.Unlock()
+				fmt.Printf("ok\n")
+
+			case <-quit:
+				return
+			}
+		}
+	}()
+
+	server := &http.Server{
+		Addr:           "Localhost:8000",
+		Handler:        nil, // The DefaultServeMux is used.
+		WriteTimeout:   time.Second * 10,
+		ReadTimeout:    time.Second * 10,
+		IdleTimeout:    time.Second * 60,
+		MaxHeaderBytes: 32768,
+	}
+
+	go func() {
+		if err := server.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
+			panic(err)
+		}
+	}()
+
+	fmt.Printf("Listening 'Localhost:8000' \n\n")
+
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt)
+	<-c
+
+	tick.Stop()
+	close(quit)
+
+	fmt.Printf("\nShutting down...")
+
+	ctx, cancel := context.WithTimeout(context.Background(), (time.Second * 10))
+	defer cancel()
+
+	server.Shutdown(ctx)
+
+	fmt.Printf(" ok\n")
 }
