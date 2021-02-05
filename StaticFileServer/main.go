@@ -1,9 +1,13 @@
 package main
 
-// cp $(go env GOROOT)/misc/wasm/wasm_exec.js ./www/javascript/
+/*
+ *  mkdir ./www/javascript
+ *  cp $(go env GOROOT)/misc/wasm/wasm_exec.js ./www/javascript/
+ */
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net"
 	"net/http"
@@ -154,8 +158,11 @@ func main() {
 
 	go func() {
 		if err := server.ListenAndServe(); err != nil {
-			fmt.Println(err)
-			os.Exit(1)
+
+			if !errors.Is(err, http.ErrServerClosed) {
+				panic(err)
+			}
+
 		}
 	}()
 
@@ -168,10 +175,14 @@ func main() {
 	signal.Notify(c, os.Interrupt)
 	<-c
 
-	fmt.Print("\nShutting down...\n")
+	fmt.Print("\nShutting down...")
 
-	context, cancel := context.WithTimeout(context.Background(), (time.Second * 10))
+	ctx, cancel := context.WithTimeout(context.Background(), (time.Second * 10))
 	defer cancel()
 
-	server.Shutdown(context)
+	if err := server.Shutdown(ctx); err != nil {
+		panic(err)
+	}
+
+	fmt.Print("ok\n\n")
 }
