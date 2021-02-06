@@ -16,6 +16,14 @@ func main() {
 	fmt.Printf("Length of string is %d bytes. \n\n", len(unicodeString))
 
 	for i, r := range unicodeString {
-		fmt.Printf("Index:%d  Character:%q  Unicode:%d \n", i, r, r)
+		fmt.Printf("Index: %d  Character: %c  Unicode: %d\n", i, r, r)
+	}
+
+	fmt.Println()
+
+	for i := 0; i < len(unicodeString); {
+		rune, size := utf8.DecodeRuneInString(unicodeString[i:])
+		fmt.Printf("Index: %d  Character: %c\n", i, rune)
+		i += size
 	}
 }
