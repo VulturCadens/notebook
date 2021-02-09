@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"crypto/rand"
 	"errors"
 	"fmt"
 	"html/template"
@@ -12,7 +13,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -123,10 +123,20 @@ func welcome(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		users[username].stamp = time.Now()
+		/*
+		 *  Create a new random slice (byte length of 30 bytes).
+		 */
 
-		cookieValue := uuid.New().String()
+		r := make([]byte, 30)
+
+		if _, err = rand.Read(r); err != nil {
+			panic(err)
+		}
+
+		cookieValue := fmt.Sprintf("%X", r)
+
 		users[username].cookie = cookieValue
+		users[username].stamp = time.Now()
 
 		http.SetCookie(w, &http.Cookie{
 			Name:     cookieName,
