@@ -51,6 +51,46 @@ type s struct {
 }
 ```
 
+### **Composition**
+
+```go
+package main
+
+import "fmt"
+
+type common struct {
+	name string
+	age  int
+}
+
+type cat struct {
+	common
+	tailLength float32
+}
+
+type parrot struct {
+	common
+	wingLength float32
+}
+
+func main() {
+	c := cat{common{"Garfield", 8}, 13.8}
+
+	/*
+	 *   The struct literal must follow the shape of the type declaration.
+	 *   p := parrot{name: "Polly", age: 23, wingLength: 18.5} // Compile error!
+	 */
+
+	p := parrot{}
+	p.name = "Polly"
+	p.age = 23
+	p.wingLength = 18.5
+
+	fmt.Println(c)
+	fmt.Println(p)
+}
+```
+
 ### **Reference Types**
 
 * Pointers, slices, maps and channels.
