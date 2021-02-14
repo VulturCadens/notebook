@@ -31,7 +31,14 @@ func getError() error {
 func main() {
 	if err := getError(); err != nil {
 
-		x := err.(*xError)
+		var (
+			x  *xError
+			ok bool
+		)
+
+		if x, ok = err.(*xError); !ok {
+			panic("A type assertion failed.")
+		}
 
 		fmt.Println(err) // ok
 
