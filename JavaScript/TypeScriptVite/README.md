@@ -113,3 +113,42 @@ let len: number = (str as string).length
 let len: number = (<string>str).length
 ```
 
+## Class
+
+```typescript
+abstract class Animal {
+    protected abstract sound: string
+    protected static count: number = 0
+
+    constructor() {
+        Animal.count += 1
+    }
+
+    get count(): number {
+        return Animal.count
+    }
+}
+
+class Cat extends Animal {
+    public sound: string
+
+    constructor(s: string) {
+        super()
+        this.sound = s
+    }
+
+    public say(): string {
+        return (this.sound).repeat(this.count)
+    }
+
+}
+
+let _1 : Cat = new Cat(" Meow!")
+
+console.log(`We have ${_1.count} cat(s):${_1.say()}\n`)
+
+let _2 : Cat = new Cat(" Zzz")
+let _3 : Cat = new Cat(" Purrr...")
+
+console.log(`We have ${_1.count} cat(s):${_2.say()}\n`)
+```
