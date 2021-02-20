@@ -14,7 +14,7 @@ FROM scratch
 EXPOSE 8000
 
 COPY --from=builder /build/server .
-COPY /application/count.txt .
+COPY /application/count.gob .
 COPY /application/www ./www
 
 CMD ["./server"]

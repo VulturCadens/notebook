@@ -1,52 +1,43 @@
 package main
 
 import (
-	"bufio"
+	"encoding/gob"
 	"log"
 	"net/http"
 	"os"
-	"strconv"
 	"text/template"
 	"time"
 )
 
 var (
-	count     int
+	c         uint64
 	templates = template.Must(template.ParseFiles("./www/index.html"))
 )
 
 func init() {
-	file, err := os.Open("count.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
+	var (
+		file *os.File
+		err  error
+	)
 
-	scanner := bufio.NewScanner(file)
-	scanner.Scan()
-	s := scanner.Text()
-
-	file.Close()
-
-	i, err := strconv.Atoi(s)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	file, err = os.Create("count.txt")
-	if err != nil {
+	if file, err = os.OpenFile("count.gob", os.O_SYNC|os.O_RDWR, 0644); err != nil {
 		log.Fatal(err)
 	}
 	defer file.Close()
 
-	i++
-	s = strconv.Itoa(i)
+	decoder := gob.NewDecoder(file) // read
+	encoder := gob.NewEncoder(file) // write
 
-	if _, err := file.WriteString(s); err != nil {
-		log.Fatal(err)
-	}
+	decoder.Decode(&c)
 
-	count = i
-	log.Printf("[%d]\n", i)
+	c++
+
+	file.Truncate(0)
+	file.Seek(0, 0)
+
+	encoder.Encode(c)
+
+	log.Printf("[%d]\n", c)
 }
 
 func favicon(w http.ResponseWriter, r *http.Request) {
@@ -64,7 +55,7 @@ func favicon(w http.ResponseWriter, r *http.Request) {
 }
 
 func response(w http.ResponseWriter, r *http.Request) {
-	content := &struct{ Count int }{count}
+	content := &struct{ Count uint64 }{c}
 
 	if err := templates.ExecuteTemplate(w, "INDEX", content); err != nil {
 		http.Error(w, "500", http.StatusInternalServerError)
