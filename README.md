@@ -182,6 +182,51 @@ func main() {
 }
 ```
 
+## Function closure
+
+It's ok to leave the channel open, and it's idiomatic Go. If a channel is unreachable, it will be garbage collected.
+
+```go
+package main
+
+import (
+        "fmt"
+        "math/rand"
+        "time"
+)
+
+func run() (chan int, func()) {
+        var stop bool // The zero value is false for the boolean type.
+
+        c := make(chan int)
+
+        go func() {
+                for !stop {
+                        c <- rand.Intn(10)
+                }
+        }()
+
+        return c, func() { stop = true }
+}
+
+func main() {
+        rand.Seed(time.Now().UnixNano())
+
+        c, stop := run()
+
+        var r int
+
+        for {
+                r = <-c
+                fmt.Println(r)
+                if r == 8 {
+                        stop()
+                        break
+                }
+        }
+}
+```
+
 ## Type Conversion
 
 The expression T(v) converts the value v to the type T.
