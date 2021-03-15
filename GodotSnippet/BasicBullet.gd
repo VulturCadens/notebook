@@ -25,7 +25,9 @@ func _on_Area2D_body_entered(_body):
 #
 # const bullet = preload("res://bullet.tscn") 
 #
-# var b = bullet.instance()
-# get_node("/root").add_child(b)
-# b.transform = $Position2D.global_transform
+# func _physics_process(delta):
+#     if Input.is_action_just_pressed("FIRE_BUTTON"):
+#         var b = bullet.instance()
+#         get_node("/root").add_child(b)
+#         b.transform = $Position2D.global_transform
 #

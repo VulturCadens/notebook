@@ -15,6 +15,7 @@ func _ready():
 
 func _physics_process(_delta):
 	state  = get_world_2d().direct_space_state
+	
 	result = state.intersect_ray(
 		self.global_position,      # from
 		target,                    # to
