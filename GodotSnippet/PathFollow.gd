@@ -12,10 +12,7 @@ extends KinematicBody2D
 
 const speed = 100
 
-var parent : PathFollow2D
-
-func _ready():
-	parent = get_parent()
+onready var parent : PathFollow2D = get_parent()
 
 func _physics_process(delta):
 	parent.set_offset(parent.get_offset() + speed * delta)

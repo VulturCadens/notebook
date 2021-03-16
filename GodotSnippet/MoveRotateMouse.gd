@@ -9,12 +9,10 @@ extends KinematicBody2D
 
 const speed : int = 200
 
-var target : Vector2
 var velocity : Vector2
 var need_rotate : float # radians
 
-func _ready():
-	target = self.position
+onready var target : Vector2 = self.position
 	
 func _input(event):
 	if event is InputEventMouseButton:

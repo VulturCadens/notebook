@@ -6,12 +6,9 @@
 
 extends RayCast2D
 
-var target : Vector2 
+var target : Vector2 = Vector2(460, 500)
 var state : Physics2DDirectSpaceState
 var result : Dictionary
-
-func _ready():
-	target = Vector2(460, 500)
 
 func _physics_process(_delta):
 	state  = get_world_2d().direct_space_state
