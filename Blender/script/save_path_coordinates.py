@@ -1,13 +1,17 @@
 import bpy
 import math
 
+from bpy.types import Operator
+from bpy_extras.io_utils import ExportHelper
+
 from dataclasses import dataclass
 
-from bpy.types import Operator
+# Property Definitions (bpy.props)
+# 
+# The result of these functions is used to assign properties
+# to classes registered with Blender and can’t be used directly.
 
-from bpy.props import StringProperty
-
-from bpy_extras.io_utils import ExportHelper
+from bpy.props import StringProperty, IntProperty
 
 
 bl_info = {
@@ -32,14 +36,16 @@ class SavePathCoordinates(Operator, ExportHelper):
     bl_label = "Save Path Coordinates"
     bl_idname = "object.save_path_coordinates"
 
-    resolution = bpy.props.IntProperty(
+    # ExportHelper mixin class uses these.
+    
+    resolution = IntProperty(
         name="Resolution",
         default=10,
         min=5,
         max=100
     )
-
-    filename_ext = ".csv"
+    
+    filename_ext = ".csv" 
 
     filter_glob = StringProperty(
         default="*.csv",
@@ -62,23 +68,23 @@ class SavePathCoordinates(Operator, ExportHelper):
 
         original_name = originalCurve.name
 
-        templateCurve = originalCurve.copy()
-        templateCurve.data = originalCurve.data.copy()
-        templateCurve.name = "CurveTemplateClone"
+        temporaryCurve = originalCurve.copy()
+        temporaryCurve.data = originalCurve.data.copy()
+        temporaryCurve.name = "CurveTemporaryClone"
 
-        bpy.context.scene.collection.objects.link(templateCurve)
+        bpy.context.scene.collection.objects.link(temporaryCurve)
 
         bpy.ops.object.select_all(action="DESELECT")
 
-        bpy.data.objects["CurveTemplateClone"].select_set(True)
-        bpy.context.view_layer.objects.active = templateCurve
+        bpy.data.objects["CurveTemporaryClone"].select_set(True)
+        bpy.context.view_layer.objects.active = temporaryCurve
 
         bpy.context.object.data.resolution_u = self.resolution
         bpy.ops.object.convert(target="MESH")
 
         points = []
 
-        for vertex in templateCurve.data.vertices:
+        for vertex in temporaryCurve.data.vertices:
             points.append(Point(
                 vertex.co[0],
                 vertex.co[1]
