@@ -11,7 +11,7 @@ Documentation: https://docs.docker.com
 ```bash
 sudo snap install docker
 sudo groupadd docker
-sudo usermod -a -G <USER_NAME>
+sudo usermod -a -G docker <USER_NAME>
 ```
 
 ## Create Image
