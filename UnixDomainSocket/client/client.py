@@ -4,27 +4,36 @@ import sys
 import socket
 import os
 
+
 def main() -> int:
     if os.path.exists("/tmp/vultur.sock"):
-        client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-        client.connect("/tmp/vultur.sock")
+        try:
+            client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+            client.connect("/tmp/vultur.sock")
+
+        except ConnectionRefusedError:
+            print("[ConnectionRefusedError]")
+            return 1
+
     else:
-        print("Connection error.")
+        print("[Path doesn't exist]")
         return 1
 
-    while True:
-        try:
-            message = input("Enter a string: ")
+    with client:
+        while True:
+            try:
+                message = input("Enter a string: ")
 
-            if message != "":
-                client.send(message.encode("utf-8"))
+                if message != "":
+                    client.send(message.encode("utf-8"))
 
-        except KeyboardInterrupt:
-            print("\n[Ctrl-C]")
-            client.close()
-            break
+            except BrokenPipeError:
+                print("[BrokenPipeError]")
+                return 1
 
-    return 0
+            except KeyboardInterrupt:
+                print("\n[Ctrl-C]")
+                return 0
 
 
 if __name__ == "__main__":
