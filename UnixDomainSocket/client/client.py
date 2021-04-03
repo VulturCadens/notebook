@@ -8,14 +8,16 @@ import threading
 
 from _thread import start_new_thread
 
-def read(connection):
+
+def read(connection: socket):
     while True:
         message = connection.recv(128)
-        
+
         if not message:
             return
 
         print("Client got: " + message.decode("utf-8"))
+
 
 def main() -> int:
     if os.path.exists("/tmp/vultur.sock"):
@@ -38,7 +40,7 @@ def main() -> int:
             try:
                 message = input("Enter a string: ")
 
-                if message != "":
+                if message:
                     connection.send(message.encode("utf-8"))
 
             except BrokenPipeError:
