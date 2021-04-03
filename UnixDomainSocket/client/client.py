@@ -6,10 +6,8 @@ import time
 import socket
 import threading
 
-from _thread import start_new_thread
 
-
-def read(connection: socket):
+def read_socket(connection: socket):
     while True:
         message = connection.recv(128)
 
@@ -20,20 +18,20 @@ def read(connection: socket):
 
 
 def main() -> int:
-    if os.path.exists("/tmp/vultur.sock"):
-        try:
-            connection = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-            connection.connect("/tmp/vultur.sock")
-
-        except ConnectionRefusedError:
-            print("[ConnectionRefusedError]")
-            return 1
-
-    else:
+    if not os.path.exists("/tmp/vultur.sock"):
         print("[Path doesn't exist]")
         return 1
 
-    start_new_thread(read, (connection,))
+    try:
+        connection = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        connection.connect("/tmp/vultur.sock")
+
+    except ConnectionRefusedError:
+        print("[ConnectionRefusedError]")
+        return 1
+
+    rs = threading.Thread(target=read_socket, args=(connection,), daemon=True)
+    rs.start()
 
     with connection:
         while True:
