@@ -3,16 +3,16 @@ import bmesh
 import mathutils
 
 def main():
-    if not bpy.context.scene.objects.get("Cube"):
-        print("The 'Cube' object doesn't exist.")
-        return
+    if bpy.context.scene.objects.get("BMesh_Object"):
+        bpy.ops.object.mode_set(mode = "OBJECT")
+        bpy.ops.object.select_all(action="DESELECT")
+        bpy.data.objects["BMesh_Object"].select_set(True)
+        bpy.ops.object.delete() 
+        print("BMesh_Object deleted")
 
-    cube_mesh = bpy.data.objects["Cube"].data
-
-    # Create an empty BMesh and fill it in from a mesh.
+    # Create an empty BMesh and add a cube.
     bm = bmesh.new() 
-    bm.from_mesh(cube_mesh)
-    bpy.ops.object.mode_set(mode="EDIT")
+    bmesh.ops.create_cube(bm, size = 1)
 
     
     bm.faces.ensure_lookup_table()    
@@ -32,10 +32,14 @@ def main():
     )
 
 
-    # Write the bmesh back to the mesh. Free and prevent further access.
-    bpy.ops.object.mode_set(mode="OBJECT")
+    # Create a mesh and write BMesh to the mesh. Free BMesh and prevent further access.
+    cube_mesh = bpy.data.meshes.new("BMesh_Mesh")
     bm.to_mesh(cube_mesh)
     bm.free()
+
+    cube_object = bpy.data.objects.new("BMesh_Object", cube_mesh)
+    bpy.context.collection.objects.link(cube_object)
+
 
 if __name__ == "__main__":    
     main()
