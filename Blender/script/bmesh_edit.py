@@ -4,11 +4,16 @@ import mathutils
 
 def main():
     if bpy.context.scene.objects.get("BMesh_Object"):
-        bpy.ops.object.mode_set(mode = "OBJECT")
-        bpy.ops.object.select_all(action="DESELECT")
-        bpy.data.objects["BMesh_Object"].select_set(True)
-        bpy.ops.object.delete() 
-        print("BMesh_Object deleted")
+        for object in bpy.context.scene.objects:
+            if object.name == "BMesh_Object":
+                bpy.data.objects.remove(object, do_unlink = True)
+                print("BMesh_Object has been deleted.")
+        
+        for mesh in bpy.data.meshes:
+            if mesh.users == 0:
+                bpy.data.meshes.remove(mesh)
+                print("BMesh_Mesh has been deleted.")
+
 
     # Create an empty BMesh and add a cube.
     bm = bmesh.new() 
@@ -41,7 +46,6 @@ def main():
     bpy.context.collection.objects.link(cube_object)
 
 
-if __name__ == "__main__":    
+if __name__ == "__main__":
     main()
-    
     
