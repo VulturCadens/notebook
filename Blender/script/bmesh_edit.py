@@ -3,18 +3,16 @@ import bmesh
 import mathutils
 
 def main():
-    if bpy.context.scene.objects.get("BMesh_Object"):
-        for object in bpy.context.scene.objects:
-            if object.name == "BMesh_Object":
-                bpy.data.objects.remove(object, do_unlink = True)
-                print("BMesh_Object has been deleted.")
+    bm_object = bpy.context.scene.objects.get("BMesh_Object")
+    if bm_object:
+        bpy.data.objects.remove(bm_object, do_unlink = True)
+        print("BMesh_Object has been deleted.")
         
-        for mesh in bpy.data.meshes:
-            if mesh.users == 0:
-                bpy.data.meshes.remove(mesh)
-                print("BMesh_Mesh has been deleted.")
-
-
+    bm_mesh = bpy.data.meshes.get("BMesh_Mesh")
+    if bm_mesh:
+        bpy.data.meshes.remove(bm_mesh)
+        print("BMesh_Mesh has been deleted.")
+        
     # Create an empty BMesh and add a cube.
     bm = bmesh.new() 
     bmesh.ops.create_cube(bm, size = 1)
