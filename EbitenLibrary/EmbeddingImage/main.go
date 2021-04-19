@@ -20,12 +20,16 @@ const (
 )
 
 type application struct {
-	x   float64
-	y   float64
-	box *ebiten.Image
+	x        float64
+	y        float64
+	rotation float64
+	boxImage *ebiten.Image
+	boxSizeX float64
+	boxSizey float64
 }
 
 func (app *application) Update() error {
+	app.rotation += 0.02
 	return nil
 }
 
@@ -34,8 +38,12 @@ func (app *application) Draw(screen *ebiten.Image) {
 	screen.Fill(c)
 
 	options := &ebiten.DrawImageOptions{}
+
+	options.GeoM.Translate(-(app.boxSizeX / 2), -(app.boxSizey / 2))
+	options.GeoM.Rotate(app.rotation)
 	options.GeoM.Translate(app.x, app.y)
-	screen.DrawImage(app.box, options)
+
+	screen.DrawImage(app.boxImage, options)
 }
 
 func (app *application) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
@@ -43,17 +51,19 @@ func (app *application) Layout(outsideWidth, outsideHeight int) (screenWidth, sc
 }
 
 func main() {
-	app := &application{
-		x: width / 2,
-		y: height / 2,
-	}
-
 	img, _, err := image.Decode(bytes.NewReader(boxPNG))
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	app.box = ebiten.NewImageFromImage(img)
+	app := &application{
+		x:        400,
+		y:        200,
+		rotation: 0,
+		boxImage: ebiten.NewImageFromImage(img),
+		boxSizeX: 64,
+		boxSizey: 64,
+	}
 
 	ebiten.SetWindowSize(width, height)
 	ebiten.SetWindowTitle("Window Title")
