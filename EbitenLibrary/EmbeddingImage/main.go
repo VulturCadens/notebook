@@ -20,12 +20,12 @@ const (
 )
 
 type application struct {
-	x        float64
-	y        float64
-	rotation float64
-	boxImage *ebiten.Image
-	boxSizeX float64
-	boxSizey float64
+	positionX float64
+	positionY float64
+	rotation  float64
+	boxImage  *ebiten.Image
+	boxSizeX  float64
+	boxSizeY  float64
 }
 
 func (app *application) Update() error {
@@ -39,9 +39,9 @@ func (app *application) Draw(screen *ebiten.Image) {
 
 	options := &ebiten.DrawImageOptions{}
 
-	options.GeoM.Translate(-(app.boxSizeX / 2), -(app.boxSizey / 2))
+	options.GeoM.Translate(-(app.boxSizeX / 2), -(app.boxSizeY / 2))
 	options.GeoM.Rotate(app.rotation)
-	options.GeoM.Translate(app.x, app.y)
+	options.GeoM.Translate(app.positionX, app.positionY)
 
 	screen.DrawImage(app.boxImage, options)
 }
@@ -57,12 +57,12 @@ func main() {
 	}
 
 	app := &application{
-		x:        400,
-		y:        200,
-		rotation: 0,
-		boxImage: ebiten.NewImageFromImage(img),
-		boxSizeX: 64,
-		boxSizey: 64,
+		positionX: 400,
+		positionY: 200,
+		rotation:  0,
+		boxImage:  ebiten.NewImageFromImage(img),
+		boxSizeX:  64,
+		boxSizeY:  64,
 	}
 
 	ebiten.SetWindowSize(width, height)
