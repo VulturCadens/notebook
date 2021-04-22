@@ -21,11 +21,14 @@ func main() {
 		if err := ioutil.WriteFile("BOOK.json", jsonBook, 0644); err != nil {
 			panic(err)
 		}
+
 		if err := ioutil.WriteFile("BOOK.protobuf", protobufBook, 0644); err != nil {
 			panic(err)
 		}
-	} else {
-		fmt.Printf("Protocol Buffers: %d bytes\n", len(protobufBook))
-		fmt.Printf("JSON: %d bytes\n", len(jsonBook))
+
+		return
 	}
+
+	fmt.Printf("Protocol Buffers: %d bytes\n", len(protobufBook))
+	fmt.Printf("JSON: %d bytes\n", len(jsonBook))
 }
