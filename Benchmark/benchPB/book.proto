@@ -1,0 +1,23 @@
+syntax = "proto3";
+package benchPB;
+
+message Book {
+  string Title = 1;
+  string Author = 2;
+  string Country = 3;
+  int32 Year = 4;
+  
+  repeated Volume Volumes = 5;
+  Characters Characters = 6;
+  repeated int32 Translations = 7;
+}
+ 
+message Characters {
+  repeated string Major = 1;
+  repeated string Minor = 2;
+}
+
+message Volume {
+  int32 Number = 1;
+  string Title = 2;
+}
