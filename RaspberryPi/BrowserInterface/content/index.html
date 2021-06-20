@@ -7,15 +7,75 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
+    <style>
+        body {
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            font-family: monospace;
+            font-size: .9rem;
+        }
+
+        main {
+            width: 15rem;
+            height: 4rem;
+            padding-top: 1rem;
+            padding-left: 2rem;
+            color: #D2D2D2;
+            background-color: #335E6F;
+        }
+
+        label {
+            position: relative;
+            top: -.1rem;
+        }
+
+        input {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+
+            text-align: left;
+
+            width: 1rem;
+            height: 1rem;
+
+            border-radius: 50%;
+            border: 2px solid #D2D2D2;
+        }
+
+        input:checked {
+            border: .5rem solid #FFA500;
+        }
+    </style>
+
 </head>
 
 <body>
+    <main>
+        <div>
+            <input type="radio" id="on" name="led" value="on" checked>
+            <label for="on">LED ON</label>
+        </div>
 
-    <p>Browser Interface</p>
+        <div>
+            <input type="radio" id="off" name="led" value="off">
+            <label for="off">LED OFF</label>
+        </div>
+    </main>
 
     <script>
-        console.log("OK")
+        document.body.addEventListener("change", event => {
+            switch (event.target.id) {
+                case "on":
+                    console.log("on")
+                    break
+                case "off":
+                    console.log("off")
+                    break
+            }
+        })
     </script>
 
 </body>
