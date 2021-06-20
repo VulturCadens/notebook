@@ -66,13 +66,34 @@
     </main>
 
     <script>
+        const http = (path, payload) => {
+            fetch(path, {
+                method: "post",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "omit",
+                body: JSON.stringify(payload)
+            })
+                .then(response => response.json())
+                .then(response => {
+                    console.log(response)
+                })
+                .catch((error) => {
+                    console.error(error)
+                })
+        }
+
         document.body.addEventListener("change", event => {
             switch (event.target.id) {
                 case "on":
                     console.log("on")
+                    http("/command", { pin: 26, state: 1 })
                     break
+
                 case "off":
                     console.log("off")
+                    http("/command", { pin: 26, state: 0 })
                     break
             }
         })

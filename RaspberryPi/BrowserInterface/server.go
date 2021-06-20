@@ -3,8 +3,10 @@ package main
 import (
 	"context"
 	_ "embed"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"net"
 	"net/http"
 	"os"
@@ -17,8 +19,37 @@ const (
 	port = "8000"
 )
 
+type state struct {
+	Pin   int `json:"pin"`
+	State int `json:"state"`
+}
+
 //go:embed content/index.html
 var indexhtml []byte
+
+func command(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+
+	payload, err := io.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, "400", http.StatusBadRequest)
+		return
+	}
+
+	state := state{}
+
+	err = json.Unmarshal(payload, &state)
+
+	if err != nil {
+		http.Error(w, "400", http.StatusBadRequest)
+		return
+	}
+
+	fmt.Println(state)
+
+	w.Header().Add("Content-Type", "application/json")
+	w.Write([]byte("{\"message\":\"OK\"}"))
+}
 
 func index(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "text/html")
@@ -26,6 +57,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	http.HandleFunc("/command", command)
 	http.HandleFunc("/", index)
 
 	addr := net.JoinHostPort(host, port)
