@@ -12,11 +12,14 @@ import (
 	"os"
 	"os/signal"
 	"time"
+
+	"github.com/stianeikeland/go-rpio/v4"
 )
 
 const (
-	host = "127.0.0.1"
+	host = "0.0.0.0"
 	port = "8000"
+	pin  = rpio.Pin(26)
 )
 
 type state struct {
@@ -47,6 +50,14 @@ func command(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println(state)
 
+	if state.State == 0 {
+		pin.Low()
+	}
+
+	if state.State == 1 {
+		pin.High()
+	}
+
 	w.Header().Add("Content-Type", "application/json")
 	w.Write([]byte("{\"message\":\"OK\"}"))
 }
@@ -57,6 +68,16 @@ func index(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	if err := rpio.Open(); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	defer rpio.Close()
+
+	pin.Output()
+	pin.High()
+
 	http.HandleFunc("/command", command)
 	http.HandleFunc("/", index)
 
