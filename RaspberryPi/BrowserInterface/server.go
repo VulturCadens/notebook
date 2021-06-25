@@ -17,9 +17,9 @@ import (
 )
 
 const (
-	host = "0.0.0.0"
-	port = "8000"
-	pin  = rpio.Pin(26)
+	host  = "0.0.0.0"
+	port  = "8000"
+	pin26 = rpio.Pin(26)
 )
 
 type state struct {
@@ -50,12 +50,16 @@ func command(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println(state)
 
-	if state.State == 0 {
-		pin.Low()
-	}
+	if state.Pin == 26 {
 
-	if state.State == 1 {
-		pin.High()
+		if state.State == 0 {
+			pin26.Low()
+		}
+
+		if state.State == 1 {
+			pin26.High()
+		}
+
 	}
 
 	w.Header().Add("Content-Type", "application/json")
@@ -75,8 +79,8 @@ func main() {
 
 	defer rpio.Close()
 
-	pin.Output()
-	pin.High()
+	pin26.Output()
+	pin26.High()
 
 	http.HandleFunc("/command", command)
 	http.HandleFunc("/", index)
