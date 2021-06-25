@@ -1,5 +1,7 @@
 # Arduino
 
+* Language Reference: https://www.arduino.cc/reference/en
+
 ## Arduino Micro
 
 * Microcontroller: ATmega32U4
@@ -7,7 +9,7 @@
 * Input Voltage: 7-9V
 * Digital I/O Pins: 20
 * PWM Channels: 7
-* Analog Input Channels: 12
+* Analog Input Channels: 12 (10-bit ADC)
 * DC Current per I/O Pin: 20 mA
 * DC Current for 3.3V Pin: 50 mA
 * Flash Memory: 32 KB of which 4 KB used by bootloader
@@ -73,13 +75,13 @@ Updating index: package_index.json.sig downloaded
 ## Arduino-cli usage
 
 ```console
-arduino-cli sketch new Blink
+$ arduino-cli sketch new Blink
 ```
 
 Edit open and edit the ino file (__./Blink/Blink.ino__ in this case).
 
 ```console
-$ arduino-cli compile --fqbn arduino:avr:micro Blink
+$ arduino-cli compile --fqbn arduino:avr:micro Blink
 
 Sketch uses 3958 bytes (13%) of program storage space. Maximum is 28672 bytes.
 Global variables use 149 bytes (5%) of dynamic memory, leaving 2411 bytes for local variables. Maximum is 2560 bytes.
