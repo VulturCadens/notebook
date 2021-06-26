@@ -33,11 +33,27 @@ func main() {
 
 	time.Sleep(time.Second) // Wait to reset the Arduino Micro.
 
+	go func() {
+		for {
+			if _, err := port.Write([]byte("[ON]")); err != nil {
+				log.Fatalln(err)
+			}
+
+			time.Sleep(500 * time.Millisecond)
+
+			if _, err := port.Write([]byte("[OFF]")); err != nil {
+				log.Fatalln(err)
+			}
+
+			time.Sleep(500 * time.Millisecond)
+		}
+	}()
+
 	for {
 		_, err := port.Read(bytes)
 
 		if err != nil {
-			log.Fatal(err)
+			log.Fatalln(err)
 		}
 
 		if bytes[0] == beginByte && bytes[3] == endByte {
