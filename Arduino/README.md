@@ -1,6 +1,7 @@
 # Arduino
 
 * Language Reference: https://www.arduino.cc/reference/en
+* A cross-platform serial library for Go: https://github.com/bugst/go-serial
 
 ## Arduino Micro
 
@@ -78,7 +79,7 @@ Updating index: package_index.json.sig downloaded
 $ arduino-cli sketch new Blink
 ```
 
-Edit open and edit the ino file (__./Blink/Blink.ino__ in this case).
+Open and edit the ino file (__./Blink/Blink.ino__ in this case).
 
 ```console
 $ arduino-cli compile --fqbn arduino:avr:micro Blink
