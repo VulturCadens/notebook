@@ -1,5 +1,5 @@
 #define BEGIN_CHAR 0x5B
-#define END_CHAR   0x5D
+#define END_CHAR 0x5D
 #define MAX_STRING 10
 
 uint8_t sendArray[4];
@@ -13,7 +13,8 @@ char s[2];
 
 bool isCodeReady = false;
 
-void setup() {
+void setup()
+{
     Serial.begin(9600);
 
     sendArray[0] = BEGIN_CHAR;
@@ -22,39 +23,46 @@ void setup() {
     pinMode(LED_BUILTIN, OUTPUT);
     digitalWrite(LED_BUILTIN, LOW);
 
-    s[1] = '\0';   // NULL character.
+    s[1] = '\0'; // NULL character.
 }
 
-void loop() {
-    if (Serial.available() > 0) {
+void loop()
+{
+    if (Serial.available() > 0)
+    {
         c = Serial.read();
 
-        switch (c) {
-            case BEGIN_CHAR:
-                code[0] = '\0';
-                break;
+        switch (c)
+        {
+        case BEGIN_CHAR:
+            code[0] = '\0';
+            break;
 
-            case END_CHAR:
-                isCodeReady = true;
-                break;
+        case END_CHAR:
+            isCodeReady = true;
+            break;
 
-            default:
-                s[0] = c;
+        default:
+            s[0] = c;
 
-                if (strlen(code) != MAX_STRING - 1) {
-                    strcat(code, s);
-                }
-                
-                break;
+            if (strlen(code) != MAX_STRING - 1)
+            {
+                strcat(code, s);
+            }
+
+            break;
         }
     }
 
-    if (isCodeReady) {
-        if (strcmp(code, "ON")) {
+    if (isCodeReady)
+    {
+        if (strcmp(code, "ON"))
+        {
             digitalWrite(LED_BUILTIN, HIGH);
         }
 
-        if (strcmp(code, "OFF")) {
+        if (strcmp(code, "OFF"))
+        {
             digitalWrite(LED_BUILTIN, LOW);
         }
 
@@ -63,11 +71,12 @@ void loop() {
 
     analogValue = analogRead(A0);
 
-    if (analogValue != currentValue) {
+    if (analogValue != currentValue)
+    {
         currentValue = analogValue;
 
-        sendArray[1] = analogValue >> 8;    // MSB
-        sendArray[2] = analogValue & 0xFF;  // LSB
+        sendArray[1] = analogValue >> 8;   // MSB
+        sendArray[2] = analogValue & 0xFF; // LSB
 
         Serial.write(sendArray, 4);
     }
