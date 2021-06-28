@@ -28,41 +28,35 @@ void setup()
 
 void loop()
 {
-    if (Serial.available() > 0)
-    {
+    if (Serial.available() > 0) {
         c = Serial.read();
 
-        switch (c)
-        {
-        case BEGIN_CHAR:
-            code[0] = '\0';
-            break;
+        switch (c) {
+            case BEGIN_CHAR:
+                code[0] = '\0';
+                break;
 
-        case END_CHAR:
-            isCodeReady = true;
-            break;
+            case END_CHAR:
+                isCodeReady = true;
+                break;
 
-        default:
-            s[0] = c;
+            default:
+                s[0] = c;
 
-            if (strlen(code) != MAX_STRING - 1)
-            {
-                strcat(code, s);
-            }
+                if (strlen(code) != MAX_STRING - 1) {
+                    strcat(code, s);
+                }
 
-            break;
+                break;
         }
     }
 
-    if (isCodeReady)
-    {
-        if (strcmp(code, "ON"))
-        {
+    if (isCodeReady) {
+        if (strcmp(code, "ON")) {
             digitalWrite(LED_BUILTIN, HIGH);
         }
 
-        if (strcmp(code, "OFF"))
-        {
+        if (strcmp(code, "OFF")) {
             digitalWrite(LED_BUILTIN, LOW);
         }
 
@@ -71,11 +65,10 @@ void loop()
 
     analogValue = analogRead(A0);
 
-    if (analogValue != currentValue)
-    {
+    if (analogValue != currentValue) {
         currentValue = analogValue;
 
-        sendArray[1] = analogValue >> 8;   // MSB
+        sendArray[1] = analogValue >> 8; // MSB
         sendArray[2] = analogValue & 0xFF; // LSB
 
         Serial.write(sendArray, 4);
