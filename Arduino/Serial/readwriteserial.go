@@ -23,6 +23,8 @@ var (
 )
 
 func main() {
+	fmt.Print("Initializing...")
+
 	port, err := serial.Open("/dev/ttyACM0", mode)
 
 	if err != nil {
@@ -32,6 +34,8 @@ func main() {
 	defer port.Close()
 
 	time.Sleep(time.Second) // Wait to reset the Arduino Micro.
+
+	fmt.Print("OK\n\nA0 : ???? ")
 
 	go func() {
 		for {
@@ -59,7 +63,7 @@ func main() {
 		if bytes[0] == beginByte && bytes[3] == endByte {
 			value = binary.BigEndian.Uint16(bytes[1:3])
 
-			fmt.Printf("\r [%04d] ", value)
+			fmt.Printf("\rA0 : %04d ", value)
 		}
 	}
 }

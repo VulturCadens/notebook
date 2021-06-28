@@ -1,7 +1,6 @@
 #define BEGIN_CHAR 0x5B
 #define END_CHAR   0x5D
-
-const uint16_t MASK = B11111111;
+#define MAX_STRING 10
 
 uint8_t sendArray[4];
 
@@ -9,8 +8,10 @@ uint16_t analogValue = 0;
 uint16_t currentValue = 0;
 
 char c;
-boolean isCodeReady;
-String code;
+char code[MAX_STRING];
+char s[2];
+
+bool isCodeReady = false;
 
 void setup() {
     Serial.begin(9600);
@@ -20,6 +21,8 @@ void setup() {
 
     pinMode(LED_BUILTIN, OUTPUT);
     digitalWrite(LED_BUILTIN, LOW);
+
+    s[1] = '\0';   // NULL character.
 }
 
 void loop() {
@@ -28,7 +31,7 @@ void loop() {
 
         switch (c) {
             case BEGIN_CHAR:
-                code = "";
+                code[0] = '\0';
                 break;
 
             case END_CHAR:
@@ -36,17 +39,22 @@ void loop() {
                 break;
 
             default:
-                code.concat(c);
+                s[0] = c;
+
+                if (strlen(code) != MAX_STRING) {
+                    strcat(code, s);
+                }
+
                 break;
         }
     }
 
     if (isCodeReady) {
-        if (code == "ON") {
+        if (strcmp(code, "ON")) {
             digitalWrite(LED_BUILTIN, HIGH);
         }
 
-        if (code == "OFF") {
+        if (strcmp(code, "OFF")) {
             digitalWrite(LED_BUILTIN, LOW);
         }
 
@@ -58,8 +66,8 @@ void loop() {
     if (analogValue != currentValue) {
         currentValue = analogValue;
 
-        sendArray[1] = analogValue >> 8;
-        sendArray[2] = analogValue & MASK;
+        sendArray[1] = analogValue >> 8;    // MSB
+        sendArray[2] = analogValue & 0xFF;  // LSB
 
         Serial.write(sendArray, 4);
     }
