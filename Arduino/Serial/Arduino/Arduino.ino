@@ -41,10 +41,10 @@ void loop() {
             default:
                 s[0] = c;
 
-                if (strlen(code) != MAX_STRING) {
+                if (strlen(code) != MAX_STRING - 1) {
                     strcat(code, s);
                 }
-
+                
                 break;
         }
     }
