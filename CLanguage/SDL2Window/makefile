@@ -18,7 +18,6 @@ CFLAGS = -I/usr/include/SDL2 -D_REENTRANT -I./include
 LIBS = -lSDL2
 
 $(info Source files: ${C_SOURCES} ${NEWLINE})
-#$(shell ls -l)
 $(shell mkdir -p $(OBJECT_DIR))
 
 all: $(EXECUTABLE)
