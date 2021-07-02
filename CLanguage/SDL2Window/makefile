@@ -1,29 +1,36 @@
 EXECUTABLE = main
 
-SRCDIR=src
-OBJDIR=obj
+define NEWLINE
 
-SRCS = main.c init.c
 
-_OBJS = $(SRCS:.c=.o)
-OBJS = $(patsubst %,$(OBJDIR)/%,$(_OBJS))
+endef
 
-CC=clang
+SOURCE_DIR = src
+OBJECT_DIR = obj
 
-CFLAGS=-I/usr/include/SDL2 -D_REENTRANT -I./include
-LIBS=-lSDL2
+C_SOURCES = $(notdir $(wildcard $(SOURCE_DIR)/*.c))
+
+OBJS = $(patsubst %,$(OBJECT_DIR)/%,$(C_SOURCES:.c=.o))
+
+CC = clang
+
+CFLAGS = -I/usr/include/SDL2 -D_REENTRANT -I./include
+LIBS = -lSDL2
+
+$(info Source files: ${C_SOURCES} ${NEWLINE})
+#$(shell ls -l)
+$(shell mkdir -p $(OBJECT_DIR))
 
 all: $(EXECUTABLE)
-	@echo OK
-
+	$(info ${NEWLINE}Sources compiled and linked successfully.${NEWLINE})
+	
 $(EXECUTABLE): $(OBJS)
 	$(CC) -o $(EXECUTABLE) $(OBJS) $(CFLAGS) $(LIBS)
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c
-	@mkdir -p $(OBJDIR)
+$(OBJECT_DIR)/%.o: $(SOURCE_DIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 .PHONY: clean
 
 clean:
-	rm -f $(EXECUTABLE) $(OBJDIR)/*.o
+	rm -f $(EXECUTABLE) $(OBJECT_DIR)/*.o
