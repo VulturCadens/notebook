@@ -12,7 +12,7 @@ C_SOURCES = $(notdir $(wildcard $(SOURCE_DIR)/*.c))
 
 OBJS = $(patsubst %,$(OBJECT_DIR)/%,$(C_SOURCES:.c=.o))
 
-CC = clang
+CC = clang -std=c99 -pedantic -Wall
 
 CFLAGS = -I/usr/include/SDL2 -D_REENTRANT -I./include
 LIBS = -lSDL2 -lSDL2_image
