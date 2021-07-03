@@ -15,7 +15,7 @@ OBJS = $(patsubst %,$(OBJECT_DIR)/%,$(C_SOURCES:.c=.o))
 CC = clang
 
 CFLAGS = -I/usr/include/SDL2 -D_REENTRANT -I./include
-LIBS = -lSDL2
+LIBS = -lSDL2 -lSDL2_image
 
 $(info Source files: ${C_SOURCES} ${NEWLINE})
 $(shell mkdir -p $(OBJECT_DIR))
