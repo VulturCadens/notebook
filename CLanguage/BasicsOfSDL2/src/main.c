@@ -42,9 +42,19 @@ int main(int argc, char* args[])
     r->w = 64;
     r->h = 64;
 
+    /*
+     * Uint64 SDL_GetPerformanceFrequency(void);
+     *     Returns a platform-specific count per second.
+     * 
+     * Uint64 SDL_GetPerformanceCounter(void);
+     *     Returns the current counter value.
+     */
+
+    const double target = (double)SDL_GetPerformanceFrequency() / FPS;
+
     uint64_t now = SDL_GetPerformanceCounter();
     uint64_t last = 0;
-    double delta = 0;
+    uint64_t delta = 0;
 
     while (r->x < 600) {
         r->x++;
@@ -53,12 +63,13 @@ int main(int argc, char* args[])
         SDL_RenderCopy(renderer, texture, NULL, r);
         SDL_RenderPresent(renderer);
 
+        delta = 0;
         last = now;
-        now = SDL_GetPerformanceCounter();
 
-        delta = (double)(now - last) / (double)SDL_GetPerformanceFrequency();
-
-        SDL_Delay(1000 / FPS - delta);
+        while (delta < target) {
+            now = SDL_GetPerformanceCounter();
+            delta = (double)(now - last);
+        }
     }
 
     SDL_Delay(500);
