@@ -7,8 +7,11 @@ endef
 
 SOURCE_DIR = src
 OBJECT_DIR = obj
+INCLUDE_DIR = include
 
 C_SOURCES = $(notdir $(wildcard $(SOURCE_DIR)/*.c))
+
+HEADERS = $(wildcard $(INCLUDE_DIR)/*.h)
 
 OBJS = $(patsubst %,$(OBJECT_DIR)/%,$(C_SOURCES:.c=.o))
 
@@ -26,8 +29,10 @@ all: $(EXECUTABLE)
 $(EXECUTABLE): $(OBJS)
 	$(CC) -o $(EXECUTABLE) $(OBJS) $(CFLAGS) $(LIBS)
 
-$(OBJECT_DIR)/%.o: $(SOURCE_DIR)/%.c
+$(OBJECT_DIR)/%.o: $(SOURCE_DIR)/%.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@
+
+$(HEADERS): ;
 
 .PHONY: clean
 
