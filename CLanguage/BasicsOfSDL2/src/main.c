@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -37,6 +38,12 @@ int main(int argc, char* args[])
     }
 
     SDL_Rect* r = (SDL_Rect*)malloc(sizeof(SDL_Rect));
+
+    if (r == NULL) {
+        fprintf(stderr, "The memory could not be allocated: malloc(sizeof(SDL_Rect))\n");
+        return EXIT_FAILURE;
+    }
+
     r->x = 200;
     r->y = 200;
     r->w = 64;
