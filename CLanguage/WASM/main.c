@@ -6,7 +6,8 @@
 
 #include <stdio.h>
 
-int main() {
+int main(void)
+{
     printf("Minimal\n");
     return 0;
 }
