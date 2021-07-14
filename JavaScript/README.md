@@ -3,7 +3,7 @@
 Vite homepage: https://vitejs.dev
 
 ```bash
-$ npm init @vitejs/app projectname
+$ npm init vite
 
 $ cd projectname
 
