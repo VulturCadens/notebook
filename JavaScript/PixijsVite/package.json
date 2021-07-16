@@ -1,0 +1,15 @@
+{
+  "name": "pixijsvite",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build; cp -rv static dist/",
+    "serve": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^2.4.2"
+  },
+  "dependencies": {
+    "pixi.js": "^6.0.4"
+  }
+}
