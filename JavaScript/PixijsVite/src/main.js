@@ -18,7 +18,6 @@ function init() {
         .load(setup)
 }
 
-
 function setup(_loader, resources) {
     sprite = new PIXI.Sprite(resources.SHIP.texture)
 
@@ -32,6 +31,22 @@ function setup(_loader, resources) {
     sprite.velocity.y = 0.05
 
     application.stage.addChild(sprite)
+
+    const text = new PIXI.Text("Text Object", new PIXI.TextStyle({
+        dropShadow: true,
+        dropShadowAlpha: 0.4,
+        dropShadowBlur: 3,
+        fill: "#7ebdcd",
+        fontFamily: "Times New Roman",
+        fontSize: 40,
+    	fontVariant: "small-caps",
+    	fontWeight: "bold",
+    }))
+
+    text.x = 200
+    text.y = 200
+
+    application.stage.addChild(text)
 
     application.ticker.add(loop)
 }
