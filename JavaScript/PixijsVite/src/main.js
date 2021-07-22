@@ -11,11 +11,28 @@ function init() {
         resolution: 1,
     })
 
+    const bg = new PIXI.Sprite(PIXI.Texture.EMPTY)
+
+    bg.width = application.screen.width
+    bg.height = application.screen.height
+    bg.interactive = true
+
+    bg.on("pointerdown", downEvent)
+
+    application.stage.addChild(bg)
+
     document.body.appendChild(application.view)
 
     application.loader
         .add("SHIP", "/static/image/ship.png")
         .load(setup)
+}
+
+function downEvent(event) {
+    const x = event.data.global.x
+    const y = event.data.global.y
+
+    console.log("Click " + x + ":" + y)
 }
 
 function setup(_loader, resources) {
