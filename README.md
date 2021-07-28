@@ -10,6 +10,14 @@ Just another notebook.
 ls *.go|entr -r go run server.go
 ```
 
+## The Go regexp package
+
+* Supports UTF-8 encoded strings.
+
+* Implements regular expressions with RE2 syntax.
+
+* The regular expression syntax accepted by RE2: https://github.com/google/re2/wiki/Syntax
+
 ## Go Modules
 
 * Reference: https://golang.org/ref/mod
