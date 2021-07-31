@@ -62,6 +62,11 @@ func main() {
 				mutex.Unlock()
 				fmt.Printf("ok\n")
 
+			/*
+			*  After calling close (and all values drained from the buffer)
+			*  the channel will always return zero values immediately.
+			 */
+
 			case <-quit:
 				return
 			}
@@ -83,7 +88,7 @@ func main() {
 	<-c
 
 	tick.Stop()
-	close(quit)
+	close(quit) // Closing i.e. returning a zero value.
 
 	fmt.Printf("\nShutting down...")
 
