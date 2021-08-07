@@ -14,19 +14,34 @@ import (
 	"golang.org/x/image/math/fixed"
 )
 
-const (
-	width  = 640
-	height = 360
+func loadImage(fileName string) image.Image {
+	file, err := os.Open(fileName)
 
-	fontFileName = "font/Rajdhani.ttf"
-	fontSize     = 30
-)
+	if err != nil {
+		log.Fatalf("Error: %s", err)
+	}
+
+	defer file.Close()
+
+	image, _, err := image.Decode(file)
+
+	if err != nil {
+		log.Fatalf("Error: %s", err)
+	}
+
+	return image
+}
 
 func main() {
 
 	/*
 	 *  Create an image.
 	 */
+
+	const (
+		width  int = 640
+		height int = 360
+	)
 
 	var i *image.RGBA = image.NewRGBA(image.Rectangle{
 		image.Point{0, 0},
@@ -42,6 +57,11 @@ func main() {
 	/*
 	 *  Load a font and draw a string.
 	 */
+
+	const (
+		fontFileName string  = "font/Rajdhani.ttf"
+		fontSize     float64 = 30
+	)
 
 	fontData, err := ioutil.ReadFile(fontFileName)
 
@@ -65,7 +85,7 @@ func main() {
 		}),
 	}
 
-	// golang.org/x/image/math/fixed
+	// https://pkg.go.dev/golang.org/x/image/math/fixed
 
 	fontDrawer.Dot = fixed.Point26_6{
 		X: fixed.I(50),
@@ -75,7 +95,30 @@ func main() {
 	fontDrawer.DrawString("Lorem ipsum dolor sit amet.")
 
 	/*
-	 *  Save an image.
+	 *  Read an image from the file and combine images.
+	 */
+
+	ship := loadImage("ship.png")
+
+	const (
+		targetX int = 100
+		targetY int = 250
+		size    int = 64
+	)
+
+	draw.Draw(
+		i,
+		image.Rectangle{
+			image.Point{targetX, targetY},
+			image.Point{targetX + size, targetY + size},
+		},
+		ship,
+		image.Point{0, 0},
+		draw.Over,
+	)
+
+	/*
+	 *  Save the image.
 	 */
 
 	file, err := os.Create("image.png")
