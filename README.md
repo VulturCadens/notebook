@@ -310,3 +310,33 @@ func (w http.ResponseWriter, req *http.Request) {
     }
 }
 ```
+
+## Context
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"time"
+)
+
+func sub(ctx context.Context) {
+	for {
+		fmt.Print("Waiting cancelation... ")
+		<-ctx.Done()
+
+		fmt.Println("Done")
+		break
+	}
+}
+
+func main() {
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+
+	defer cancel()
+
+	sub(ctx)
+}
+```
