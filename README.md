@@ -292,6 +292,7 @@ func main() {
 ```
 
 "The Flusher interface is implemented by ResponseWriters that allow an HTTP handler to flush buffered data to the client."
+
 https://golang.org/pkg/net/http/#Flusher
 
 ```go
@@ -313,6 +314,10 @@ func (w http.ResponseWriter, req *http.Request) {
 
 ## Context
 
+"Package context defines the Context type, which carries deadlines, cancellation signals, and other request-scoped values across API boundaries and between processes."
+
+https://pkg.go.dev/context
+
 ```go
 package main
 
@@ -323,13 +328,11 @@ import (
 )
 
 func sub(ctx context.Context) {
-	for {
-		fmt.Print("Waiting cancelation... ")
-		<-ctx.Done()
+    fmt.Print("Waiting cancelation... ")
+    
+    <-ctx.Done()
 
-		fmt.Println("Done")
-		break
-	}
+    fmt.Println("Done")
 }
 
 func main() {
