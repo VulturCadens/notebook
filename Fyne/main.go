@@ -12,11 +12,26 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-var c int
+type countButton struct {
+	counter int
+	button  *widget.Button
+	label   *widget.Label
+}
 
-func click(label *widget.Label) {
-	c++
-	label.SetText(fmt.Sprintf("Button is clicked %d times.", c))
+func (b *countButton) click() {
+	b.counter++
+	b.label.SetText(fmt.Sprintf("Button is clicked %d times.", b.counter))
+}
+
+func newCountButton(title string, label *widget.Label) countButton {
+	var b countButton = countButton{
+		counter: 0,
+		label:   label,
+	}
+
+	b.button = widget.NewButton(title, func() { b.click() })
+
+	return b
 }
 
 func main() {
@@ -31,13 +46,13 @@ func main() {
 	tickLabel := widget.NewLabelWithData(s)
 
 	spacer := layout.NewSpacer()
-	clickButton := widget.NewButton("Button - Click Me", func() { click(textLabel) })
+	clickButton := newCountButton("Click Me", textLabel)
 
 	window.SetContent(container.NewVBox(
 		tickLabel,
 		center,
 		spacer,
-		clickButton,
+		clickButton.button,
 	))
 
 	window.Resize(fyne.NewSize(600, 300))
