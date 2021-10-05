@@ -343,3 +343,27 @@ func main() {
 	sub(ctx)
 }
 ```
+
+## Channels
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	channel := make(chan struct{})
+
+	go func() {
+		time.Sleep(2 * time.Second)
+		channel <- struct{}{}
+	}()
+
+	<-channel // Blocks until the data is available in the channel.
+
+	fmt.Println("OK")
+}
+```
