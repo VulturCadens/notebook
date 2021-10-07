@@ -367,3 +367,37 @@ func main() {
 	fmt.Println("OK")
 }
 ```
+
+Using a range loop to iterate over the values sent through the channel.
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+var channel chan int
+
+func send() {
+	for x := 1; x < 10; x++ {
+		time.Sleep(250 * time.Millisecond)
+		channel <- x
+	}
+
+	close(channel)
+}
+
+func main() {
+	channel = make(chan int)
+
+	go send()
+
+	for r := range channel {
+		fmt.Println(r)
+	}
+
+	fmt.Println("The channel has been closed.")
+}
+```
