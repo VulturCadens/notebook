@@ -401,3 +401,14 @@ func main() {
 	fmt.Println("The channel has been closed.")
 }
 ```
+
+This post explores four of the less common properties of channels: https://dave.cheney.net/2014/03/19/channel-axioms
+
+* A send to a nil channel blocks forever
+
+* A receive from a nil channel blocks forever
+
+* A send to a closed channel panics
+
+* A receive from a closed channel returns the zero value immediately
+
