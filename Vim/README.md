@@ -20,7 +20,8 @@ $ vim
 | :--|:--|
 |__:q!__|quit without saving|
 |__:qw__|quit and save|
-|__:qa__|quit all buffers|
+|__:qa!__|quit all buffers without saving|
+|__:Explore__|open the file explorer|
 |__a__|append|
 |__i__|insert|
 |__o__|open a new line and insert|
@@ -29,7 +30,7 @@ $ vim
 |__r__|replace a single character|
 |__x__|delete a single character|
 |__ci"__|change inside quotes|
-|__ciw:__|change a word|
+|__ciw__|change a word|
 |__dd__|delete a line (cut)|
 |__2dd__|delete two lines|
 |__di(__|delete inside brackets|
@@ -39,8 +40,10 @@ $ vim
 |__u__|undo|
 |__v__|visual mode (mark text)|
 |__>>__ / __<<__|indent / unindent|
-|__:new__|open a new buffer (horizontal)|
-|__:vnew__|open a new buffer (vertical)|
+|__:new__|open a new window (horizontal)|
+|__:vnew__|open a new window (vertical)|
+|__ctrl + w w__|toggle between open windows|
+|__ctrl + w q__|close a window|
 |__:ls__|list buffers|
 |__:bd__|delete buffer|  
 |__:bd!__|delete buffer without saving|
