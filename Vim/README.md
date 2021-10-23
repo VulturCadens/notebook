@@ -28,8 +28,11 @@ $ vim
 |__b__|move back one word|
 |__r__|replace a single character|
 |__x__|delete a single character|
+|__ci"__|change inside quotes|
+|__ciw:__|change a word|
 |__dd__|delete a line (cut)|
 |__2dd__|delete two lines|
+|__di(__|delete inside brackets|
 |__yy__|yank a line (copy)|
 |__yyp__|clone a line|
 |__p__|paste|
