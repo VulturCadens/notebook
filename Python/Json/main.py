@@ -27,7 +27,7 @@ def decoding() -> int:
     return 0
 
 
-def encoding():
+def encoding() -> None:
     """ Serialize a Python object -> a JSON document (string) """
 
     # json.dump ... encoding a Python object as a JSON formatted stream to a file object
