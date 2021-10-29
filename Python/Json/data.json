@@ -1,0 +1,16 @@
+{
+    "object": {
+        "string": "testing",
+        "integer": 42,
+        "array": [
+            {
+                "first": "Hello",
+                "second": "Word"
+            },
+            {
+                "first": "Foo",
+                "second": "Bar"
+            }
+        ]
+    }
+}
