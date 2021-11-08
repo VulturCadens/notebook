@@ -21,6 +21,7 @@ def main() -> int:
 
     except requests.ConnectionError as error:
         print("ERROR:", error)
+        return 1
 
 
 if __name__ == "__main__":
