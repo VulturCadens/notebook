@@ -13,7 +13,7 @@ const (
 )
 
 func foobar(flag Flag) {
-	if flag&FIRST != 0 { // Check
+	if (flag & FIRST) != 0 { // Check
 		fmt.Print("FIRST is set: ")
 	} else {
 		fmt.Print("FIRST isn't set: ")
