@@ -14,8 +14,9 @@
     .foo {
         position: absolute;  
         bottom: 20px;
-        left: 20px;
+        left: 50px;
         font-size: 2.5rem;
-        color: #353;
+        color: #464;
+        text-shadow: 3px 3px 2px #111;
     }
 </style>

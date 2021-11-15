@@ -5,9 +5,22 @@
 </script>
 
 <template>
-    <div :class="store.state.menu.style" v-if="Object.keys(store.state.menu).length > 0">
-        <div class="title">{{ store.state.menu.title }}</div>
-        <div class="entry" v-for="(entry, index) in store.state.menu.entries" :key="index">{{ entry }}</div>
+    <div :class="store.state.menu.style"
+        v-if="Object.keys(store.state.menu).length > 0"
+    >
+
+        <div class="title">
+            {{ store.state.menu.title }}
+        </div>
+
+        <div class="entry"
+            v-for="(entry, index) in store.state.menu.entries"
+            :key="index"
+            @click="store.methods.func(entry.args)"
+        >
+            {{ entry.text }}
+        </div>
+
     </div>
 </template>
 

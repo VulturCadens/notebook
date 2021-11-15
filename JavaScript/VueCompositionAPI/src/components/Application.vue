@@ -64,5 +64,6 @@
         position: absolute;
         top: 10px;
         left: 20px;
+        filter: drop-shadow(0 0 1rem #FFD993);
     }
 </style>
