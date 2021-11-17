@@ -13,7 +13,7 @@ const state = reactive({
             {
                 text: "Text ON",
                 args: "ON"
-            }, 
+            },
             {
                 text: "Text OFF",
                 args: "OFF"
@@ -31,11 +31,12 @@ const methods = {
     textOff() {
         state.text.value = ""
     },
-    
+
     textOn() {
         state.text.value = "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-    }      
+    }
 }
+
 export default {
     state,
     methods
