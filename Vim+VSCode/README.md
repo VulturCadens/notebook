@@ -1,3 +1,21 @@
+# VSCode
+
+## Settings
+
+Search files by name (_settings.json_): __\<Ctrl\> + P__ 
+
+The location of the _settings.json_ file: __~/.config/Code/User/settings.json__
+
+```json
+{
+  "editor.fontFamily": "'Iosevka Term'",
+  "editor.fontSize": 18,
+  "editor.fontWeight": "400",
+  "editor.minimap.enabled": false,
+  "editor.tabSize": 4,
+}
+```
+
 # Vim
 
 ## Install NERDTree
