@@ -34,7 +34,7 @@ body {
 }
 
 header {
-        min-width: 100vw;
+        width: 100vw;
         color: #EEE;
         text-align: center;
         padding: .1rem 0 .5rem 0;
@@ -48,7 +48,7 @@ main {
 }
 
 footer {
-        min-width: 100vw;
+        width: 100vw;
         font-size: 1rem;
         color: #EEE;
         text-align: center;
