@@ -3,11 +3,11 @@
 package main
 
 import (
-	"bytes"
 	"image"
 	"image/color"
 	_ "image/png"
 	"log"
+	"os"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
@@ -78,20 +78,13 @@ func main() {
 		y: height / 2,
 	}
 
-	/*
-	 * file, err := os.Open("box.png")
-	 * if err != nil {
-	 *     log.Fatal(err)
-	 * }
-	 * defer file.Close()
-	 *
-	 * img, _, err := image.Decode(file)
-	 * if err != nil {
-	 *     log.Fatal(err)
-	 * }
-	 */
+	file, err := os.Open("box.png")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
 
-	img, _, err := image.Decode(bytes.NewReader(boxPNG))
+	img, _, err := image.Decode(file)
 	if err != nil {
 		log.Fatal(err)
 	}
