@@ -44,8 +44,8 @@ func (app *application) Update() error {
 	}
 
 	for id := range app.gamepadIDs {
-		valueHorizontal := ebiten.GamepadAxis(id, 0)
-		valueVertical := ebiten.GamepadAxis(id, 1)
+		valueHorizontal := ebiten.GamepadAxis(id, 3)
+		valueVertical := ebiten.GamepadAxis(id, 4)
 
 		if valueHorizontal < -0.1 || valueHorizontal > 0.1 {
 			app.x += speed * valueHorizontal
