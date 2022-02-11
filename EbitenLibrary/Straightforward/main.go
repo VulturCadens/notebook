@@ -19,9 +19,12 @@ const (
 	speed  = 5
 )
 
+var backgroundColor = color.RGBA{50, 50, 50, 255} // https://golang.org/pkg/image/color/
+
 type application struct {
 	x          float64
 	y          float64
+	rot        float64
 	box        *ebiten.Image
 	gamepadIDs map[ebiten.GamepadID]struct{}
 }
@@ -56,15 +59,19 @@ func (app *application) Update() error {
 		}
 	}
 
+	app.rot += 0.05 // Radians.
+
 	return nil
 }
 
 func (app *application) Draw(screen *ebiten.Image) {
-	c := color.RGBA{50, 50, 50, 255} // https://golang.org/pkg/image/color/
-	screen.Fill(c)
+	screen.Fill(backgroundColor)
 
 	options := &ebiten.DrawImageOptions{}
+	options.GeoM.Translate(-32, -32) // Rotation center of rectangle.
+	options.GeoM.Rotate(app.rot)
 	options.GeoM.Translate(app.x, app.y)
+
 	screen.DrawImage(app.box, options)
 }
 
