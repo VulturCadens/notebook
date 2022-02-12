@@ -7,6 +7,7 @@ import (
 	"image/color"
 	_ "image/png"
 	"log"
+	"math"
 	"os"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -16,7 +17,6 @@ import (
 const (
 	width  = 800
 	height = 600
-	speed  = 5
 )
 
 var backgroundColor = color.RGBA{50, 50, 50, 255} // https://golang.org/pkg/image/color/
@@ -25,7 +25,8 @@ type application struct {
 	x          float64
 	y          float64
 	rot        float64
-	box        *ebiten.Image
+	speed      float64
+	ship       *ebiten.Image
 	gamepadIDs map[ebiten.GamepadID]struct{}
 }
 
@@ -51,15 +52,16 @@ func (app *application) Update() error {
 		valueVertical := ebiten.GamepadAxis(id, 4)
 
 		if valueHorizontal < -0.1 || valueHorizontal > 0.1 {
-			app.x += speed * valueHorizontal
+			app.rot += valueHorizontal * 0.1
 		}
 
 		if valueVertical < -0.1 || valueVertical > 0.1 {
-			app.y += speed * valueVertical
+			app.speed += valueVertical * 0.1
 		}
 	}
 
-	app.rot += 0.05 // Radians.
+	app.x += app.speed * math.Sin(-app.rot)
+	app.y += app.speed * math.Cos(-app.rot)
 
 	return nil
 }
@@ -72,7 +74,7 @@ func (app *application) Draw(screen *ebiten.Image) {
 	options.GeoM.Rotate(app.rot)
 	options.GeoM.Translate(app.x, app.y)
 
-	screen.DrawImage(app.box, options)
+	screen.DrawImage(app.ship, options)
 }
 
 func (app *application) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
@@ -85,7 +87,7 @@ func main() {
 		y: height / 2,
 	}
 
-	file, err := os.Open("box.png")
+	file, err := os.Open("ship.png")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -96,7 +98,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	app.box = ebiten.NewImageFromImage(img)
+	app.ship = ebiten.NewImageFromImage(img)
 
 	ebiten.SetWindowSize(width, height)
 	ebiten.SetWindowTitle("Window Title")
