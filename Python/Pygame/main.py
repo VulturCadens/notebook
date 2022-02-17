@@ -25,6 +25,8 @@ def main():
     SDL.display.set_icon(window_icon)
     SDL.display.set_caption("Window Title")
 
+    screen.blit(background, (0, 0))
+
     while True:
         for event in SDL.event.get():
             if event.type in (SDL.QUIT, SDL.KEYDOWN):
@@ -43,10 +45,12 @@ def main():
                 elif right_button:
                     print("Right mouse button event")
 
-        screen.blit(background, (0, 0))
-        screen.blit(box, (x, 100))
+        source_rect = (x, 100, 64, 64)
+        screen.blit(source=background, dest=(x, 100), area=source_rect)
 
         x += speed
+
+        screen.blit(box, (x, 100))
 
         if x >= 900 or x <= 10:
             speed *= -1
