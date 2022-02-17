@@ -16,7 +16,7 @@ def main():
 
     SDL.init()
 
-    screen = SDL.display.set_mode((1000, 500))
+    screen = SDL.display.set_mode(size=(1000, 500), vsync=1)
 
     box = SDL.image.load(BOX_PATH).convert()
     background = SDL.image.load(BACKGROUND_PATH).convert()
