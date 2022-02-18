@@ -1,12 +1,27 @@
 import os
 import pygame as SDL
 
+from classes.button import Button
+
 FPS = 30
 
 DIRECTORY = os.path.split(os.path.abspath(__file__))[0]
 
 BOX_PATH = os.path.join(DIRECTORY, "images", "box.png")
 BACKGROUND_PATH = os.path.join(DIRECTORY, "images", "background.jpg")
+BUTTON_PATH = os.path.join(DIRECTORY, "images", "button.png")
+
+
+def button_action_1():
+    print("[ 1. button was clicked ]")
+
+
+def button_action_2():
+    print("[ 2. button was clicked ]")
+
+
+def button_action_3():
+    print("[ 3. button was clicked ]")
 
 
 def main():
@@ -27,6 +42,12 @@ def main():
 
     screen.blit(background, (0, 0))
 
+    Button(BUTTON_PATH, (100, 300), button_action_1)
+    Button(BUTTON_PATH, (300, 300), button_action_2)
+    Button(BUTTON_PATH, (500, 300), button_action_3)
+
+    Button.draw(screen)
+
     while True:
         for event in SDL.event.get():
             if event.type in (SDL.QUIT, SDL.KEYDOWN):
@@ -37,13 +58,15 @@ def main():
 
                 if left_button:
                     position = SDL.mouse.get_pos()
-                    print("Left mouse button event: {}".format(position))
+                    print("■☐☐ The left mouse button")
+
+                    Button.click(position)
 
                 elif middle_button:
-                    print("Middle mouse button event")
+                    print("☐■☐ The middle mouse button")
 
                 elif right_button:
-                    print("Right mouse button event")
+                    print("☐☐■ The right mouse button")
 
         source_rect = (x, 100, 64, 64)
         screen.blit(source=background, dest=(x, 100), area=source_rect)
