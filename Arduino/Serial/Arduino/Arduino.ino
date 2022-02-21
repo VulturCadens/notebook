@@ -52,11 +52,15 @@ void loop()
     }
 
     if (isCodeReady) {
-        if (strcmp(code, "ON")) {
+        
+        // Return value 0 -> the contents of both strings are equal.
+        // Numbers that are not equal to 0 are viewed as true in C.
+        
+        if (!strcmp(code, "ON")) {
             digitalWrite(LED_BUILTIN, HIGH);
         }
 
-        if (strcmp(code, "OFF")) {
+        if (!strcmp(code, "OFF")) {
             digitalWrite(LED_BUILTIN, LOW);
         }
 
