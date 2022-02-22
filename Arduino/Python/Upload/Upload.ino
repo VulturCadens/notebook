@@ -25,7 +25,6 @@ void setup()
 
 void loop()
 {
-    
     while (Serial.available() > 0) {
         c = Serial.read();
 
@@ -47,22 +46,22 @@ void loop()
 
                 break;
         }
-    }
 
-    if (isCodeReady) {
+        if (isCodeReady) {
 
-        // Return value 0 -> the contents of both strings are equal.
-        // Numbers that are not equal to 0 are viewed as true in C.
+            // Return value 0 -> the contents of both strings are equal.
+            // Numbers that are not equal to 0 are viewed as true in C.
 
-        if (!strcmp(code, "HIGH")) {
-            digitalWrite(LED_BUILTIN, HIGH);
+            if (!strcmp(code, "HIGH")) {
+                digitalWrite(LED_BUILTIN, HIGH);
+            }
+
+            if (!strcmp(code, "LOW")) {
+                digitalWrite(LED_BUILTIN, LOW);
+            }
+
+            isCodeReady = false;
         }
-
-        if (!strcmp(code, "LOW")) {
-            digitalWrite(LED_BUILTIN, LOW);
-        }
-
-        isCodeReady = false;
     }
 
     analogValue = analogRead(A0);
