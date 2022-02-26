@@ -1,3 +1,7 @@
+#
+# sudo apt install clang libsdl2-dev libsdl2-image-dev
+#
+
 EXECUTABLE = main
 
 define NEWLINE
