@@ -15,8 +15,6 @@ INCLUDE_DIR = include
 
 C_SOURCES = $(notdir $(wildcard $(SOURCE_DIR)/*.c))
 
-HEADERS = $(wildcard $(INCLUDE_DIR)/*.h)
-
 OBJS = $(patsubst %,$(OBJECT_DIR)/%,$(C_SOURCES:.c=.o))
 
 CC = clang -std=c99 -pedantic -Wall
@@ -24,7 +22,6 @@ CC = clang -std=c99 -pedantic -Wall
 CFLAGS = -I/usr/include/SDL2 -D_REENTRANT -I./include
 LIBS = -lSDL2 -lSDL2_image
 
-$(info Source files: ${C_SOURCES} ${NEWLINE})
 $(shell mkdir -p $(OBJECT_DIR))
 
 all: $(EXECUTABLE)
@@ -33,10 +30,8 @@ all: $(EXECUTABLE)
 $(EXECUTABLE): $(OBJS)
 	$(CC) -o $(EXECUTABLE) $(OBJS) $(CFLAGS) $(LIBS)
 
-$(OBJECT_DIR)/%.o: $(SOURCE_DIR)/%.c $(HEADERS)
+$(OBJECT_DIR)/%.o: $(SOURCE_DIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
-
-$(HEADERS): ;
 
 .PHONY: clean
 
