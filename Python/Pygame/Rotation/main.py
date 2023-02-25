@@ -40,7 +40,7 @@ while is_running:
                        True,
                        TEXT_COLOR,
                        BACKGROUND)
-    textRect = text.get_rect()
+
     window.blit(text, (10, 10))
 
     for event in SDL.event.get():
