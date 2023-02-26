@@ -87,3 +87,64 @@ import PACKAGE as NAME
 NAME.FUNC1()
 NAME.FUNCA()
 ```
+
+## The @classmethod Decorator
+
+The class method can access class attributes, but not the instance attributes.
+
+Can be called only using **class.method()**.
+
+```python
+class Button:
+
+    buttons = []
+
+    def __init__(self, image, position, function):
+        self.image = SDL.image.load(image).convert_alpha()
+        self.position = position
+
+        self.function = function
+
+        self.width = self.image.get_width()
+        self.height = self.image.get_height()
+
+        Button.buttons.append(self)
+
+    @classmethod
+    def click(cls, position):
+        for button in cls.buttons:
+
+            x = button.position[0]
+            y = button.position[1]
+
+            width = button.width
+            height = button.height
+
+            if position[0] > x and position[0] < x + width:
+                if position[1] > y and position[1] < y + height:
+                    button.function()
+
+    @classmethod
+    def draw(cls, target):
+        for button in cls.buttons:
+            target.blit(button.image, button.position)
+```
+
+## The @staticmethod Decorator
+
+The static method cannot access the class attributes or the instance attributes.
+
+Can be called **class.method()** and also **object.method()**.
+
+```python
+class Cat:
+    def __init__(self, name):
+        self.name = name
+
+    def getName(self):
+        return self.name
+
+    @staticmethod
+    def getSpecies():
+        return "Cat"
+```
