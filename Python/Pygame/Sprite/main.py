@@ -1,21 +1,14 @@
+import sys
 import pygame as SDL
 
+EXIT_FAILURE = 1
+EXIT_SUCCESS = 0
 
-SDL.init()
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
 
 BACKGROUND = (20, 80, 20)
-
 FPS = 30
-
-window = SDL.display.set_mode(size=(500, 500), vsync=1)
-
-is_running = True
-
-fire = SDL.image.load("fire.png").convert_alpha()
-clock = SDL.time.Clock()
-
-SDL.display.set_caption("Simple Sprite")
-SDL.display.set_icon(fire)
 
 
 class BOB(SDL.sprite.Sprite):
@@ -26,42 +19,69 @@ class BOB(SDL.sprite.Sprite):
         self.rect = self.image.get_rect()
 
 
-sprite = BOB(fire)
+def main() -> int:
+    window = SDL.display.set_mode(size=(SCREEN_WIDTH, SCREEN_HEIGHT), vsync=1)
 
-# Rect(x, y, width, height) -> Rect
-# Rect((x, y), (width, height)) -> Rect
-# Rect(object) -> Rect
-sprite.rect.x = 100
-sprite.rect.y = 200
+    is_running = True
 
-sprites = SDL.sprite.Group()
-sprites.add(sprite)
+    try:
+        fire = SDL.image.load("fire.png").convert_alpha()
 
-direction = 2
+    except FileNotFoundError as error:
+        print("Error: {}".format(error))
+        return EXIT_FAILURE
 
-background = SDL.Surface((64, 64))
-background.fill(BACKGROUND)
+    clock = SDL.time.Clock()
 
-window.fill(BACKGROUND)
-SDL.display.update()
+    SDL.display.set_caption("Simple Sprite")
+    SDL.display.set_icon(fire)
 
-while is_running:
+    sprite = BOB(fire)
 
-    for event in SDL.event.get():
-        if event.type in (SDL.QUIT, SDL.KEYDOWN):
-            is_running = False
+    # Rect(x, y, width, height) -> Rect
+    # Rect((x, y), (width, height)) -> Rect
+    # Rect(object) -> Rect
+    sprite.rect.x = 100
+    sprite.rect.y = 200
 
-    window.blit(background, sprite.rect)
-    sprites.draw(window)
+    sprites = SDL.sprite.Group()
+    sprites.add(sprite)
 
-    SDL.display.update(sprite.rect)
+    direction = 2
 
-    for sprite in sprites:
-        sprite.rect.x += direction
+    background = SDL.Surface((64, 64))
+    background.fill(BACKGROUND)
 
-        if sprite.rect.x == 420 or sprite.rect.x == 20:
-            direction *= -1
+    window.fill(BACKGROUND)
+    SDL.display.update()
 
-    clock.tick(FPS)
+    while is_running:
 
-SDL.quit()
+        for event in SDL.event.get():
+            if event.type in (SDL.QUIT, SDL.KEYDOWN):
+                is_running = False
+
+        window.blit(background, sprite.rect)
+        sprites.draw(window)
+
+        SDL.display.update(sprite.rect)
+
+        for sprite in sprites:
+            sprite.rect.x += direction
+
+            if sprite.rect.x == 720 or sprite.rect.x == 20:
+                direction *= -1
+
+        clock.tick(FPS)
+
+    return EXIT_SUCCESS
+
+
+if __name__ == "__main__":
+    SDL.init()
+
+    exit_status = main()
+
+    SDL.quit()
+
+    sys.exit(exit_status)
