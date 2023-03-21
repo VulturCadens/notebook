@@ -27,7 +27,7 @@ def main() -> int:
     try:
         fire = SDL.image.load("fire.png").convert_alpha()
 
-    except FileNotFoundError as error:
+    except (FileNotFoundError, PermissionError, OSError) as error:
         print("Error: {}".format(error))
         return EXIT_FAILURE
 
