@@ -1,4 +1,5 @@
-import sys
+import sys, traceback
+
 import pygame as SDL
 
 EXIT_FAILURE = 1
@@ -29,6 +30,7 @@ def main() -> int:
 
     except (FileNotFoundError, PermissionError, OSError) as error:
         print("Error: {}".format(error))
+        traceback.print_exc()
         return EXIT_FAILURE
 
     clock = SDL.time.Clock()
