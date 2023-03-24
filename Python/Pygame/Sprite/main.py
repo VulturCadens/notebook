@@ -29,8 +29,9 @@ def main() -> int:
         fire = SDL.image.load("fire.png").convert_alpha()
 
     except (FileNotFoundError, PermissionError, OSError) as error:
-        print("Error: {}".format(error))
-        traceback.print_exc()
+        print("Error: {} \n".format(error), file=sys.stderr)
+        traceback.print_exc(file=sys.stderr)
+        
         return EXIT_FAILURE
 
     clock = SDL.time.Clock()
