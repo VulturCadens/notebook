@@ -23,6 +23,7 @@ The location of the _settings.json_ file: __~/.config/Code/User/settings.json__
 Netrw is a file system explorer plugin that comes bundled with vim.
 
 Vim.org: https://www.vim.org/scripts/script.php?script_id=1075
+
 Tutorial: https://vonheikemen.github.io/devlog/tools/using-netrw-vim-builtin-file-explorer/
 
 ## Install NERDTree
