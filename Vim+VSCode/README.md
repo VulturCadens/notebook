@@ -18,7 +18,16 @@ The location of the _settings.json_ file: __~/.config/Code/User/settings.json__
 
 # Vim
 
+## Netrw
+
+Netrw is a file system explorer plugin that comes bundled with vim.
+
+Vim.org: https://www.vim.org/scripts/script.php?script_id=1075
+Tutorial: https://vonheikemen.github.io/devlog/tools/using-netrw-vim-builtin-file-explorer/
+
 ## Install NERDTree
+
+__NERDTree is pretty much deprecated.__
 
 ```consolemk
 $ mkdir -p ~/.vim/pack/vendor/start
