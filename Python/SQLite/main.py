@@ -17,6 +17,8 @@ def main() -> int:
         c.execute("INSERT INTO movies VALUES ('Dune', 2021, 'Denis Villeneuve')")
         c.execute("INSERT INTO movies VALUES ('Murder Mystery', 2019, 'Kyle Newacheck')")
 
+        conn.commit()
+
         rows = c.execute("SELECT * FROM movies").fetchall()
         print(rows)
 
