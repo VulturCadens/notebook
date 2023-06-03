@@ -4,7 +4,11 @@ import os
 INVISIBLE = 0
 VISIBLE = 1
 
-KEY_ESC = 27
+
+class Fixies:
+    QUIT = ord("q")
+    ESC = 27
+
 
 def init_screen():
     os.environ.setdefault("ESCDELAY", "0")
@@ -19,20 +23,21 @@ def init_screen():
 
     return s
 
+
 def loop(screen):
-    win = curses.newwin(20, 30, 5, 10) # height, width, y, x
- 
+    win = curses.newwin(20, 30, 5, 10)  # height, width, y, x
+
     win.addstr(1, 1, "Notebook", curses.A_BOLD)
     win.border()
     win.refresh()
 
     while True:
-        c = screen.getch()
+        match screen.getch():
+            case Fixies.QUIT:
+                break
+            case Fixies.ESC:
+                break
 
-        if c == ord("q"):
-            break
-        elif c == KEY_ESC:
-            break
 
 if __name__ == "__main__":
     screen = init_screen()
@@ -43,4 +48,3 @@ if __name__ == "__main__":
     curses.nocbreak()
     curses.echo()
     curses.endwin()
-
