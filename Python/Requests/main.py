@@ -3,6 +3,8 @@
 import sys
 import requests
 
+EXIT_SUCCESS = 0
+EXIT_FAILURE = 1
 
 def main() -> int:
     try:
@@ -14,14 +16,14 @@ def main() -> int:
             for h in r.headers:
                 print(h + ": " + r.headers[h])
 
-            return 0
+            return EXIT_SUCCESS
 
         print("ERROR: Status Code:", str(r.status_code))
-        return 1
+        return EXIT_FAILURE
 
     except requests.ConnectionError as error:
         print("ERROR:", error)
-        return 1
+        return EXIT_FAILURE
 
 
 if __name__ == "__main__":
