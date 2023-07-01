@@ -67,6 +67,41 @@ const element: HTMLDivElement = document.createElement("div")
 element.style.backgroundColor = Color.Green;
 ```
 
+## Optional Chaining
+
+The question mark dot (?.) syntax is called optional chaining in TypeScript.
+
+```typescript
+type Cat = {
+  name: string;
+  behaviour?: {
+    nice: boolean;
+  };
+};
+
+const c: Cat = { name: "Mirre", behaviour: { nice: true }};
+
+console.log(c.name)
+console.log(c.behaviour?.nice)
+
+// You can also use optional chaining when attempting to call a method
+// which may not exist (only calling a function if it exists).
+
+const getFunc = (): Function | undefined => {
+    const n: number = Math.floor(Math.random() * 2); // 0 or 1
+
+    if (n == 0 ) {
+        return () => { console.log("OK")}
+    }
+
+    return undefined;
+}
+
+const func = getFunc()
+
+func?.()
+```
+
 ## Declare
 
 Sometimes you have to tell the TypeScript compiler that a variable or an object exists, even the compiler knows nothing about it. The declare keyword tells the compiler that an object exists.
