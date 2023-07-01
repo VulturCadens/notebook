@@ -107,24 +107,32 @@ func?.()
 Sometimes you have to tell the TypeScript compiler that a variable or an object exists, even the compiler knows nothing about it. The declare keyword tells the compiler that an object exists.
 
 ```typescript
-declare externalResource : { func: (n : number) => string }
+// The script coming from other domain.
+const externalResource: any = {
+    func: (n: number): string => {
+        return "cat"
+    }
+}
 
-const value : number = externalResource.func(42)
+// Another domain.
+declare const externalResource : { func: (n: number) => string }
+
+const str: string = externalResource.func(42)
 ```
 
-## Interface
+## Type
 
 Optional property: __?__
 
 Readonly property: __readonly__
 
 ```typescript
-interface User {
-  readonly ID:       number
-           name:     string
-           password: string
-           room?:    number
-           login:    boolean
+type User = {
+    readonly    ID:       number
+                name:     string
+                password: string
+                room?:    number
+                login:    boolean
 }
 
 let u: User = {
