@@ -67,6 +67,16 @@ const element: HTMLDivElement = document.createElement("div")
 element.style.backgroundColor = Color.Green;
 ```
 
+## Declare
+
+Sometimes you have to tell the TypeScript compiler that a variable or an object exists, even the compiler knows nothing about it. The declare keyword tells the compiler that an object exists.
+
+```typescript
+declare externalResource : { func: (n : number) => string }
+
+const value : number = externalResource.func(42)
+```
+
 ## Interface
 
 Optional property: __?__
@@ -140,7 +150,6 @@ class Cat extends Animal {
     public say(): string {
         return (this.sound).repeat(this.count)
     }
-
 }
 
 let _1 : Cat = new Cat(" Meow!")
