@@ -2,8 +2,6 @@
 
 ## Types
 
----
-
 ### Primitives
 
 * number
@@ -117,8 +115,6 @@ let u: User = {
 ### Function
 
 Function type: **(str: string) => number**
-
----
 
 ## Optional Chaining
 
