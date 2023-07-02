@@ -1,6 +1,10 @@
 # A Little Bit About TypeScript
 
-## Basic Types
+## Types
+
+---
+
+### Primitives
 
 * number
 * string
@@ -11,14 +15,39 @@
 * null
 * unknown
 * never
+* bigint
+* symbol
 
-## Union
+```typescript
+const s: string = "Cat"
+
+type UID = number   // A unique identifier.
+const catID: UID = 42
+```
+
+### Build-in Objects
+
+* Date
+* Error
+* Array
+* Map
+* Set
+* Regexp
+* Promise
+
+```typescript
+async function setup(): Promise<any> { ... }
+
+const regex: RegExp = /^[ABC]/
+```
+
+### Union
 
 ```typescript
 let u: number | string
 ```
 
-## Literal Types
+### Literal Types
 
 ```typescript
 type ColorDepth = 8 | 16 | 32
@@ -28,7 +57,7 @@ type Button = "UP" | "DOWN" | "HOLD"
 let c: ColorDepth = 16
 ```
 
-## Array
+### Array
 
 Array types can be written in one of two ways: __T[]__ or __Array\<T\>__.
 
@@ -36,6 +65,8 @@ Array types can be written in one of two ways: __T[]__ or __Array\<T\>__.
 let a1: number[] = [1, 2]
 let a2: Array<string> = ["A", "B"]
 ```
+
+### Tuple
 
 Tuple is an array with a fixed number of elements whose types are known.
 
@@ -45,27 +76,49 @@ type Data = [string, boolean]
 let x: Data = ["A", true]
 ```
 
-## Enum
+### Enum
 
 ```typescript
 enum City {
-  Berlin,
-  Paris,
-  London,
+    Berlin,
+    Paris,
+    London,
 }
 
 let c: City = City.Berlin
 
 enum Color {
-  Red   = "rgb(255,0,0)",
-  Green = "rgb(0,255,0)",
-  Blue  = "rgb(0,0,255)",
+    Red   = "rgb(255,0,0)",
+    Green = "rgb(0,255,0)",
+    Blue  = "rgb(0,0,255)",
 }
 
 const element: HTMLDivElement = document.createElement("div")
 
 element.style.backgroundColor = Color.Green;
 ```
+
+### Type
+
+```typescript
+type User = {
+    readonly    ID:       number    // Readonly property.
+                name:     string
+                password: string
+                room?:    number    // Optional property.
+                login:    boolean
+}
+
+let u: User = {
+    ID: 123, name: "John", password: "Smith", room: 42, login: false,
+}
+```
+
+### Function
+
+Function type: **(str: string) => number**
+
+---
 
 ## Optional Chaining
 
@@ -120,25 +173,6 @@ declare const externalResource : { func: (n: number) => string }
 const str: string = externalResource.func(42)
 ```
 
-## Type
-
-Optional property: __?__
-
-Readonly property: __readonly__
-
-```typescript
-type User = {
-    readonly    ID:       number
-                name:     string
-                password: string
-                room?:    number
-                login:    boolean
-}
-
-let u: User = {
-    ID: 123, name: "John", password: "Smith", room: 42, login: false,
-}
-```
 ## Functions
 
 ```typescript
