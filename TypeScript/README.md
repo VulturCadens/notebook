@@ -200,37 +200,45 @@ let len: number = (<string>str).length
 
 ```typescript
 abstract class Animal {
-    protected abstract sound: string
-    protected static count: number = 0
+    public abstract say(): string;
+
+    protected sound: string = "";
+    private static _count: number = 0;
 
     constructor() {
-        Animal.count += 1
+        Animal._count += 1;
     }
 
     get count(): number {
-        return Animal.count
+        return Animal._count;
     }
 }
 
 class Cat extends Animal {
-    public sound: string
+    private _colour: string = "";
 
-    constructor(s: string) {
+    constructor(s: string, c: string) {
         super()
-        this.sound = s
+        this.sound = s + " "
+        this._colour = c
     }
 
     public say(): string {
-        return (this.sound).repeat(this.count)
+        return (this.sound).repeat(this.count).trimEnd()
+    }
+
+    get colour(): string {
+        return this._colour
     }
 }
 
-let _1 : Cat = new Cat(" Meow!")
+let firstCat: Cat = new Cat("Meow", "orange")
 
-console.log(`We have ${_1.count} cat(s):${_1.say()}\n`)
+console.log(`We have ${firstCat.count} cat. First cat sounds like ${firstCat.say()}.`)
 
-let _2 : Cat = new Cat(" Zzz")
-let _3 : Cat = new Cat(" Purrr...")
+let secondCat: Cat = new Cat("Zzz", "black")
+let anotherCat: Cat = new Cat("Purrr", "white")
 
-console.log(`We have ${_1.count} cat(s):${_2.say()}\n`)
+console.log(`We have ${firstCat.count} cats. Second cat sounds like ${secondCat.say()}.`)
+console.log(`Colours are ${firstCat.colour}, ${secondCat.colour}, and ${anotherCat.colour}`)
 ```
