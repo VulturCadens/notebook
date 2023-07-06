@@ -1,31 +1,49 @@
+@font-face {
+    font-family: "Ubuntu";
+    font-style: normal;
+    font-weight: 400;
+    src: local("Ubuntu-Regular"), url(/font/Ubuntu-Regular.ttf) format("truetype");
+}
+
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  border-style: none;
-  outline: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border-style: none;
+    outline: none;
 }
 
 *::-moz-focus-inner {
-  border: 0;
+    border: 0;
 }
 
 :root {
-  --body-color: #333;
-  --text-color: #EEE;
+    --background-color: #00607D;
+    --text-color: #EAEAEA;
 }
 
 body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  display: grid;
-  place-items: center;
-  background-color: var(--body-color);
-  min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 100vh;
+
+    background-color: var(--background-color);
 }
 
 div {
-  font-size: 2em;
-  font-weight: bold;
-  color: var(--text-color);
+    font-family: Ubuntu;
+    font-size: 1.2em;
+    font-weight: 400;
+    color: var(--text-color);
+}
+
+.logo {
+    height: 10em;
+    padding: 1.5em;
 }

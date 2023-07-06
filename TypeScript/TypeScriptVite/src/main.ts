@@ -13,7 +13,7 @@ async function http<T>(path: string): Promise<T> {
 
     try {
         return <T>await response.json()
-    } catch (error) {
+    } catch (error: any) {
         throw new Error(error.message)
     }
 }
@@ -27,15 +27,14 @@ async function setup(): Promise<any> {
         if (!isExample(res)) {
             throw new Error("Response is not <Example>")
         }
-    } catch (error) {
+    } catch (error: any) {
         console.error(error.message)
         return
     }
 
     const textElement: HTMLDivElement = document.createElement("div")
-    const textContent: Text = document.createTextNode(`Name: ${res.name} Value: ${res.value}`)
 
-    textElement.appendChild(textContent)
+    textElement.innerHTML = `{<br>&nbsp;&nbsp;&nbsp;&nbsp;Name: ${res.name}<br>&nbsp;&nbsp;&nbsp;&nbsp;Value: ${res.value}<br>}`
 
     document.body.appendChild(textElement)
 }
