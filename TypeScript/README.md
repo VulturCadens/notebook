@@ -116,6 +116,36 @@ let u: User = {
 
 Function type: **(str: string) => number**
 
+### Utility Types
+
+* Awaited\<Type>
+* Partial\<Type>
+* Required\<Type>
+* Readonly\<Type>
+* Record<Keys, Type>
+* Pick<Type, Keys>
+* Omit<Type, Keys>
+* Exclude<UnionType, ExcludedMembers>
+* Extract<Type, Union>
+* Et Cetera...
+
+[TypeScript: Documentation - Utility Types.](https://www.typescriptlang.org/docs/handbook/utility-types.html)
+
+```typescript
+const animal: Record<string, (n: number) => string> = {
+    "cat": (n: number): string => {
+       return "Meow ".repeat(n);
+    },
+
+    "dog": (n: number): string => {
+        return "Wuff ".repeat(n);
+    }
+}
+
+console.log(animal.cat(2));
+console.log(animal.dog(5));
+```
+
 ## Optional Chaining
 
 The question mark dot (?.) syntax is called optional chaining in TypeScript.
