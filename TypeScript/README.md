@@ -131,7 +131,32 @@ Function type: **(str: string) => number**
 
 [TypeScript: Documentation - Utility Types.](https://www.typescriptlang.org/docs/handbook/utility-types.html)
 
+TypeScript Record is Map-like object. [Objects vs. Maps](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map#objects_vs._maps)
+
 ```typescript
+type UID = number;
+
+type User = {
+    id: UID;
+    name: string;
+}
+
+// Record
+
+const usersRecord: Record<string, User> = {
+    "43-AA-34": { id: 112233, name: "Jack" },
+    "42-BB-24": { id: 445566, name: "John" },
+};
+
+// Map
+
+const usersMap = new Map<string, User>([
+    ["43-AA-34", { id: 112233, name: "Jack" }],
+    ["42-BB-24", { id: 112233, name: "John" }],
+]);
+
+// Another example.
+
 const animal: Record<string, (n: number) => string> = {
     "cat": (n: number): string => {
        return "Meow ".repeat(n);
