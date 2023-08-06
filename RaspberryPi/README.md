@@ -39,3 +39,17 @@ Create and edit **/etc/udev/rules.d/gpiomem**.
 ```console
 RUN+="/bin/sh -c 'chown root.gpio /dev/gpiomem && chmod g+rw /dev/gpiomem'"
 ```
+
+## Disable WiFi and Bluetooth
+
+```console
+$ hcitool dev
+$ iw dev
+
+$ echo "dtoverlay=disable-bt" | sudo tee -a /boot/firmware/config.txt
+$ echo "dtoverlay=disable-wifi" | sudo tee -a /boot/firmware/config.txt
+
+$ sudo systemctl disable hciuart
+
+$ sudo shutdown --reboot now
+```
