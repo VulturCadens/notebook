@@ -1,3 +1,15 @@
+# Emacs
+
+## Configuration
+
+The location for the configuration file should be __~/.emacs.d/init.el__. Other possible locations are following.
+
+- ~/.emacs
+- ~/.emacs.el
+- ~/.config/emacs/init.el
+
+Emacs tries to find a configuration file in each of these locations at startup of the editor.
+
 # VSCode
 
 ## Settings
@@ -30,7 +42,7 @@ Tutorial: https://vonheikemen.github.io/devlog/tools/using-netrw-vim-builtin-fil
 
 __NERDTree is pretty much deprecated.__
 
-```consolemk
+```console
 $ mkdir -p ~/.vim/pack/vendor/start
 
 $ git clone --depth 1 \
