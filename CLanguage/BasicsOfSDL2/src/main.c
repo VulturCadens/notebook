@@ -7,9 +7,9 @@
 #include "global.h"
 #include "init.h"
 
-#define IMAGE_FILE "box.png"
+#define IMAGE_FILE "./resources/box.png"
 
-int main(int argc, char* args[])
+int main(void)
 {
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 

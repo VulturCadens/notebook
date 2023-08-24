@@ -2,38 +2,39 @@
 # sudo apt install clang libsdl2-dev libsdl2-image-dev
 #
 
-EXECUTABLE = main
+EXECUTABLE := ./app.exe
 
-define NEWLINE
+.RECIPEPREFIX := ;
 
+SOURCE_DIR := ./src
+BUILD_DIR := ./build
+INCLUDE_DIR := ./include
 
-endef
-
-SOURCE_DIR = src
-OBJECT_DIR = obj
-INCLUDE_DIR = include
-
-C_SOURCES = $(notdir $(wildcard $(SOURCE_DIR)/*.c))
-
-OBJS = $(patsubst %,$(OBJECT_DIR)/%,$(C_SOURCES:.c=.o))
-
-CC = clang -std=c99 -pedantic -Wall
-
+CC := gcc
+WARNING := -Wall -Wextra -Werror -Wpedantic -std=c11
 CFLAGS = -I/usr/include/SDL2 -D_REENTRANT -I./include
 LIBS = -lSDL2 -lSDL2_image
 
-$(shell mkdir -p $(OBJECT_DIR))
+HEADERS := $(wildcard  $(INCLUDE_DIR)/*.h)
+OBJECTS := $(addprefix $(BUILD_DIR)/, $(addsuffix .o, \
+		$(basename $(notdir $(wildcard  $(SOURCE_DIR)/*.c)))))
 
+.PHONY: all
 all: $(EXECUTABLE)
-	$(info ${NEWLINE}Sources compiled and linked successfully.${NEWLINE})
-	
-$(EXECUTABLE): $(OBJS)
-	$(CC) -o $(EXECUTABLE) $(OBJS) $(CFLAGS) $(LIBS)
+; @echo
+; @echo + The program has been compiled and linked successfully.
+; @echo
 
-$(OBJECT_DIR)/%.o: $(SOURCE_DIR)/%.c
-	$(CC) $(CFLAGS) -c $< -o $@
+$(EXECUTABLE): $(OBJECTS)
+; $(CC) -o $(EXECUTABLE) $(OBJECTS) $(LIBS)
+
+$(BUILD_DIR)/%.o: $(SOURCE_DIR)/%.c $(HEADERS)
+; $(CC) -c $(WARNING) $(CFLAGS) $< -o $@
 
 .PHONY: clean
-
 clean:
-	rm -f $(EXECUTABLE) $(OBJECT_DIR)/*.o
+; @rm -fv $(EXECUTABLE)
+; @rm -fv $(BUILD_DIR)/*.o
+; @echo
+; @echo + All the object files and executables has been deleted.
+; @echo
