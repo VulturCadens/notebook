@@ -42,12 +42,12 @@ func main() {
 	
 	fmt.Println("Slice");
 	fmt.Printf("    main: %d\n", v[0]);	
-	fnSlice(v[:]);
+	fnSlice(v[:]); // Produces the slice.
 	fmt.Printf("    main: %d\n\n", v[0]);
 
 	fmt.Println("Pointer");
 	var x int = 1;
-	var p *int = &x; // Produces the slice.
+	var p *int = &x;
 	fmt.Printf("    main: %d\n", *p);	
 	fnPointer(p);
 	fmt.Printf("    main: %d\n", *p);	
