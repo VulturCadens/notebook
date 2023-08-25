@@ -72,12 +72,12 @@ type common struct {
 }
 
 type cat struct {
-	common
+	common        // A field with a type but no name i.e. anonymous field.
 	tailLength float32
 }
 
 type parrot struct {
-	common
+	common        // Another anonymous field.
 	wingLength float32
 }
 
