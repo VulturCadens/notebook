@@ -59,6 +59,32 @@ type s struct {
 }
 ```
 
+Structs are commonly use with throught pointers. There's some shorthand notations.
+
+```go
+package main
+
+type s struct {
+        num int
+        str string
+}
+
+func main() {
+        p := &s{1, "foo"} /* pa is the pointer variable of type s */
+
+        pa := new(s)      /* pa is the pointer variable of type s */
+        pa.num = 1        /* pa.num is shorthand (*pa).num */
+        pa.str = "foo"    /* pa.str is shorthand (*pa).str */
+
+        var pp *s         /* pa is the pointer variable of type s */
+        pp = &s{1, "foo"}
+
+        st := s{1, "foo"} /* the type of st is s */
+
+        _ = p; _ = pa; _ = pp; _ = st;
+}
+```
+
 ### **Composition**
 
 ```go
@@ -101,7 +127,7 @@ func main() {
 
 ### **Reference Types**
 
-* Pointers, slices, maps and channels.
+* Slices, maps, channels, and any data type by using a pointer (a pointer itself is a copy).
 
 ```go
 var p *int
