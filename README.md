@@ -59,7 +59,7 @@ type s struct {
 }
 ```
 
-Structs are commonly use with throught pointers. There's some shorthand notations.
+Structs are commonly used with throught pointers. There's some shorthand notations.
 
 ```go
 package main
@@ -438,3 +438,27 @@ This post explores four of the less common properties of channels: https://dave.
 
 * A receive from a closed channel returns the zero value immediately
 
+## Generics
+
+```go
+package main
+
+import (
+        "fmt"
+)
+
+/*  Type constraint interface */
+
+type Number interface {
+        int | float64
+}
+
+func square[T Number](n T) T {
+        return n * n
+}
+
+func main() {
+        fmt.Println("Integer: ", square(2))
+        fmt.Println("Float64: ", square(2.1))
+}
+```
