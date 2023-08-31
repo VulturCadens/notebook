@@ -458,7 +458,10 @@ func square[T Number](n T) T {
 }
 
 func main() {
-        fmt.Println("Integer: ", square(2))
-        fmt.Println("Float64: ", square(2.1))
+        var i int = 2
+        var f float64 = 2.005
+
+        fmt.Println("Integer: ", square(i))
+        fmt.Println("Float64: ", square(f))
 }
 ```
