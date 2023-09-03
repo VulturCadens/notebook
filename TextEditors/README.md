@@ -15,8 +15,8 @@ Emacs tries to find a configuration file in each of these locations at startup o
 The Emacs mode for editing Go code: https://github.com/dominikh/go-mode.el
 
 ```bash
-$ mkdir ~/.emacs/lisp
-$ cp go-mode.el ~/.emacs/lisp
+$ mkdir ~/.emacs.d/lisp
+$ cp go-mode.el ~/.emacs.d/lisp
 ```
 
 ```common-lisp
