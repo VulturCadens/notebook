@@ -10,6 +10,25 @@ The location for the configuration file should be __~/.emacs.d/init.el__. Other 
 
 Emacs tries to find a configuration file in each of these locations at startup of the editor.
 
+## Go-mode
+
+The Emacs mode for editing Go code: https://github.com/dominikh/go-mode.el
+
+```bash
+$ mkdir ~/.emacs/lisp
+$ cp go-mode.el ~/.emacs/lisp
+```
+
+```common-lisp
+;;
+;; ~/.emacs/init.el
+;;
+
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+(autoload 'go-mode "go-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+```
+
 # VSCode
 
 ## Settings
