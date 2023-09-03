@@ -21,7 +21,7 @@ $ cp go-mode.el ~/.emacs.d/lisp
 
 ```common-lisp
 ;;
-;; ~/.emacs/init.el
+;; ~/.emacs.d/init.el
 ;;
 
 (add-to-list 'load-path "~/.emacs.d/lisp/")
