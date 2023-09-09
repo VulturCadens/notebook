@@ -16,6 +16,12 @@ To determine the IP address, run the nmap (192.168.10.0 -> 192.168.10.255).
 sudo nmap -sn 192.168.10.0/24
 ```
 
+Or show the ARP (Address Resolution Protocol) table for IPv4.
+
+```console
+ip neigh
+```
+
 ### Access GPIO pins without root
 
 Does **/dev/gpiomem** exist?
