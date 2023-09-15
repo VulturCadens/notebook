@@ -20,6 +20,40 @@ $ source env/bin/activate
 (env) $ deactivate
 ```
 
+## The Standard Types
+
+### Numbers
+
+* Int **123**
+
+* Float **123.00**
+
+* Complex **12+3j**
+
+### Boolean
+
+* Bool **True**
+
+### Sequence of Characters or Bytes
+
+* String **"Example"**
+
+* Bytearray "mutable" **bytearray([123, 23, 3])**
+
+* Bytes "immutable" **bytes([123, 23, 3])**
+
+### Collections
+
+* List "mutable, ordered" **["Cat", 123]**
+
+* Tuple "immutable, ordered" **("Cat", 123)**
+
+* Set "mutable, unordered, no duplicate elements" **{"Cat", 123)**
+
+* Frozenset "immutable, unordered, no duplicate elements" **frozenset(["Cat", 123])**
+
+* Dictionary "mutable" **{"Cat": "Mirre", "ID": 123}**
+
 ## Modules and Packages
 
 The \_\_init\_\_.py file is place to execute any initialization code required to use the package. It's not necessary create an empty \_\_init\_\_.py file. [Implicit Namespace Packages](https://www.python.org/dev/peps/pep-0420/) (since Python 3.3) allow for the creation of a package without any \_\_init\_\_.py file.
