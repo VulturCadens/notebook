@@ -48,7 +48,7 @@ $ source env/bin/activate
 
 * Tuple "immutable, ordered" **("Cat", 123)**
 
-* Set "mutable, unordered, no duplicate elements" **{"Cat", 123)**
+* Set "mutable, unordered, no duplicate elements" **{"Cat", 123}**
 
 * Frozenset "immutable, unordered, no duplicate elements" **frozenset(["Cat", 123])**
 
