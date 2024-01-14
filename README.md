@@ -24,6 +24,40 @@ ls *.go|entr -r go run server.go
 
 * Tutorial: https://golang.org/doc/tutorial/create-module
 
+```bash
+$ go mod init example.com
+	go: creating new go.mod: module example.com
+	go: to add module requirements and sums:
+		go mod tidy
+```
+
+```go
+.
+├── foobar
+│   └── bar.go
+├── go.mod
+└── main.go
+
+# cat main.go
+package main
+
+import (
+	"example.com/foobar"
+	"fmt"
+)
+
+func main() {
+	fmt.Println(foobar.Hello())
+}
+
+# cat foobar/bar.go
+package foobar
+
+func Hello() string {
+	return "Hello World!"
+}
+```
+
 ## How patterns are matched
 
 * From the most specific to the least specific.
@@ -329,11 +363,11 @@ func (w http.ResponseWriter, req *http.Request) {
 		http.Error(w, "500", http.StatusInternalServerError)
 		return
     }
-    
+
     for {
         // ...
 
-        f.Flush() 
+        f.Flush()
     }
 }
 ```
@@ -355,7 +389,7 @@ import (
 
 func sub(ctx context.Context) {
     fmt.Print("Waiting cancelation... ")
-    
+
     <-ctx.Done()
 
     fmt.Println("Done")
