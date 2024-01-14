@@ -24,20 +24,23 @@ ls *.go|entr -r go run server.go
 
 * Tutorial: https://golang.org/doc/tutorial/create-module
 
+* How to Write Go Code: https://go.dev/doc/code
+
 ```bash
 $ go mod init example.com
 	go: creating new go.mod: module example.com
 	go: to add module requirements and sums:
 		go mod tidy
+
+$ tree
+.
+├── foobar
+│   └── egg.go
+├── go.mod
+└── main.go
 ```
 
 ```go
-.
-├── foobar
-│   └── bar.go
-├── go.mod
-└── main.go
-
 # cat main.go
 package main
 
@@ -50,7 +53,8 @@ func main() {
 	fmt.Println(foobar.Hello())
 }
 
-# cat foobar/bar.go
+
+# cat foobar/egg.go
 package foobar
 
 func Hello() string {
