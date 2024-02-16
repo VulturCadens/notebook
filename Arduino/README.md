@@ -96,3 +96,12 @@ Programmer supports auto addr increment.
 Programmer supports buffered memory access with buffersize=128 bytes.
 Programmer supports the following devices: Device code: 0x44
 ```
+
+## What is /dev/ACM
+
+Abstract Control Model or ACM supports the ITU V.250 command set, and is therefore a standardized way of communication.
+
+https://en.wikipedia.org/wiki/USB_communications_device_class
+
+https://en.wikipedia.org/wiki/Hayes_AT_command_set#V.250
+
