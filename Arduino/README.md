@@ -17,6 +17,19 @@
 * Clock Speed: 16 MHz
 * LED_BUILTIN: pin 13
 
+## Arduino Uno Rev3
+
+* Microcontroller: ATmega328P
+* Operating Voltage: 5V
+* Recommended Input Voltage: 7-12V (limit 6-20V)
+* Digital I/O Pins: 14 of which 6 provide PWM output (8-bit)
+* Analog Input Pins: 6 (10-bit ADC)
+* DC Current per I/O Pin: 20 mA
+* DC Current for 3.3V Pin: 50 mA
+* Flash Memory: 32 KB of which 0.5 KB used by bootloader
+* Clock Speed: 16 MHz
+* LED_BUILTIN: pin 13
+
 ## Arduino-cli installation
 
 Download a pre-built binary tarball from the link https://github.com/arduino/arduino-cli.
