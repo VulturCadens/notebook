@@ -1,4 +1,20 @@
-body {
-	background-color: #AAA;
+:root {
+    --main-background-color: #FAFAFA;
 }
 
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border-style: none;
+    outline: none;
+}
+
+*::-moz-focus-inner {
+    border: 0;
+}
+
+body {
+    min-height: 100vh;
+    background-color: var(--main-background-color);
+}
