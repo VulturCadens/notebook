@@ -1,5 +1,7 @@
-const { app, BrowserWindow } = require("electron")
+const { app, BrowserWindow, ipcMain } = require("electron")
+
 const path = require("node:path")
+const nodejsCrypto = require("node:crypto")
 
 const createWindow = () => {
 	const win = new BrowserWindow({
@@ -18,7 +20,13 @@ const createWindow = () => {
 	win.loadFile("index.html")
 }
 
+const randomHex = () => {
+    return nodejsCrypto.randomBytes(10).toString("hex")
+}
+
 app.whenReady().then(() => {
+    ipcMain.handle("randomHex", () => randomHex())
+
 	createWindow()
 
 	app.on("activate", () => {
