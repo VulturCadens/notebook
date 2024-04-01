@@ -6,9 +6,9 @@ const nodejsCrypto = require("node:crypto")
 const createWindow = () => {
 	const win = new BrowserWindow({
 		width: 960,
-        height: 540,
-        x: 100,
-        y: 100,
+		height: 540,
+		x: 100,
+		y: 100,
 		icon: "./assets/favicon-32x32.png",
 		webPreferences: {
 			preload: path.join(__dirname, "preload.js")
