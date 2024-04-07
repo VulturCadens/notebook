@@ -20,5 +20,5 @@ contextBridge.exposeInMainWorld("versions", {
 })
 
 contextBridge.exposeInMainWorld("subprocess", {
-    randomStr: () => ipcRenderer.invoke("randomHex")
+	randomStr: () => ipcRenderer.invoke("randomHex")
 })

@@ -21,11 +21,11 @@ const createWindow = () => {
 }
 
 const randomHex = () => {
-    return nodejsCrypto.randomBytes(10).toString("hex")
+	return nodejsCrypto.randomBytes(10).toString("hex")
 }
 
 app.whenReady().then(() => {
-    ipcMain.handle("randomHex", () => randomHex())
+	ipcMain.handle("randomHex", () => randomHex())
 
 	createWindow()
 
