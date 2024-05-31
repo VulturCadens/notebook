@@ -1,4 +1,5 @@
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_timer.h>
 
 #include <cstdlib>
 #include <stdio.h>
@@ -31,9 +32,6 @@ int main() {
 
 	screenSurface = SDL_GetWindowSurface(window);
 
-	SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xAA, 0xAA, 0xFF));
-	SDL_UpdateWindowSurface(window);
-
 	SDL_Event event;
 	bool running = true;
 
@@ -46,6 +44,11 @@ int main() {
 			}
 
 		}
+
+		SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xAA, 0xAA, 0xFF));
+		SDL_UpdateWindowSurface(window);
+
+		SDL_Delay(1000 / 60);
 
 	}
 
