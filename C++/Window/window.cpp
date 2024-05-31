@@ -16,35 +16,33 @@ int main() {
 		printf("SDL_Error: %s\n", SDL_GetError());
 		return EXIT_FAILURE;
 
-	} else {
+	}
 
-		window = SDL_CreateWindow(
-			"Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-			WIDTH, HEIGHT, SDL_WINDOW_SHOWN
-		);
+	window = SDL_CreateWindow("Window",
+		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+		WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
 
-		if( window == NULL )  {
+	if( window == NULL )  {
 
-			printf("SDL_Error: %s\n", SDL_GetError());
-			return EXIT_FAILURE;
+		printf("SDL_Error: %s\n", SDL_GetError());
+		return EXIT_FAILURE;
 
-		} else {
+	}
 
-			screenSurface = SDL_GetWindowSurface(window);
-			SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xAA, 0xAA, 0xFF));
-			SDL_UpdateWindowSurface(window);
+	screenSurface = SDL_GetWindowSurface(window);
 
-			SDL_Event event;
-			bool running = true;
+	SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xAA, 0xAA, 0xFF));
+	SDL_UpdateWindowSurface(window);
 
-			while(running) {
-				while(SDL_PollEvent(&event)) {
+	SDL_Event event;
+	bool running = true;
 
-					if(event.type == SDL_QUIT) {
-						running = false;
-					}
+	while(running) {
 
-				}
+		while(SDL_PollEvent(&event)) {
+
+			if(event.type == SDL_QUIT) {
+				running = false;
 			}
 
 		}
