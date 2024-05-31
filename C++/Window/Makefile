@@ -1,4 +1,4 @@
-EXECUTABLE := window
+EXECUTABLE := window.exe
 
 .RECIPEPREFIX := ;
 
