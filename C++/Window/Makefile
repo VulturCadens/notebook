@@ -3,17 +3,22 @@ EXECUTABLE := window
 .RECIPEPREFIX := ;
 
 CC := g++
-CFLAGS := `sdl2-config --libs --cflags` -Wall -lm
+FLAGS := `sdl2-config --cflags`
+LIBS := `sdl2-config --libs`
+WARNING := -Wall -Wextra -Werror -Wpedantic
 
-SRCS := window.cpp
-OBJS := $(SRCS:.cpp=.o)
+SOURCES := $(wildcard *.cpp)
+OBJECTS := $(SOURCES:.cpp=.o)
 
 all: $(EXECUTABLE)
 
-$(EXECUTABLE): $(OBJS)
-; $(CC) -o $(EXECUTABLE) $(OBJS) $(CFLAGS)
+$(EXECUTABLE): $(OBJECTS)
+; $(CC) -o $(EXECUTABLE) $(OBJECTS) $(LIBS)
+
+$(OBJECTS): $(SOURCES)
+; $(CC) -c $(SOURCES) $(FLAGS) $(WARNING)
 
 clean:
-; rm -f $(EXECUTABLE) $(OBJS)
+; rm -f $(EXECUTABLE) $(OBJECTS)
 
 .PHONY: all clean
