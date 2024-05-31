@@ -2,7 +2,7 @@
 #include <SDL2/SDL_timer.h>
 
 #include <cstdlib>
-#include <stdio.h>
+#include <iostream>
 
 static const int WIDTH = 500;
 static const int HEIGHT = 300;
@@ -12,9 +12,9 @@ int main() {
 	SDL_Window* window = NULL;
 	SDL_Surface* screenSurface = NULL;
 
-	if( SDL_Init(SDL_INIT_VIDEO) != 0) {
+	if(SDL_Init(SDL_INIT_VIDEO) != 0) {
 
-		printf("SDL_Error: %s\n", SDL_GetError());
+		std::cerr << "SDL_Error: " << SDL_GetError() << std::endl;
 		return EXIT_FAILURE;
 
 	}
@@ -23,12 +23,14 @@ int main() {
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 		WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
 
-	if( window == NULL )  {
+	if(window == NULL)  {
 
-		printf("SDL_Error: %s\n", SDL_GetError());
+		std::cerr << "SDL_Error: " << SDL_GetError() << std::endl;
 		return EXIT_FAILURE;
 
 	}
+
+	std::cout << "The window is " << WIDTH << "x" << HEIGHT << " px." << std::flush;
 
 	screenSurface = SDL_GetWindowSurface(window);
 
@@ -54,6 +56,8 @@ int main() {
 
 	SDL_DestroyWindow(window);
 	SDL_Quit();
+
+	std::cout << " Exit success." << std::endl;
 
 	return EXIT_SUCCESS;
 
