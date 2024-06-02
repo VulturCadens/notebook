@@ -10,8 +10,8 @@
 
 int main() {
 
-	SDL_Window* window = NULL;
-	SDL_Surface* screenSurface = NULL;
+	SDL_Window* window { NULL };
+	SDL_Surface* screenSurface { NULL };
 
 	if(SDL_Init(SDL_INIT_VIDEO) != 0) {
 
@@ -35,8 +35,8 @@ int main() {
 
 	screenSurface = SDL_GetWindowSurface(window);
 
-	SDL_Event event;
-	bool running = true;
+	SDL_Event event {};
+	bool running { true };
 
 	while(running) {
 
