@@ -4,8 +4,9 @@
 #include <cstdlib>
 #include <iostream>
 
-static const int WIDTH = 500;
-static const int HEIGHT = 300;
+#include "global.h"
+
+#define FPS 60
 
 int main() {
 
@@ -30,7 +31,7 @@ int main() {
 
 	}
 
-	std::cout << "The window is " << WIDTH << "x" << HEIGHT << " px." << std::flush;
+	std::cout << "The window is " << WIDTH << "x" << HEIGHT << "px." << std::flush;
 
 	screenSurface = SDL_GetWindowSurface(window);
 
@@ -50,7 +51,7 @@ int main() {
 		SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xAA, 0xAA, 0xFF));
 		SDL_UpdateWindowSurface(window);
 
-		SDL_Delay(1000 / 60);
+		SDL_Delay(1000 / FPS);
 
 	}
 
