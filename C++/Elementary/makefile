@@ -12,11 +12,9 @@ LIBS := `sdl2-config --libs`
 WARNING := -Wall -Wextra -Werror -Wpedantic
 
 SOURCES := $(wildcard $(SOURCE_DIR)/*.cpp)
+OBJECTS := $(BUILD_DIR)/$(notdir $(SOURCES:.cpp=.o))
 HEADERS := $(wildcard $(INCLUDE_DIR)/*.h)
 
-LIST := $(SOURCES:.cpp=.o)
-TEMP := $(notdir $(LIST))
-OBJECTS := $(BUILD_DIR)/$(TEMP)
 
 all: $(EXECUTABLE)
 
