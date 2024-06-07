@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include "global.h"
+#include "init.h"
 
 #define FPS 60
 
@@ -13,12 +14,7 @@ int main() {
 	SDL_Window* window { NULL };
 	SDL_Surface* screenSurface { NULL };
 
-	if(SDL_Init(SDL_INIT_VIDEO) != 0) {
-
-		std::cerr << "SDL_Error: " << SDL_GetError() << std::endl;
-		return EXIT_FAILURE;
-
-	}
+	if(!init()) return EXIT_FAILURE;
 
 	window = SDL_CreateWindow("Window",
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
