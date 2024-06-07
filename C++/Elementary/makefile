@@ -10,7 +10,7 @@ BUILD_DIR := build
 
 CC := g++ -std=c++20
 FLAGS := `sdl2-config --cflags` -I./$(INCLUDE_DIR)
-LIBS := `sdl2-config --libs`
+LIBS := `sdl2-config --libs` -lSDL2_image
 WARNING := -Wall -Wextra -Werror -Wpedantic
 
 SOURCES := $(wildcard $(SOURCE_DIR)/*.cpp)

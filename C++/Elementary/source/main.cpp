@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_timer.h>
+#include <SDL2/SDL_image.h>
 
 #include <cstdlib>
 #include <iostream>
@@ -7,29 +8,33 @@
 #include "global.h"
 #include "init.h"
 
-#define FPS 60
-
 int main() {
 
-	SDL_Window* window { NULL };
-	SDL_Surface* screenSurface { NULL };
+	SDL_Window* window = init();
 
-	if(!init()) return EXIT_FAILURE;
+	std::cout << "The window is " << WIDTH << " x " << HEIGHT << " pixels." << std::flush;
 
-	window = SDL_CreateWindow("Window",
-		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-		WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
+	SDL_Surface* screenSurface = SDL_GetWindowSurface(window);
 
-	if(window == NULL)  {
+	/* Set the icon for a window. */
+
+	std::string iconFile(SDL_GetBasePath());
+	iconFile.append(ICON_FILE);
+
+	SDL_Surface* iconSurface = IMG_Load(iconFile.c_str());
+
+	if(iconSurface == NULL) {
 
 		std::cerr << "SDL_Error: " << SDL_GetError() << std::endl;
-		return EXIT_FAILURE;
+		SDL_Quit();
+		exit(EXIT_FAILURE);
 
 	}
 
-	std::cout << "The window is " << WIDTH << "x" << HEIGHT << "px." << std::flush;
+	SDL_SetWindowIcon(window, iconSurface);
+	SDL_FreeSurface(iconSurface);
 
-	screenSurface = SDL_GetWindowSurface(window);
+	/* The Event Loop. */
 
 	SDL_Event event {};
 	bool running { true };
@@ -44,7 +49,7 @@ int main() {
 
 		}
 
-		SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xAA, 0xAA, 0xFF));
+		SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0x06, 0x82, 0xBC));
 		SDL_UpdateWindowSurface(window);
 
 		SDL_Delay(1000 / FPS);
