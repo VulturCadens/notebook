@@ -1,8 +1,8 @@
-EXECUTABLE := executable
+EXECUTABLE := ./bin/executable
 
 .RECIPEPREFIX := ;
 
-MAKE_DIR  := mkdir -p
+MAKE_DIR := mkdir -p
 
 INCLUDE_DIR := include
 SOURCE_DIR := source
@@ -21,6 +21,7 @@ HEADERS := $(wildcard $(INCLUDE_DIR)/*.h)
 # $(info $(OBJECTS))
 
 $(shell $(MAKE_DIR) $(BUILD_DIR))
+$(shell $(MAKE_DIR) ./bin)
 
 all: $(EXECUTABLE)
 
