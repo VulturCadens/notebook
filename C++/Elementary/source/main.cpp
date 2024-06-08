@@ -8,22 +8,22 @@
 #include "global.h"
 #include "init.h"
 
-int main() {
-
-	SDL_Window* window = init();
+int main()
+{
+	SDL_Window* window { init() };
 
 	std::cout << "The window is " << WIDTH << " x " << HEIGHT << " pixels." << std::flush;
 
-	SDL_Surface* screenSurface = SDL_GetWindowSurface(window);
+	SDL_Surface* screenSurface { SDL_GetWindowSurface(window) };
 
 	/* Set the icon for a window. */
 
-	std::string iconFile(SDL_GetBasePath());
+	std::string iconFile { SDL_GetBasePath() };
 	iconFile.append(ICON_FILE);
 
-	SDL_Surface* iconSurface = IMG_Load(iconFile.c_str());
+	SDL_Surface* iconSurface { IMG_Load(iconFile.c_str()) };
 
-	if(iconSurface == NULL) {
+	if (iconSurface == NULL) {
 
 		std::cerr << "SDL_Error: " << SDL_GetError() << std::endl;
 		SDL_Quit();
@@ -34,16 +34,16 @@ int main() {
 	SDL_SetWindowIcon(window, iconSurface);
 	SDL_FreeSurface(iconSurface);
 
-	/* The Event Loop. */
+	/* The event loop. */
 
 	SDL_Event event {};
 	bool running { true };
 
-	while(running) {
+	while (running) {
 
-		while(SDL_PollEvent(&event)) {
+		while (SDL_PollEvent(&event)) {
 
-			if(event.type == SDL_QUIT) {
+			if (event.type == SDL_QUIT) {
 				running = false;
 			}
 
@@ -62,5 +62,4 @@ int main() {
 	std::cout << " Exit success." << std::endl;
 
 	return EXIT_SUCCESS;
-
 }

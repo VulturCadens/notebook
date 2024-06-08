@@ -21,7 +21,6 @@ HEADERS := $(wildcard $(INCLUDE_DIR)/*.h)
 # $(info $(OBJECTS))
 
 $(shell $(MAKE_DIR) $(BUILD_DIR))
-$(shell $(MAKE_DIR) ./bin)
 
 all: $(EXECUTABLE)
 
