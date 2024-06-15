@@ -12,7 +12,8 @@ int main()
 {
 	SDL_Window* window { init() };
 
-	std::cout << "The window is " << WIDTH << " x " << HEIGHT << " pixels." << std::flush;
+	std::cout << "The windows is " << WIDTH << " x " << HEIGHT << " pixels.\n";
+	std::cout << "Press ESC to exit..." << std::flush;
 
 	SDL_Surface* screenSurface { SDL_GetWindowSurface(window) };
 
@@ -43,8 +44,25 @@ int main()
 
 		while (SDL_PollEvent(&event)) {
 
-			if (event.type == SDL_QUIT) {
+			/* https://github.com/libsdl-org/SDL/blob/SDL2/include/SDL_keycode.h */
+
+			if(event.type == SDL_KEYDOWN) {
+
+				switch(event.key.keysym.sym) {
+
+					case SDLK_ESCAPE:
+						running = false;
+						break;
+
+					default:
+						break;
+
+				}
+
+			} else if(event.type == SDL_QUIT) {
+
 				running = false;
+
 			}
 
 		}
