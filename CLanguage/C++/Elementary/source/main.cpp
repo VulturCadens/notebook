@@ -70,9 +70,9 @@ int main()
 
 			} else if (event.type == SDL_MOUSEBUTTONDOWN) {
 
-            		if (event.button.button == SDL_BUTTON_LEFT) {
-                		SDL_GetMouseState(&target.x, &target.y);
-                	}
+				if (event.button.button == SDL_BUTTON_LEFT) {
+					SDL_GetMouseState(&target.x, &target.y);
+				}
 
 			} else if(event.type == SDL_QUIT) {
 
@@ -83,9 +83,7 @@ int main()
 		}
 
 		SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0x06, 0x82, 0xBC));
-
-		SDL_BlitSurface( svgSurface, NULL, screenSurface, &target );
-
+		SDL_BlitSurface(svgSurface, NULL, screenSurface, &target);
 		SDL_UpdateWindowSurface(window);
 
 		SDL_Delay(1000 / FPS);
