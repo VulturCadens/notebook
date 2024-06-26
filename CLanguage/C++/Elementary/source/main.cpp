@@ -58,25 +58,23 @@ int main()
 
 			/* https://github.com/libsdl-org/SDL/blob/SDL2/include/SDL_keycode.h */
 
-			if(event.type == SDL_KEYDOWN) {
+			switch(event.type) {
 
-				switch(event.key.keysym.sym) {
-					case SDLK_ESCAPE:
+				case SDL_KEYDOWN:
+					if(event.key.keysym.sym == SDLK_ESCAPE) {
 						running = false;
-						break;
-					default:
-						break;
-				}
+					}
+					break;
 
-			} else if (event.type == SDL_MOUSEBUTTONDOWN) {
+				case SDL_MOUSEBUTTONDOWN:
+					if (event.button.button == SDL_BUTTON_LEFT) {
+						SDL_GetMouseState(&target.x, &target.y);
+					}
+					break;
 
-				if (event.button.button == SDL_BUTTON_LEFT) {
-					SDL_GetMouseState(&target.x, &target.y);
-				}
-
-			} else if(event.type == SDL_QUIT) {
-
-				running = false;
+				case SDL_QUIT:
+					running = false;
+					break;
 
 			}
 
